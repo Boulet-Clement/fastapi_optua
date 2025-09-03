@@ -1,25 +1,33 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from core.db import db
-from models.organization import Organization
+from models.organization import Organization, TagEnum
 from bson import ObjectId
+from typing import Optional
+from core.elasticsearch import elasticsearch, INDEX_NAME
 
 router = APIRouter()
 
-# POST /organizations - créer une organisation
+# POST /organizations
 @router.post("/organizations")
 def create_organization(org: Organization):
     org_dict = org.dict()
+    # Convertir les tags en string pour MongoDB
+    org_dict["tags"] = [tag.value for tag in org.tags]
     result = db.organizations.insert_one(org_dict)
     if result.inserted_id:
+        elasticsearch.index(index=INDEX_NAME, id=str(result.inserted_id), document=org_dict)
         return {"message": "Organization créée", "id": str(result.inserted_id)}
     else:
         raise HTTPException(status_code=500, detail="Impossible de créer l'organisation")
 
-# GET /organizations - récupérer toutes les organisations
+# GET /organizations?tag=sport
 @router.get("/organizations")
-def get_organizations():
+def get_organizations(tag: Optional[TagEnum] = Query(None)):
+    query = {}
+    if tag:
+        query["tags"] = tag.value  # filtre par tag
     orgs = []
-    for org in db.organizations.find():
+    for org in db.organizations.find(query):
         org["_id"] = str(org["_id"])
         orgs.append(org)
     return orgs
