@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+pymongo
+elasticsearch==8.11.1
+python-dotenv
