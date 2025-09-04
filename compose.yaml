@@ -53,15 +53,16 @@ services:
       - mongo
       - elasticsearch
 
-  react:
+  next:
     build:
       context: ./frontend
+    container_name: next
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: npm start
+    command: npm run dev
 
 volumes:
   mongo_data:

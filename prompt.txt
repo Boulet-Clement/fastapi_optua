@@ -1,0 +1,17 @@
+Je developpe un projet avec comme back end: 
+    fastapi
+    kibana
+    elasticsearch
+    mongodb
+Et en front j'utilise react
+Le tout est dans un dockercompose commun mais j'ai un Dockerfile back pour python et un front pour react
+
+vu que le front appelle une api, j'imagine qu'on va partir sur du single page ?
+
+Mon projet:
+C'est un annuaire de présentation d'entreprise, clubs, associations, ... avec un moteur de recherche et une interface d'administration pour que les gérant d'entreprise puissent modifier leur page.
+
+Je n'ai encore rien fait sur react, je viens d'initialiser le projet.
+
+J'aimerai commencer par la page d'accueil, j'ai déjà une idée de header, deux images avec des call to action sur le "body" et mon footer
+Mais je ne sais pas par ou commencer sur react
