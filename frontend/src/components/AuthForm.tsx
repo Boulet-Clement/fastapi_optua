@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/Input';
 import Link from 'next/link';
-import {useTranslations} from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -31,6 +31,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   const password = watch('password', '');
 
   const trans = useTranslations('Auth');
+
+  const locale = useLocale();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -103,14 +105,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           {mode === 'login' ? (
             <>
               {trans('noAccount')+ ' '}
-              <Link href="/register" className="text-blue-500 hover:underline">
+              <Link href={`/${locale}/register`} className="text-blue-500 hover:underline">
                 {trans('registerHere')}
               </Link>
             </>
           ) : (
             <>
               {trans('alreadyHaveAccount')+ ' '}
-              <Link href="/login" className="text-blue-500 hover:underline">
+              <Link href={`/${locale}/login`} className="text-blue-500 hover:underline">
                 {trans('loginHere')}
               </Link>
             </>
