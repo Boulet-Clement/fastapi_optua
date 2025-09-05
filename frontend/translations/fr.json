@@ -1,0 +1,14 @@
+{
+  "Auth": {
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "noAccount": "Pas de compte ?",
+    "loginHere": "Connectez-vous",
+    "registerHere": "Inscrivez-vous",
+    "passwordsDontMatch": "Les mots de passe ne correspondent pas"
+  }
+}

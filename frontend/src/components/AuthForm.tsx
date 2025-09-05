@@ -1,9 +1,9 @@
-// /app/components/AuthForm.tsx
 'use client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/Input';
 import Link from 'next/link';
+import {useTranslations} from 'next-intl';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -30,11 +30,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
 
   const password = watch('password', '');
 
+  const trans = useTranslations('Auth');
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">
-          {mode === 'login' ? 'Connexion' : 'Créer un compte'}
+          {mode === 'login' ? trans('login') : trans('register')}
         </h1>
 
         <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -100,16 +102,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         <p className="mt-4 text-center text-gray-600 text-sm">
           {mode === 'login' ? (
             <>
-              Pas de compte?{' '}
+              {trans('noAccount')+ ' '}
               <Link href="/register" className="text-blue-500 hover:underline">
-                Inscrivez-vous
+                {trans('registerHere')}
               </Link>
             </>
           ) : (
             <>
-              Vous avez déjà un compte?{' '}
+              {trans('alreadyHaveAccount')+ ' '}
               <Link href="/login" className="text-blue-500 hover:underline">
-                Connectez-vous
+                {trans('loginHere')}
               </Link>
             </>
           )}

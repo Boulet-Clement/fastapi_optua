@@ -1,0 +1,14 @@
+{
+  "Auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don’t have an account?",
+    "loginHere": "Login here",
+    "registerHere": "Register here",
+    "passwordsDontMatch": "Passwords do not match"
+  }
+}
