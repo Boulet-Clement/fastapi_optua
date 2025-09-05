@@ -1,13 +1,35 @@
 // /app/components/AuthForm.tsx
-import Input from './Input';
-import Link from 'next/link';
+'use client';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import Input from '@/components/Input';
+import Link from 'next/link';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
 }
 
+interface FormData {
+  name?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
+
 const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit = (data: FormData) => {
+    console.log('Form submitted:', data);
+  };
+
+  const password = watch('password', '');
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -15,18 +37,54 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           {mode === 'login' ? 'Connexion' : 'Créer un compte'}
         </h1>
 
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           {mode === 'register' && (
-            <Input type="text" label="Nom complet" placeholder="Votre nom" />
+            <>
+              <Input
+                type="text"
+                label="Nom complet"
+                placeholder="Votre nom"
+                {...register('name', { required: 'Le nom est requis' })}
+              />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+            </>
           )}
-          <Input type="email" label="Email" placeholder="Votre email" />
-          <Input type="password" label="Mot de passe" placeholder="Votre mot de passe" />
+
+          <Input
+            type="email"
+            label="Email"
+            placeholder="Votre email"
+            {...register('email', {
+              required: 'L’email est requis',
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Email invalide' },
+            })}
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+
+          <Input
+            type="password"
+            label="Mot de passe"
+            placeholder="Votre mot de passe"
+            {...register('password', { required: 'Le mot de passe est requis', minLength: { value: 6, message: 'Minimum 6 caractères' } })}
+          />
+          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+
           {mode === 'register' && (
-            <Input
-              type="password"
-              label="Confirmer le mot de passe"
-              placeholder="Confirmez votre mot de passe"
-            />
+            <>
+              <Input
+                type="password"
+                label="Confirmer le mot de passe"
+                placeholder="Confirmez votre mot de passe"
+                {...register('confirmPassword', {
+                  required: 'La confirmation est requise',
+                  validate: (value: string | undefined) =>
+                    value === password || 'Les mots de passe ne correspondent pas'
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+              )}
+            </>
           )}
 
           <button
