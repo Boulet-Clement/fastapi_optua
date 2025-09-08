@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations, useLocale } from 'next-intl';
+import { ROUTES } from '@/constants/routes';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const trans = useTranslations('Header');
+  const locale = useLocale();
 
   return (
     <header className="bg-white shadow-md relative z-10">
@@ -13,7 +17,7 @@ export default function Header() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Colonne 1 : Logo + Burger */}
           <div className="flex justify-between items-center md:block">
-            <Link href="/" className="inline-block w-[60px] text-center">
+            <Link href={ROUTES.home(locale)} className="inline-block w-[60px] text-center">
               <Image
                 src="/images/logo-optua.png"
                 alt="Logo Optua"
@@ -49,8 +53,8 @@ export default function Header() {
           <form className="relative w-full md:flex-1 md:max-w-[500px]">
             <input
               type="search"
-              name="recherche"
-              placeholder="Rechercher..."
+              name={trans('searchBar.name')}
+              placeholder={trans('searchBar.placeholder')}
               className="w-full px-4 pr-12 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
@@ -76,14 +80,14 @@ export default function Header() {
 
           {/* Colonne 3 : Menu desktop */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="text-gray-600 hover:text-blue-600">
-              Accueil
+            <Link href={ROUTES.home(locale)} className="text-gray-600 hover:text-blue-600">
+              {trans('menu.links.home')}
             </Link>
             <Link href="/services" className="text-gray-600 hover:text-blue-600">
               Services
             </Link>
-            <Link href="/login" className="text-gray-600 hover:text-blue-600">
-              Mon compte
+            <Link href={ROUTES.login(locale)} className="text-gray-600 hover:text-blue-600">
+              {trans('menu.links.account')}
             </Link>
           </nav>
         </div>
@@ -126,11 +130,11 @@ export default function Header() {
         </div>
         <nav className="px-4 space-y-4">
           <Link
-            href="/"
+            href={ROUTES.home(locale)}
             className="block text-gray-600 hover:text-blue-600"
             onClick={() => setMenuOpen(false)}
           >
-            Accueil
+            {trans('menu.links.home')}
           </Link>
           <Link
             href="/services"
@@ -140,11 +144,11 @@ export default function Header() {
             Services
           </Link>
           <Link
-            href="/login"
+            href={ROUTES.login(locale)}
             className="block text-gray-600 hover:text-blue-600"
             onClick={() => setMenuOpen(false)}
           >
-            Connexion
+            {trans('menu.links.account')}
           </Link>
         </nav>
       </div>

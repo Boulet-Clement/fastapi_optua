@@ -1,14 +1,62 @@
 {
-  "Auth": {
-    "login": "Connexion",
-    "register": "Créer un compte",
-    "email": "Adresse e-mail",
-    "password": "Mot de passe",
-    "confirmPassword": "Confirmer le mot de passe",
-    "alreadyHaveAccount": "Vous avez déjà un compte ?",
-    "noAccount": "Pas de compte ?",
-    "loginHere": "Connectez-vous",
-    "registerHere": "Inscrivez-vous",
-    "passwordsDontMatch": "Les mots de passe ne correspondent pas"
+	"Header": {
+		"menu": { 
+			"links": {
+				"home": "Accueil",
+				"account": "Mon compte"
+			}
+		},
+		"searchBar": {
+			"name": "Recherche",
+			"placeholder": "Rechercher..."
+		}
+	},
+	"Footer": {
+		"menu": { 
+			"titles": {
+				"navigation": "Navigation",
+				"pros": "Espace pros",
+				"informations": "Informations",
+				"contact": "Contact"
+			},
+			"links": {
+				"home": "Accueil",
+				"search": "Rechercher",
+				"roadmap": "Fonctionnalités à venir",
+
+				"login": "Connexion",
+				"register": "Inscription",
+
+				"cgu": "CGU",
+				"policies": "Politique de confidentialité",
+				"mandatoryInformations" :"Mentions légales"
+			}
+		}
+	},
+	"Home": {
+		"pros": {
+			"title": "Vous êtes professionnel ?",
+			"alternativeText": "Illustration professionnel",
+			"text": "Développez votre visibilité et trouvez de nouveaux clients",
+			"ctaLabel": "Créer mon compte gratuitement"
+		},
+		"particuliers": {
+			"title": "Vous cherchez un service près de chez vous ?",
+			"alternativeText": "Illustration recherche de service",
+			"text": "Trouvez le professionnel qu'il vous faut en 3 clics",
+			"ctaLabel": "Commencer ma recherche"
+		}
+	},
+	"Auth": {
+		"login": "Connexion",
+		"register": "Créer un compte",
+		"email": "Adresse e-mail",
+		"password": "Mot de passe",
+		"confirmPassword": "Confirmer le mot de passe",
+		"alreadyHaveAccount": "Vous avez déjà un compte ?",
+		"noAccount": "Pas de compte ?",
+		"loginHere": "Connectez-vous",
+		"registerHere": "Inscrivez-vous",
+		"passwordsDontMatch": "Les mots de passe ne correspondent pas"
   }
 }
