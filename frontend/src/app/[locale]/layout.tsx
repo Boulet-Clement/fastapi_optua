@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 
 import { NextIntlClientProvider } from 'next-intl';
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
@@ -46,6 +47,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <Header/>
           <main>{children}</main>
+          <Footer/>
         </NextIntlClientProvider>        
       </body>
     </html>

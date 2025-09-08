@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import Input from '@/components/Input';
+import Input from '@/components/forms/inputs/Input';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 
