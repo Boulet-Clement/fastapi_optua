@@ -11,11 +11,13 @@ def get_filters(lang: str = Query("fr", description="Langue des catégories et t
     Résultat prêt pour affichage des filtres côté front.
     """
     pipeline = [
-        {"$match": {"lang": lang, "display_on_search_engine": True}}, # uniquement les tags visibles
+        {"$match": {"lang": lang, "display_on_search_engine": True}},  # tags dans la langue demandée
         {"$lookup": {
             "from": "categories",
-            "localField": "category_code",
-            "foreignField": "code",
+            "let": {"category_code": "$category_code"},
+            "pipeline": [
+                {"$match": {"$expr": {"$and": [{"$eq": ["$code", "$$category_code"]}, {"$eq": ["$lang", lang]}]}}}
+            ],
             "as": "category"
         }},
         {"$unwind": "$category"},
@@ -24,8 +26,16 @@ def get_filters(lang: str = Query("fr", description="Langue des catégories et t
             "category_name": {"$first": "$category.name"},
             "tags": {"$push": {"code": "$code", "name": "$name"}}
         }},
-        {"$sort": {"category_name": 1}}
+        {"$sort": {"category_name": 1}},
+        # renommer _id en code
+        {"$project": {
+            "code": "$_id",
+            "category_name": 1,
+            "tags": 1,
+            "_id": 0
+        }},
     ]
+
 
     filters = list(db.tags.aggregate(pipeline))
     return filters
