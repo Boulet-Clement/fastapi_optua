@@ -5,3 +5,4 @@ class Tag(BaseModel):
     lang: str
     name: str
     category_code: str
+    display_on_search_engine: bool = False

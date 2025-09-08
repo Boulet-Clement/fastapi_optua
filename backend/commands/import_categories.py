@@ -1,7 +1,9 @@
 import csv
 import sys
 from core.db import db
-from models import Category
+from models.category import Category
+
+## retravailler le csv, maybe code, nom_fr, nom_en, ... au lieu d'une ligne par langue
 
 COLLECTION_NAME = "categories"
 
@@ -9,7 +11,7 @@ def import_categories(csv_path: str):
     collection = db[COLLECTION_NAME]
 
     with open(csv_path, newline="", encoding="utf-8") as csvfile:
-        reader = csv.DictReader(csvfile)
+        reader = csv.DictReader(csvfile, delimiter=';')
         for row in reader:
             try:
                 cat = Category(**row)  # validation Pydantic

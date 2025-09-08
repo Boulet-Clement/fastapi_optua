@@ -1,0 +1,29 @@
+code;lang;name;category_code;display_on_search_engine
+beers;fr;Bieres;food_and_drinks;False
+beers;en;Beers;food_and_drinks;False
+organic;fr;Bio;food_and_drinks;False
+organic;en;Organic;food_and_drinks;False
+drinks;fr;Boissons;food_and_drinks;False
+drinks;en;Drinks;food_and_drinks;False
+cocktails;fr;Cocktails;food_and_drinks;False
+cocktails;en;Cocktails;food_and_drinks;False
+crepes;fr;Crêpes;food_and_drinks;False
+crepes;en;Crepes;food_and_drinks;False
+waffles;fr;Gaufres;food_and_drinks;False
+waffles;en;Waffles;food_and_drinks;False
+ice_creams;fr;Glaces;food_and_drinks;False
+ice_creams;en;Ice creams;food_and_drinks;False
+fruit_juices;fr;Jus de fruits;food_and_drinks;False
+fruit_juices;en;Fruit juices;food_and_drinks;False
+milkshakes;fr;Milkshakes;food_and_drinks;False
+milkshakes;en;Milkshakes;food_and_drinks;False
+pizzas;fr;Pizzas;food_and_drinks;True
+pizzas;en;Pizzas;food_and_drinks;False
+salads;fr;Salades;food_and_drinks;False
+salads;en;Salads;food_and_drinks;False
+sandwiches;fr;Sandwichs;food_and_drinks;False
+sandwiches;en;Sandwiches;food_and_drinks;False
+wines;fr;Vins;food_and_drinks;False
+wines;en;Wines;food_and_drinks;False
+burger;fr;Burger;food_and_drinks;True
+burger;en;Burger;food_and_drinks;False
