@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
-class Tag(BaseModel):
+class Category(BaseModel):
     code: str
     lang: str
     name: str
-    category_code: str
