@@ -3,6 +3,7 @@
 		"menu": { 
 			"links": {
 				"home": "Accueil",
+				"search": "Rechercher",
 				"account": "Mon compte"
 			}
 		},
