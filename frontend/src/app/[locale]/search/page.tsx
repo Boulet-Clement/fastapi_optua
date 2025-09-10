@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
-// Types
 interface Tag {
   code: string;
   name: string;
@@ -21,20 +22,26 @@ interface SearchResult {
   chapo: string;
   url: string;
   image?: string;
+  tags?: string[];
 }
 
 const API_BASE = "http://localhost:8000";
 
 export default function SearchEnginePage() {
+  const locale = useLocale();
+  const trans = useTranslations("Search");
+
   const [categorizedTags, setCategorizedTags] = useState<CategoryTag[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [search, setSearch] = useState<string>("");
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [allTagsRequired, setAllTagsRequired] = useState<boolean>(false);
 
-  // --- Fetch categories & tags ---
   const fetchCategorizedTags = async () => {
     try {
-      const response = await axios.get<CategoryTag[]>(`${API_BASE}/filters?lang=fr`);
+      const response = await axios.get<CategoryTag[]>(`${API_BASE}/filters`, {
+        params: { lang: locale },
+      });
       setCategorizedTags(response.data);
     } catch (error) {
       console.error("Erreur API:", error);
@@ -42,23 +49,50 @@ export default function SearchEnginePage() {
     }
   };
 
-  // --- Submit search via GET ---
-  const submitSearch = async (searchText?: string, filters?: string[], updateURL = true) => {
+  const submitSearch = async (
+    searchText?: string,
+    filters?: string[],
+    updateURL = true,
+    allRequired?: boolean
+  ) => {
     try {
-      const params = new URLSearchParams();
       const q = searchText !== undefined ? searchText : search;
       const f = filters !== undefined ? filters : activeFilters;
+      const allRequiredValue = allRequired !== undefined ? allRequired : allTagsRequired;
 
-      if (q) params.append("query", q);
-      if (f.length) params.append("tags", f.join(","));
-      params.append("lang", "fr");
+      const params: Record<string, any> = { lang: locale, all_tags_required: allRequiredValue };
+      if (q) params.query = q;
+      if (f.length) params.tags = f;
 
+      // Mise à jour de l'URL
       if (updateURL) {
-        // Met à jour l'URL sans recharger la page
-        window.history.replaceState({}, "", `?${params.toString()}`);
+        const urlParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach(v => urlParams.append(key, v));
+          } else {
+            urlParams.append(key, String(value));
+          }
+        });
+        window.history.replaceState({}, "", `?${urlParams.toString()}`);
       }
 
-      const response = await axios.get<SearchResult[]>(`${API_BASE}/search?${params.toString()}`);
+      // Appel à l'API
+      const response = await axios.get<SearchResult[]>(`${API_BASE}/search`, {
+        params,
+        paramsSerializer: (params) => {
+          const searchParams = new URLSearchParams();
+          Object.entries(params).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+              value.forEach(v => searchParams.append(key, v));
+            } else {
+              searchParams.append(key, String(value));
+            }
+          });
+          return searchParams.toString();
+        }
+      });
+
       setResults(response.data);
     } catch (error) {
       console.error("Erreur recherche:", error);
@@ -66,47 +100,69 @@ export default function SearchEnginePage() {
     }
   };
 
-  // --- On mount ---
   useEffect(() => {
     fetchCategorizedTags();
-
-    // Lire paramètres depuis l'URL
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("query") || "";
-    const tagsParam = params.get("tags")?.split(",") || [];
+    const tagsParam = params.getAll("tags");
+    const allRequiredParam = params.get("all_tags_required") === "true";
 
     setSearch(queryParam);
     setActiveFilters(tagsParam);
+    setAllTagsRequired(allRequiredParam);
 
-    // Fetch initial avec les paramètres de l'URL
-    submitSearch(queryParam, tagsParam, false);
-  }, []);
+    submitSearch(queryParam, tagsParam, false, allRequiredParam);
+  }, [locale]);
 
-  // --- Toggle filter ---
   const toggleFilter = (tagCode: string) => {
     const newFilters = activeFilters.includes(tagCode)
       ? activeFilters.filter((t) => t !== tagCode)
       : [...activeFilters, tagCode];
     setActiveFilters(newFilters);
-    submitSearch(undefined, newFilters); // met à jour les résultats et l'URL
+    submitSearch(undefined, newFilters);
   };
 
-  // --- Clear all filters ---
   const clearAllFilters = () => {
     setActiveFilters([]);
     submitSearch(undefined, []);
   };
 
+  const clearSearch = () => {
+    setSearch("");
+    submitSearch("", activeFilters);
+  };
+
   return (
-    <div className="w-full min-h-screen p-6 flex gap-6">
+    <div className="w-full min-h-screen flex flex-col md:flex-row gap-8">
       {/* Sidebar */}
-      <aside className="w-1/4 space-y-6">
+      <aside className="w-full md:w-1/4 space-y-6">
+        <div className="sticky top-4 flex items-center space-x-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded shadow">
+          <input
+            type="checkbox"
+            id="all-tags-required"
+            checked={allTagsRequired}
+            onChange={(e) => {
+              setAllTagsRequired(e.target.checked);
+              submitSearch(undefined, undefined, true, e.target.checked);
+            }}
+            className="w-4 h-4 text-blue-500 border-gray-300 rounded"
+          />
+          <label htmlFor="all-tags-required" className="text-sm font-medium">
+            {trans("toggleAllTagsRequired")}
+          </label>
+        </div>
+
         {categorizedTags.map((category) => (
-          <div key={category.code} className="bg-white p-4 rounded-lg shadow">
-            <h2 className="font-semibold mb-2">{category.category_name}</h2>
-            <div className="space-y-1">
+          <details key={category.code} className="bg-white rounded shadow" open>
+            <summary className="cursor-pointer font-semibold px-4 py-2 border-b hover:bg-gray-50 transition">
+              {category.category_name}
+            </summary>
+            <div className="p-4 space-y-2">
               {category.tags.map((tag) => (
-                <label key={tag.code} className="flex items-center space-x-2">
+                <label
+                  key={tag.code}
+                  className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     className="form-checkbox"
@@ -117,49 +173,59 @@ export default function SearchEnginePage() {
                 </label>
               ))}
             </div>
-          </div>
+          </details>
         ))}
       </aside>
 
       {/* Main */}
       <main className="flex-1 space-y-6">
-        {/* Search Bar */}
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Recherche..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <form
+          onSubmit={(e) => { e.preventDefault(); submitSearch(search, activeFilters); }}
+          className="flex flex-col sm:flex-row gap-2"
+        >
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder={trans("searchPlaceholder")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 placeholder-gray-400"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500"
+              >
+                <X size={18} />
+              </button>
+            )}
+          </div>
           <button
-            onClick={() => submitSearch(search, activeFilters)}
+            type="submit"
             className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Rechercher
+            {trans("searchButton")}
           </button>
-        </div>
+        </form>
 
-        {/* Active Filters */}
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {activeFilters.map((filterCode) => {
               let label = "";
               for (const category of categorizedTags) {
                 const tag = category.tags.find((t) => t.code === filterCode);
-                if (tag) {
-                  label = tag.name;
-                  break;
-                }
+                if (tag) { label = tag.name; break; }
               }
               return (
-                <div key={filterCode} className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
+                <div
+                  key={filterCode}
+                  className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full"
+                >
                   <span>{label}</span>
                   <button
                     className="ml-2 font-bold"
-                    onClick={() =>
-                      toggleFilter(filterCode) // utilise toggleFilter pour mise à jour
-                    }
+                    onClick={() => toggleFilter(filterCode)}
                   >
                     &times;
                   </button>
@@ -170,29 +236,40 @@ export default function SearchEnginePage() {
               className="ml-2 text-red-500 hover:underline"
               onClick={clearAllFilters}
             >
-              Tout supprimer
+              {trans("clearAllFilters")}
             </button>
           </div>
         )}
 
-        {/* Results */}
         <div className="space-y-4">
-          {results.length === 0 && <p>Aucun résultat pour le moment...</p>}
+          {results.length === 0 && <p>{trans("noResults")}</p>}
           {results.map((result) => (
             <a key={result._id} href={result.url} target="_blank" className="block">
-              <div className="flex items-start bg-white p-4 rounded-lg shadow">
-                <div className="w-24 h-24 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="flex flex-col sm:flex-row items-start bg-white p-4 rounded shadow gap-4 hover:shadow-lg transition">
+                <div className="w-full sm:w-24 h-40 sm:h-24 bg-gray-200 rounded overflow-hidden flex-shrink-0">
                   {result.image ? (
                     <img src={result.image} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="flex items-center justify-center text-sm text-blue-500 h-full">
-                      Aucune image
+                      {trans("noImage")}
                     </div>
                   )}
                 </div>
-                <div className="ml-4 flex-1">
+                <div className="flex-1">
                   <h3 className="font-semibold text-lg">{result.name}</h3>
-                  <p className="text-gray-700">{result.chapo}</p>
+                  <p className="text-gray-700 truncate">{result.chapo}</p>
+                  {result.tags && result.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {result.tags.map(tag => (
+                        <span
+                          key={tag}
+                          className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </a>

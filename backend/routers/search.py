@@ -19,38 +19,71 @@ def search(
     query: Optional[str] = Query(None, description="Texte à rechercher"),
     tags: Optional[List[str]] = Query(None, description="Filtrer par tags"),
     categories: Optional[List[str]] = Query(None, description="Filtrer par catégories"),
+    all_tags_required: bool = Query(False, description="Requiert tous les tags pour matcher"),
     lang: str = Query("fr", description="Langue des résultats"),
     limit: int = Query(50, description="Nombre maximal de résultats"),
 ) -> List[Dict[str, Any]]:
 
-    should_clauses = []
+    # Clause de filtre commune (langue)
     filter_clauses = [{"term": {"lang": lang}}]
 
-    # Texte plein (multi-champs)
-    if query:
-        should_clauses.append({
-            "multi_match": {
-                "query": query,
-                "fields": ["name^3", "description^2", "chapo"],
-                "fuzziness": "AUTO"
-            }
-        })
+    if all_tags_required:
+        # --- AND strict : tous les tags et le texte doivent matcher ---
+        must_clauses = []
 
-    # Filtre par tags
-    if tags:
-        should_clauses.append({"terms": {"tags.keyword": tags}})
+        if query:
+            must_clauses.append({
+                "multi_match": {
+                    "query": query,
+                    "fields": ["name^3", "description^2", "chapo"],
+                    "fuzziness": "AUTO",
+                    "boost": 2.0
+                }
+            })
 
-    # Si aucun critère (texte ni tags), on fait un match_all
-    if not should_clauses:
-        query_body = {"match_all": {}}
-    else:
+        if tags:
+            must_clauses.extend([{"term": {"tags.keyword": tag}} for tag in tags])
+
+        # Construction finale
         query_body = {
             "bool": {
-                "should": should_clauses,
-                "filter": filter_clauses,
-                "minimum_should_match": 1  # suffisant qu'un critère soit vrai
+                "must": must_clauses,
+                "filter": filter_clauses
             }
         }
+
+    else:
+        # --- OR : texte ou au moins un tag ---
+        should_clauses = []
+
+        if query:
+            should_clauses.append({
+                "multi_match": {
+                    "query": query,
+                    "fields": ["name^3", "description^2", "chapo"],
+                    "fuzziness": "AUTO",
+                    "boost": 2.0
+                }
+            })
+
+        if tags:
+            should_clauses.append({
+                "bool": {
+                    "should": [{"term": {"tags.keyword": tag}} for tag in tags],
+                    "minimum_should_match": 1
+                }
+            })
+
+        if not should_clauses:
+            query_body = {"match_all": {}}
+        else:
+            query_body = {
+                "bool": {
+                    "should": should_clauses,
+                    "filter": filter_clauses,
+                    "minimum_should_match": 1
+                }
+            }
 
     es_query = {
         "size": limit,

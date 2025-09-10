@@ -4,6 +4,7 @@ export const ROUTES = {
   register: (locale: string) => `/${locale}/register`,
 
   search: (locale: string) => `/${locale}/search?lang=${locale}`,
+  filters: (locale: string) => `/${locale}/filters?lang=${locale}`,
   
   profile: (locale: string) => `/${locale}/profile`,
 };

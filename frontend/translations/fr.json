@@ -59,5 +59,13 @@
 		"loginHere": "Connectez-vous",
 		"registerHere": "Inscrivez-vous",
 		"passwordsDontMatch": "Les mots de passe ne correspondent pas"
-  }
+  	},
+  	"Search": {
+		"toggleAllTagsRequired": "Tous les tags requis",
+		"searchPlaceholder": "Rechercher...",
+		"searchButton": "Rechercher",
+		"clearAllFilters": "Tout supprimer",
+		"noResults": "Aucun résultat pour le moment...",
+		"noImage": "Aucune image"
+	}
 }

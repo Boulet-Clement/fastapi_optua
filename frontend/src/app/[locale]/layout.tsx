@@ -36,19 +36,19 @@ export default async function RootLayout({
   const { locale } = await params;
 
   if (!['fr','en'].includes(locale)) {
-    notFound(); // ← rend automatiquement [locale]/not-found.tsx
+    notFound();
   }
 
   return (
     <html lang={locale}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider>
-          <Header/>
-          <main>{children}</main>
-          <Footer/>
-        </NextIntlClientProvider>        
+          <Header />
+          <main className="flex-1 w-full px-4 md:px-6 py-6">
+            {children}
+          </main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
