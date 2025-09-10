@@ -88,7 +88,7 @@ export default function SearchEnginePage() {
           `${API_BASE}/search`,
           {
             params,
-            paramsSerializer: (p: Record<string, any>) => {
+            paramsSerializer: (p: SearchParams) => {
               const searchParams = new URLSearchParams();
               Object.entries(p).forEach(([key, value]) => {
                 if (Array.isArray(value)) value.forEach(v => searchParams.append(key, v));
@@ -129,7 +129,7 @@ export default function SearchEnginePage() {
             tags: tagsParam.length ? tagsParam : undefined,
             all_tags_required: allRequiredParam,
           },
-          paramsSerializer: (p: Record<string, any>) => {
+          paramsSerializer: (p: SearchParams) => {
             const searchParams = new URLSearchParams();
             Object.entries(p).forEach(([key, value]) => {
               if (Array.isArray(value)) value.forEach(v => searchParams.append(key, v));
