@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, useCallback } from "react";
+import axios, { AxiosResponse } from "axios";
 import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -21,11 +21,17 @@ interface SearchResult {
   name: string;
   chapo: string;
   url: string;
-  image?: string;
   tags?: string[];
 }
 
 const API_BASE = "http://localhost:8000";
+
+type SearchParams = {
+  lang: string;
+  all_tags_required: boolean;
+  query?: string;
+  tags?: string[];
+};
 
 export default function SearchEnginePage() {
   const locale = useLocale();
@@ -37,71 +43,74 @@ export default function SearchEnginePage() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [allTagsRequired, setAllTagsRequired] = useState<boolean>(false);
 
-  const fetchCategorizedTags = async () => {
+  const fetchCategorizedTags = useCallback(async () => {
     try {
-      const response = await axios.get<CategoryTag[]>(`${API_BASE}/filters`, {
-        params: { lang: locale },
-      });
+      const response: AxiosResponse<CategoryTag[]> = await axios.get(
+        `${API_BASE}/filters`,
+        { params: { lang: locale } }
+      );
       setCategorizedTags(response.data);
     } catch (error) {
       console.error("Erreur API:", error);
       setCategorizedTags([]);
     }
-  };
+  }, [locale]);
 
-  const submitSearch = async (
-    searchText?: string,
-    filters?: string[],
-    updateURL = true,
-    allRequired?: boolean
-  ) => {
-    try {
-      const q = searchText !== undefined ? searchText : search;
-      const f = filters !== undefined ? filters : activeFilters;
-      const allRequiredValue = allRequired !== undefined ? allRequired : allTagsRequired;
+  const submitSearch = useCallback(
+    async (
+      searchText?: string,
+      filters?: string[],
+      updateURL = true,
+      allRequired?: boolean
+    ) => {
+      try {
+        const q = searchText ?? search;
+        const f = filters ?? activeFilters;
+        const allRequiredValue = allRequired ?? allTagsRequired;
 
-      const params: Record<string, any> = { lang: locale, all_tags_required: allRequiredValue };
-      if (q) params.query = q;
-      if (f.length) params.tags = f;
+        const params: SearchParams = {
+          lang: locale,
+          all_tags_required: allRequiredValue,
+        };
+        if (q) params.query = q;
+        if (f.length) params.tags = f;
 
-      // Mise à jour de l'URL
-      if (updateURL) {
-        const urlParams = new URLSearchParams();
-        Object.entries(params).forEach(([key, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach(v => urlParams.append(key, v));
-          } else {
-            urlParams.append(key, String(value));
-          }
-        });
-        window.history.replaceState({}, "", `?${urlParams.toString()}`);
-      }
-
-      // Appel à l'API
-      const response = await axios.get<SearchResult[]>(`${API_BASE}/search`, {
-        params,
-        paramsSerializer: (params) => {
-          const searchParams = new URLSearchParams();
+        if (updateURL) {
+          const urlParams = new URLSearchParams();
           Object.entries(params).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
-              value.forEach(v => searchParams.append(key, v));
-            } else {
-              searchParams.append(key, String(value));
-            }
+            if (Array.isArray(value)) value.forEach(v => urlParams.append(key, v));
+            else if (value !== undefined) urlParams.append(key, String(value));
           });
-          return searchParams.toString();
+          window.history.replaceState({}, "", `?${urlParams.toString()}`);
         }
-      });
 
-      setResults(response.data);
-    } catch (error) {
-      console.error("Erreur recherche:", error);
-      setResults([]);
-    }
-  };
+        const response: AxiosResponse<SearchResult[]> = await axios.get(
+          `${API_BASE}/search`,
+          {
+            params,
+            paramsSerializer: (p: Record<string, any>) => {
+              const searchParams = new URLSearchParams();
+              Object.entries(p).forEach(([key, value]) => {
+                if (Array.isArray(value)) value.forEach(v => searchParams.append(key, v));
+                else if (value !== undefined) searchParams.append(key, String(value));
+              });
+              return searchParams.toString();
+            },
+          }
+        );
+
+        setResults(response.data);
+      } catch (error) {
+        console.error("Erreur recherche:", error);
+        setResults([]);
+      }
+    },
+    [search, activeFilters, allTagsRequired, locale]
+  );
 
   useEffect(() => {
     fetchCategorizedTags();
+
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("query") || "";
     const tagsParam = params.getAll("tags");
@@ -111,12 +120,37 @@ export default function SearchEnginePage() {
     setActiveFilters(tagsParam);
     setAllTagsRequired(allRequiredParam);
 
-    submitSearch(queryParam, tagsParam, false, allRequiredParam);
-  }, [locale]);
+    const fetchInitialResults = async () => {
+      try {
+        const response = await axios.get<SearchResult[]>(`${API_BASE}/search`, {
+          params: {
+            lang: locale,
+            query: queryParam || undefined,
+            tags: tagsParam.length ? tagsParam : undefined,
+            all_tags_required: allRequiredParam,
+          },
+          paramsSerializer: (p: Record<string, any>) => {
+            const searchParams = new URLSearchParams();
+            Object.entries(p).forEach(([key, value]) => {
+              if (Array.isArray(value)) value.forEach(v => searchParams.append(key, v));
+              else if (value !== undefined) searchParams.append(key, String(value));
+            });
+            return searchParams.toString();
+          },
+        });
+        setResults(response.data);
+      } catch (error) {
+        console.error("Erreur recherche initiale:", error);
+        setResults([]);
+      }
+    };
+
+    fetchInitialResults();
+  }, [locale, fetchCategorizedTags]);
 
   const toggleFilter = (tagCode: string) => {
     const newFilters = activeFilters.includes(tagCode)
-      ? activeFilters.filter((t) => t !== tagCode)
+      ? activeFilters.filter(t => t !== tagCode)
       : [...activeFilters, tagCode];
     setActiveFilters(newFilters);
     submitSearch(undefined, newFilters);
@@ -141,7 +175,7 @@ export default function SearchEnginePage() {
             type="checkbox"
             id="all-tags-required"
             checked={allTagsRequired}
-            onChange={(e) => {
+            onChange={e => {
               setAllTagsRequired(e.target.checked);
               submitSearch(undefined, undefined, true, e.target.checked);
             }}
@@ -152,13 +186,13 @@ export default function SearchEnginePage() {
           </label>
         </div>
 
-        {categorizedTags.map((category) => (
+        {categorizedTags.map(category => (
           <details key={category.code} className="bg-white rounded shadow" open>
             <summary className="cursor-pointer font-semibold px-4 py-2 border-b hover:bg-gray-50 transition">
               {category.category_name}
             </summary>
             <div className="p-4 space-y-2">
-              {category.tags.map((tag) => (
+              {category.tags.map(tag => (
                 <label
                   key={tag.code}
                   className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
@@ -180,7 +214,10 @@ export default function SearchEnginePage() {
       {/* Main */}
       <main className="flex-1 space-y-6">
         <form
-          onSubmit={(e) => { e.preventDefault(); submitSearch(search, activeFilters); }}
+          onSubmit={e => {
+            e.preventDefault();
+            submitSearch(search, activeFilters);
+          }}
           className="flex flex-col sm:flex-row gap-2"
         >
           <div className="relative flex-1">
@@ -188,7 +225,7 @@ export default function SearchEnginePage() {
               type="text"
               placeholder={trans("searchPlaceholder")}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value)}
               className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 placeholder-gray-400"
             />
             {search && (
@@ -211,31 +248,25 @@ export default function SearchEnginePage() {
 
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {activeFilters.map((filterCode) => {
+            {activeFilters.map(filterCode => {
               let label = "";
               for (const category of categorizedTags) {
-                const tag = category.tags.find((t) => t.code === filterCode);
-                if (tag) { label = tag.name; break; }
+                const tag = category.tags.find(t => t.code === filterCode);
+                if (tag) {
+                  label = tag.name;
+                  break;
+                }
               }
               return (
-                <div
-                  key={filterCode}
-                  className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full"
-                >
+                <div key={filterCode} className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
                   <span>{label}</span>
-                  <button
-                    className="ml-2 font-bold"
-                    onClick={() => toggleFilter(filterCode)}
-                  >
+                  <button className="ml-2 font-bold" onClick={() => toggleFilter(filterCode)}>
                     &times;
                   </button>
                 </div>
               );
             })}
-            <button
-              className="ml-2 text-red-500 hover:underline"
-              onClick={clearAllFilters}
-            >
+            <button className="ml-2 text-red-500 hover:underline" onClick={clearAllFilters}>
               {trans("clearAllFilters")}
             </button>
           </div>
@@ -243,28 +274,17 @@ export default function SearchEnginePage() {
 
         <div className="space-y-4">
           {results.length === 0 && <p>{trans("noResults")}</p>}
-          {results.map((result) => (
+          {results.map(result => (
             <a key={result._id} href={result.url} target="_blank" className="block">
               <div className="flex flex-col sm:flex-row items-start bg-white p-4 rounded shadow gap-4 hover:shadow-lg transition">
-                <div className="w-full sm:w-24 h-40 sm:h-24 bg-gray-200 rounded overflow-hidden flex-shrink-0">
-                  {result.image ? (
-                    <img src={result.image} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="flex items-center justify-center text-sm text-blue-500 h-full">
-                      {trans("noImage")}
-                    </div>
-                  )}
-                </div>
+                {/* Bloc texte simplifié, plus d'image */}
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{result.name}</h3>
                   <p className="text-gray-700 truncate">{result.chapo}</p>
                   {result.tags && result.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {result.tags.map(tag => (
-                        <span
-                          key={tag}
-                          className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full"
-                        >
+                        <span key={tag} className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
                           {tag}
                         </span>
                       ))}
