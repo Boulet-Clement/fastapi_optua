@@ -1,8 +1,9 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '@/components/forms/inputs/Input';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface AuthFormProps {
@@ -17,22 +18,53 @@ interface FormData {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
-  };
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const trans = useTranslations('Auth');
+  const locale = useLocale();
 
   const password = watch('password', '');
 
-  const trans = useTranslations('Auth');
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    try {
+      const url =
+        mode === 'login'
+          ? 'http://localhost:8000/auth/login'
+          : 'http://localhost:8000/auth/register';
 
-  const locale = useLocale();
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include', // très important
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result.detail || 'Erreur lors de la requête');
+        setLoading(false);
+        return;
+      }
+
+      if (mode === 'login') {
+        // Stockage du token
+        localStorage.setItem('token', result.token);
+        alert('Connexion réussie !');
+        router.push('/dashboard'); // redirection après login
+      } else {
+        alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+        router.push(`/${locale}/login`);
+      }
+    } catch (err) {
+      console.error('Erreur fetch :', err);
+      alert('Erreur lors de la connexion au serveur');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -96,8 +128,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
             className={`mt-4 text-white py-2 rounded-md transition ${
               mode === 'login' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600'
             }`}
+            disabled={loading}
           >
-            {mode === 'login' ? 'Se connecter' : "S'inscrire"}
+            {loading ? 'Patientez...' : mode === 'login' ? 'Se connecter' : "S'inscrire"}
           </button>
         </form>
 

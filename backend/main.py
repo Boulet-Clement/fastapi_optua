@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import organization, category, tag, filters, search
+from routers.user import auth
 from core.elasticsearch import elasticsearch, INDEX_NAME
 import time
 
@@ -9,7 +10,7 @@ app = FastAPI()
 # Autoriser CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # ⚠️ à restreindre en prod (ex: ["http://localhost:3000"])
+    allow_origins=["http://localhost:3000"],  # ⚠️ à restreindre en prod (ex: ["http://localhost:3000"])
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -20,6 +21,7 @@ app.include_router(category.router)
 app.include_router(tag.router)
 app.include_router(filters.router)
 app.include_router(search.router)
+app.include_router(auth.router)
 
 @app.on_event("startup")
 def startup_event():
