@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import organization, category, tag, filters, search
 from routers.user import auth
+from routers.dashboard import dashboard_home
+from routers.organizations import mine
 from core.elasticsearch import elasticsearch, INDEX_NAME
 import time
 
@@ -16,12 +18,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(mine.router)
 app.include_router(organization.router)
 app.include_router(category.router)
 app.include_router(tag.router)
 app.include_router(filters.router)
 app.include_router(search.router)
 app.include_router(auth.router)
+app.include_router(dashboard_home.router)
+
 
 @app.on_event("startup")
 def startup_event():

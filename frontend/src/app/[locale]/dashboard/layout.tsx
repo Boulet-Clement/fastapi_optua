@@ -49,7 +49,7 @@ export default function DashboardLayout({
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch('http://localhost:8000/auth/dashboard', {
+        const res = await fetch('http://localhost:8000/dashboard/', {
           method: 'GET',
           credentials: 'include',
         });

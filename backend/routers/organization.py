@@ -1,12 +1,13 @@
-from fastapi import APIRouter, HTTPException, Query
-from core.db import db
-from models.organization import Organization
-from core.elasticsearch import elasticsearch, INDEX_NAME
 from bson import ObjectId
-from typing import Optional
-from fastapi import Body
+from core.auth_utils import get_current_user_from_cookie
+from core.db import db
+from core.elasticsearch import elasticsearch, INDEX_NAME
 from elasticsearch import NotFoundError
+from fastapi import APIRouter, HTTPException, Query, Body, Request, Depends
+from models.organization.organization import Organization
+from models.user.user import User
 from services.slug_service import generate_unique_slug
+from typing import Optional
 import uuid
 
 
@@ -20,32 +21,59 @@ INDEX_PREFIX = INDEX_NAME + "_"
 # Crée une organisation dans une langue spécifique
 # ------------------------------
 @router.post("/organizations")
-def create_organization(organization: Organization):
-    organization_dict = organization.dict()
+def create_organization(
+    organization: Organization,
+    request: Request
+):
+    # 1️⃣ Récupérer le user connecté depuis le cookie
+    payload = get_current_user_from_cookie(request)
+    owner_id = payload.get("sub")
+    if not owner_id:
+        raise HTTPException(status_code=401, detail="Utilisateur non identifié")
 
-    organization_dict["slug"] = generate_unique_slug(organization.name, organization.lang)
-    organization_dict["tags"] = organization.tags    
-    organization_dict["organization_id"] = str(uuid.uuid4())
+    # 2️⃣ Assigner owner_id et générer organization_id si absent
+    organization.owner_id = owner_id
+    if not organization.organization_id:
+        organization.organization_id = str(uuid.uuid4())
 
-    result = db.organizations.insert_one(organization_dict)
-    if result.inserted_id:
-        # Indexation Elastic selon la langue
-        index_name = f"{INDEX_PREFIX}{organization.lang.value.lower()}"
-        es_doc = organization_dict.copy()
-        es_doc.pop("_id", None)  # ne jamais envoyer _id à Elastic
+    # 3️⃣ Générer un slug unique
+    organization.slug = generate_unique_slug(organization.name, organization.lang)
 
-        elasticsearch.index(
-            index=index_name,
-            id=organization_dict["organization_id"],  # 🔑 identifiant commun
-            document=es_doc
-        )
+    # 4️⃣ Préparer le dict pour Mongo
+    org_dict = organization.dict()
+    org_dict["tags"] = organization.tags
 
-        return {
-            "message": "Organization créée",
-            "organization_id": organization_dict["organization_id"]
-        }
-    else:
+    # 5️⃣ Insérer dans MongoDB
+    result = db.organizations.insert_one(org_dict)
+    if not result.inserted_id:
         raise HTTPException(status_code=500, detail="Impossible de créer l'organisation")
+
+    # 6️⃣ Indexer dans Elastic
+    index_name = f"{INDEX_PREFIX}{organization.lang.value.lower()}"
+    es_doc = org_dict.copy()
+    es_doc.pop("_id", None)
+    elasticsearch.index(
+        index=index_name,
+        id=organization.organization_id,
+        document=es_doc
+    )
+
+    # 7️⃣ Ajouter résumé dans User.organizations
+    summary = {
+        "organization_id": organization.organization_id,
+        "name": organization.name,
+        "slug": organization.slug,
+        "lang": organization.lang
+    }
+    db.users.update_one(
+        {"user_id": owner_id},
+        {"$push": {"organizations": summary}}
+    )
+
+    return {
+        "message": "Organisation créée",
+        "organization": org_dict
+    }
 
 # ------------------------------
 # GET /organizations?tag=sport&lang=fr
