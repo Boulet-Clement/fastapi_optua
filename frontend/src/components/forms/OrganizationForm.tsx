@@ -38,7 +38,7 @@ export default function OrganizationForm() {
       }
 
       const data = await res.json();
-      setSuccess(`Organisation créée avec l'ID ${data.organization.organization_id}`);
+      setSuccess(`Organisation créée avec l'ID ${data.organization_id}`);
       setName('');
       setDescription('');
       setTags('');

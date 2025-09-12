@@ -72,7 +72,7 @@ def create_organization(
 
     return {
         "message": "Organisation créée",
-        "organization": org_dict
+        "organization_id": organization.organization_id
     }
 
 # ------------------------------

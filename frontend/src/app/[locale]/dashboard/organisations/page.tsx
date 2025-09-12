@@ -5,7 +5,7 @@ import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations } from 'next-intl';
 
 interface Organization {
-  id: string;
+  organization_id: string;
   name: string;
   is_visible: boolean;
 }
@@ -45,7 +45,7 @@ export default function OrganisationsPage() {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           {orgs.map((org) => (
             <li
-              key={org.id}
+              key={org.organization_id}
               className="p-4 border rounded-lg flex justify-between items-center hover:shadow-sm transition"
             >
               <span>{org.name}</span>
