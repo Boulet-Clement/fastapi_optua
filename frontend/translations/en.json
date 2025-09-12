@@ -60,12 +60,49 @@
 		"registerHere": "Inscrivez-vous",
 		"passwordsDontMatch": "Les mots de passe ne correspondent pas"
   },
-  "Search": {
-    "toggleAllTagsRequired": "All tags required",
-    "searchPlaceholder": "Search...",
-    "searchButton": "Search",
-    "clearAllFilters": "Clear all",
-    "noResults": "No results yet...",
-    "noImage": "No image"
-  }
+	"Search": {
+		"toggleAllTagsRequired": "All tags required",
+		"searchPlaceholder": "Search...",
+		"searchButton": "Search",
+		"clearAllFilters": "Clear all",
+		"noResults": "No results yet...",
+		"noImage": "No image"
+	},
+	
+	"DashboardLayout": {
+		"my_space": "My space",
+		"home": "Home",
+		"organizations": "My organizations",
+		"billing": "My subscription",
+		"settings": "Settings",
+		"dashboard": "Dashboard",
+		"loading": "Loading...",
+		"must_login": "You must be logged in"
+	},
+	"DashboardPageWrapper": {
+		"loading": "Loading..."
+	},
+	"DashboardHome": {
+		"welcome": "Welcome to your workspace",
+		"connected_as": "Connected as",
+		"intro": "Here you can manage your organizations, check your subscription and update your settings.",
+		"select_option": "Select an option from the menu on the left to get started."
+	},
+	"DashboardOrganisations": {
+		"title": "My organizations",
+		"no_organizations": "You haven’t created any organizations yet.",
+		"fetch_error": "Error fetching organizations",
+		"edit": "Edit",
+		"hide": "Hide",
+		"publish": "Publish"
+	},
+	"DashboardBilling": {
+		"title": "My subscription",
+		"intro": "Here you can view and manage your subscription."
+	},
+	"DashboardSettings": {
+		"title": "Settings",
+		"intro": "Here you can update your account information and preferences."
+	}
+
 }

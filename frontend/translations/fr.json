@@ -67,5 +67,41 @@
 		"clearAllFilters": "Tout supprimer",
 		"noResults": "Aucun résultat pour le moment...",
 		"noImage": "Aucune image"
+	},
+	"DashboardLayout": 
+	{
+		"my_space": "Mon espace",
+		"home": "Accueil",
+		"organizations": "Mes organisations",
+		"billing": "Mon abonnement",
+		"settings": "Paramètres",
+		"dashboard": "Tableau de bord",
+		"loading": "Chargement...",
+		"must_login": "Vous devez être connecté"
+  	},
+	"DashboardPageWrapper": {
+    	"loading": "Chargement..."
+	},
+	"DashboardHome": {
+		"welcome": "Bienvenue sur votre espace",
+		"connected_as": "Connecté en tant que",
+		"intro": "Ici vous pourrez gérer vos organisations, suivre votre abonnement et modifier vos paramètres.",
+		"select_option": "Sélectionnez une option dans le menu à gauche pour commencer."
+	},
+	"DashboardOrganisations": {
+		"title": "Mes organisations",
+		"no_organizations": "Vous n’avez pas encore créé d’organisation.",
+		"fetch_error": "Erreur lors de la récupération des organisations",
+		"edit": "Modifier",
+		"hide": "Masquer",
+		"publish": "Publier"
+	},
+	"DashboardBilling": {
+		"title": "Mon abonnement",
+		"intro": "Ici vous pourrez consulter et gérer votre abonnement."
+	},
+	"DashboardSettings": {
+		"title": "Paramètres",
+		"intro": "Ici vous pourrez modifier vos informations de compte et préférences."
 	}
 }

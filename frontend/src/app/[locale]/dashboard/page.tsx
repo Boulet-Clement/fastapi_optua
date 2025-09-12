@@ -1,50 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import DashboardPageWrapper from '@/components/DashboardPageWrapper';
+import { useTranslations, useLocale } from 'next-intl';
 
-interface UserData {
-  message: string;
-  user: {
-    sub: string;
-    email: string;
-    exp: number;
-  };
+interface Props {
+  userEmail?: string;
 }
 
-export default function DashboardPage() {
-  const [data, setData] = useState<UserData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const res = await fetch('http://localhost:8000/auth/dashboard', {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        if (!res.ok) {
-          throw new Error('Vous devez être connecté');
-        }
-
-        const json = await res.json();
-        setData(json);
-      } catch (err: any) {
-        setError(err.message);
-      }
-    };
-
-    fetchDashboard();
-  }, []);
-
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!data) return <p>Chargement...</p>;
+export default function DashboardHome({ userEmail }: Props) {
+  const trans = useTranslations('DashboardHome');
+  const locale = useLocale();
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <p>{data.message}</p>
-      <p>Email : {data.user.email}</p>
-    </div>
+    <DashboardPageWrapper transKey="DashboardPageWrapper">
+      <h1 className="text-2xl font-bold mb-4">{trans('welcome')}</h1>
+
+      {userEmail && (
+        <p className="text-gray-700 mb-4">
+          {trans('connected_as')} <span className="font-medium">{userEmail}</span>
+        </p>
+      )}
+
+      <p className="text-gray-600 mb-2">{trans('intro')}</p>
+      <p className="text-gray-500">{trans('select_option')}</p>
+    </DashboardPageWrapper>
   );
 }
