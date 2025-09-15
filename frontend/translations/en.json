@@ -91,6 +91,8 @@
 	"DashboardOrganisations": {
 		"title": "My organizations",
 		"no_organizations": "You haven’t created any organizations yet.",
+		"add_organization": "Add organization",
+		"cancel": "Cancel",
 		"fetch_error": "Error fetching organizations",
 		"edit": "Edit",
 		"hide": "Hide",

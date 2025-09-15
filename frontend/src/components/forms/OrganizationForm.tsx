@@ -1,44 +1,54 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 
-export default function OrganizationForm() {
+interface Props {
+  onSuccess?: (orgId: string) => void;
+  initialLang?: string; // langue initiale (ex: pour traduction)
+  organizationId?: string; // organisation cible si c’est une traduction
+}
+
+export default function OrganizationForm({ onSuccess, initialLang, organizationId }: Props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
-  const [lang, setLang] = useState<'fr' | 'en'>('fr');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+
+  const trans = useTranslations('DashboardOrganisations.new');
+  const locale = useLocale();
+
+  // La langue à utiliser
+  const lang = initialLang ?? locale;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(null);
 
     try {
       const res = await fetch('http://localhost:8000/organizations', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // pour envoyer le cookie JWT
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           name,
           description,
           tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
           lang,
+          ...(organizationId ? { organization_id: organizationId } : {}),
         }),
       });
 
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(errData.detail || 'Erreur lors de la création');
+        throw new Error(errData.detail || trans('submit_error'));
       }
 
       const data = await res.json();
-      setSuccess(`Organisation créée avec l'ID ${data.organization_id}`);
+      if (onSuccess) onSuccess(data.organization_id);
+
       setName('');
       setDescription('');
       setTags('');
@@ -51,14 +61,13 @@ export default function OrganizationForm() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Créer une organisation</h2>
+      <h2 className="text-xl font-bold mb-4">{trans('create_organization')}</h2>
 
       {error && <p className="text-red-500 mb-2">{error}</p>}
-      {success && <p className="text-green-500 mb-2">{success}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Nom</label>
+          <label className="block text-sm font-medium mb-1">{trans('name')}</label>
           <input
             type="text"
             value={name}
@@ -69,7 +78,7 @@ export default function OrganizationForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
+          <label className="block text-sm font-medium mb-1">{trans('description')}</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -78,7 +87,7 @@ export default function OrganizationForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Tags (séparés par des virgules)</label>
+          <label className="block text-sm font-medium mb-1">{trans('tags')}</label>
           <input
             type="text"
             value={tags}
@@ -88,14 +97,14 @@ export default function OrganizationForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Langue</label>
+          <label className="block text-sm font-medium mb-1">{trans('language')}</label>
           <select
             value={lang}
-            onChange={(e) => setLang(e.target.value as 'fr' | 'en')}
-            className="w-full border px-3 py-2 rounded"
+            disabled
+            className="w-full border px-3 py-2 rounded bg-gray-100 cursor-not-allowed"
           >
-            <option value="fr">Français</option>
-            <option value="en">English</option>
+            <option value="fr">{trans('french')}</option>
+            <option value="en">{trans('english')}</option>
           </select>
         </div>
 
@@ -104,7 +113,7 @@ export default function OrganizationForm() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
-          {loading ? 'Création...' : 'Créer'}
+          {loading ? trans('creating') : trans('create')}
         </button>
       </form>
     </div>

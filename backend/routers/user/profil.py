@@ -14,3 +14,15 @@ def dashboard(current_user=Depends(get_current_user_from_cookie)):
         "message": f"Bienvenue {current_user['email']}",
         "user": current_user  # <- renvoie tout le payload du JWT
     }
+
+
+# ------------------------------
+# DELETE /all
+# ⚠️ Supprime touts les utilisateurs dans MongoDB
+# ------------------------------
+@router.delete("/all")
+def delete_all_users():
+    # 1. Supprimer toutes les organizations dans MongoDB
+    db.users.delete_many({})
+
+    return {"message": "Touts les utilisateurs ont été supprimés"}

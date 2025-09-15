@@ -11,7 +11,7 @@ from typing import Optional
 import uuid
 
 
-router = APIRouter()
+router = APIRouter(prefix="/organizations", tags=["organizations"])
 
 # Nom des indices Elastic par langue
 INDEX_PREFIX = INDEX_NAME + "_"
@@ -20,7 +20,7 @@ INDEX_PREFIX = INDEX_NAME + "_"
 # POST /organizations
 # Crée une organisation dans une langue spécifique
 # ------------------------------
-@router.post("/organizations")
+@router.post("/")
 def create_organization(
     organization: Organization,
     request: Request
@@ -79,7 +79,7 @@ def create_organization(
 # GET /organizations?tag=sport&lang=fr
 # Récupère toutes les organisations d'une langue, éventuellement filtrées par tag
 # ------------------------------
-@router.get("/organizations")
+@router.get("/")
 def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr")):
     query = {"lang": lang}
     if tag:
@@ -94,7 +94,7 @@ def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr"))
 # GET /organizations/{organization_id}?lang=fr
 # Récupère une organisation spécifique dans une langue
 # ------------------------------
-@router.get("/organizations/{organization_id}")
+@router.get("/{organization_id}")
 def get_organization(organization_id: str, lang: str = Query("fr")):
     organization = db.organizations.find_one({"organization_id": organization_id, "lang": lang})
     if organization:
@@ -106,11 +106,12 @@ def get_organization(organization_id: str, lang: str = Query("fr")):
 # UPDATE /organizations/{organization_id}?lang=fr
 # modifie une organisation spécifique dans une langue
 # ------------------------------
-@router.patch("/organizations/{organization_id}")
+@router.patch("/{organization_id}")
 def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict = Body(...)):
     if "_id" in data:
         data.pop("_id")
 
+    # 1️⃣ Mise à jour dans MongoDB
     result = db.organizations.update_one(
         {"organization_id": organization_id, "lang": lang},
         {"$set": data}
@@ -119,7 +120,7 @@ def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Organization non trouvée")
 
-    # Sync avec Elastic
+    # 2️⃣ Sync avec ElasticSearch
     index_name = f"{INDEX_PREFIX}{lang}"
     elasticsearch.update(
         index=index_name,
@@ -127,13 +128,27 @@ def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict
         doc={"doc": data},  # 🔑 update partiel
     )
 
-    return {"message": "Organization mise à jour"}
+    # 3️⃣ Mise à jour du résumé (OrganizationSummary) dans les Users
+    fields_to_update = {}
+    allowed_fields = ["name", "slug"]  # ceux qui existent dans OrganizationSummary
+    for key in allowed_fields:
+        if key in data:
+            fields_to_update[f"organizations.$[elem].{key}"] = data[key]
+
+    if fields_to_update:
+        db.users.update_many(
+            {"organizations.organization_id": organization_id},
+            {"$set": fields_to_update},
+            array_filters=[{"elem.organization_id": organization_id, "elem.lang": lang}]
+        )
+
+    return {"message": "Organization et résumés mis à jour"}
 
 # ------------------------------
 # DELETE /organizations/all
 # ⚠️ Supprime toutes les organizations dans MongoDB + tous les index Elastic
 # ------------------------------
-@router.delete("/organizations/all")
+@router.delete("/all")
 def delete_all_organizations():
     # 1. Supprimer toutes les organizations dans MongoDB
     db.organizations.delete_many({})
@@ -154,14 +169,24 @@ def delete_all_organizations():
 # DELETE /organizations/{organization_id}?lang=fr
 # Supprime une organisation spécifique dans une langue
 # ------------------------------
-@router.delete("/organizations/{organization_id}")
+@router.delete("/{organization_id}")
 def delete_organization(organization_id: str, lang: str = Query("fr")):
+    # 1️⃣ Supprimer dans MongoDB (organizations)
     result = db.organizations.delete_one({"organization_id": organization_id, "lang": lang})
-    if result.deleted_count == 1:
-        index_name = f"{INDEX_PREFIX}{lang}"
-        try:
-            elasticsearch.delete(index=index_name, id=organization_id)
-        except NotFoundError:
-            pass  # si le doc n'existe pas dans Elastic, on ignore
-        return {"message": "Organization supprimée"}
-    raise HTTPException(status_code=404, detail="Organization non trouvée")
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Organization non trouvée")
+
+    # 2️⃣ Supprimer dans ElasticSearch
+    index_name = f"{INDEX_PREFIX}{lang}"
+    try:
+        elasticsearch.delete(index=index_name, id=organization_id)
+    except NotFoundError:
+        pass  # si le doc n'existe pas dans Elastic, on ignore
+
+    # 3️⃣ Supprimer uniquement le summary correspondant à la langue
+    db.users.update_many(
+        {},  # tous les users
+        {"$pull": {"organizations": {"organization_id": organization_id, "lang": lang}}}
+    )
+
+    return {"message": f"Organization ({lang}) et résumé supprimés"}

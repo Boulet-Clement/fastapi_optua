@@ -115,7 +115,17 @@ export default function DashboardLayout({
         )}
         <nav className="space-y-2">
           {menuItems.map((item) => {
-            const isActive = pathname === item.href;
+            let isActive = false;
+
+            console.log(pathname)
+            console.log(item.href)
+            // Exact match prioritaire
+            if (item.href === `/${locale}/dashboard`) {
+              isActive = pathname === `/${locale}/dashboard`;
+            // Sinon on peut autoriser les sous-routes
+            } else if (pathname.startsWith(item.href)) {
+              isActive = true;
+            }
             const Icon = item.icon;
             return (
               <Link
