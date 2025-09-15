@@ -3,3 +3,8 @@ uvicorn[standard]
 pymongo
 elasticsearch==8.11.1
 python-dotenv
+fastapi-cache2
+redis>=5.0.0
+bcrypt
+python-jose
+email-validator

@@ -62,7 +62,17 @@ services:
     volumes:
       - ./frontend:/app
     command: npm run dev
+  
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
 
 volumes:
   mongo_data:
   es_data:
+  redis_data:
