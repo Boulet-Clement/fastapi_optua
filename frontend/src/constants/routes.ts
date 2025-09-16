@@ -7,7 +7,7 @@ export const ROUTES = {
   filters: (locale: string) => `/${locale}/filters?lang=${locale}`,
   
   dashboard: (locale: string) => `/${locale}/dashboard`,
-  dashboard_organisations: (locale: string) => `/${locale}/dashboard/organisations`,
+  dashboard_organizations: (locale: string) => `/${locale}/dashboard/organizations`,
   dashboard_billing: (locale: string) => `/${locale}/dashboard/billing`,
   dashboard_settings: (locale: string) => `/${locale}/dashboard/settings`,
 };

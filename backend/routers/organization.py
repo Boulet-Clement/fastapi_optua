@@ -18,7 +18,7 @@ INDEX_PREFIX = INDEX_NAME + "_"
 
 # ------------------------------
 # POST /organizations
-# Crée une organisation dans une langue spécifique
+# Crée une structure dans une langue spécifique
 # ------------------------------
 @router.post("/organizations")
 def create_organization(
@@ -46,7 +46,7 @@ def create_organization(
     # 5️⃣ Insérer dans MongoDB
     result = db.organizations.insert_one(org_dict)
     if not result.inserted_id:
-        raise HTTPException(status_code=500, detail="Impossible de créer l'organisation")
+        raise HTTPException(status_code=500, detail="Impossible de créer la structure")
 
     # 6️⃣ Indexer dans Elastic
     index_name = f"{INDEX_PREFIX}{organization.lang.value.lower()}"
@@ -71,13 +71,13 @@ def create_organization(
     )
 
     return {
-        "message": "Organisation créée",
+        "message": "Structure créée",
         "organization_id": organization.organization_id
     }
 
 # ------------------------------
 # GET /organizations?tag=sport&lang=fr
-# Récupère toutes les organisations d'une langue, éventuellement filtrées par tag
+# Récupère toutes les structure d'une langue, éventuellement filtrées par tag
 # ------------------------------
 @router.get("/organizations")
 def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr")):
@@ -92,7 +92,7 @@ def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr"))
 
 # ------------------------------
 # GET /organizations/{organization_id}?lang=fr
-# Récupère une organisation spécifique dans une langue
+# Récupère une structure spécifique dans une langue
 # ------------------------------
 @router.get("/organizations/{organization_id}")
 def get_organization(organization_id: str, lang: str = Query("fr")):
@@ -104,7 +104,7 @@ def get_organization(organization_id: str, lang: str = Query("fr")):
 
 # ------------------------------
 # UPDATE /organizations/{organization_id}?lang=fr
-# modifie une organisation spécifique dans une langue
+# modifie une structure spécifique dans une langue
 # ------------------------------
 @router.patch("/organizations/{organization_id}")
 def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict = Body(...)):
@@ -152,7 +152,7 @@ def delete_all_organizations():
 
 # ------------------------------
 # DELETE /organizations/{organization_id}?lang=fr
-# Supprime une organisation spécifique dans une langue
+# Supprime une structure spécifique dans une langue
 # ------------------------------
 @router.delete("/organizations/{organization_id}")
 def delete_organization(organization_id: str, lang: str = Query("fr")):

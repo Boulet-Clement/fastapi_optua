@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 
 export default function NewOrganizationPage() {
-  const trans = useTranslations('DashboardOrganisations');
+  const trans = useTranslations('DashboardOrganizations');
   const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -43,8 +43,8 @@ export default function NewOrganizationPage() {
           initialLang={initialLang}
           organizationId={organizationId}
           onSuccess={(orgId: string) => {
-            setFlash(`Organisation ${orgId} créée avec succès !`);
-            setTimeout(() => router.push(`/${locale}/dashboard/organisations`), 1500);
+            setFlash(`Organization ${orgId} créée avec succès !`);
+            setTimeout(() => router.push(`/${locale}/dashboard/organizations`), 1500);
           }}
         />
       </div>

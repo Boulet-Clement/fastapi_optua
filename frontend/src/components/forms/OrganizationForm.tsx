@@ -6,7 +6,7 @@ import { useTranslations, useLocale } from 'next-intl';
 interface Props {
   onSuccess?: (orgId: string) => void;
   initialLang?: string; // langue initiale (ex: pour traduction)
-  organizationId?: string; // organisation cible si c’est une traduction
+  organizationId?: string; // structure cible si c’est une traduction
 }
 
 export default function OrganizationForm({ onSuccess, initialLang, organizationId }: Props) {
@@ -16,7 +16,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const trans = useTranslations('DashboardOrganisations.new');
+  const trans = useTranslations('DashboardOrganizations.new');
   const locale = useLocale();
 
   // La langue à utiliser

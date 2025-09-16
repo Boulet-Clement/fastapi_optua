@@ -18,7 +18,7 @@ INDEX_PREFIX = INDEX_NAME + "_"
 
 # ------------------------------
 # POST /organizations
-# Crée une organisation dans une langue spécifique
+# Crée une structure dans une langue spécifique
 # ------------------------------
 @router.post("/")
 def create_organization(
@@ -46,7 +46,7 @@ def create_organization(
     # 5️⃣ Insérer dans MongoDB
     result = db.organizations.insert_one(org_dict)
     if not result.inserted_id:
-        raise HTTPException(status_code=500, detail="Impossible de créer l'organisation")
+        raise HTTPException(status_code=500, detail="Impossible de créer la structure")
 
     # 6️⃣ Indexer dans Elastic
     index_name = f"{INDEX_PREFIX}{organization.lang.value.lower()}"
@@ -71,13 +71,13 @@ def create_organization(
     )
 
     return {
-        "message": "Organisation créée",
+        "message": "Structure créée",
         "organization_id": organization.organization_id
     }
 
 # ------------------------------
 # GET /organizations?tag=sport&lang=fr
-# Récupère toutes les organisations d'une langue, éventuellement filtrées par tag
+# Récupère toutes les structure d'une langue, éventuellement filtrées par tag
 # ------------------------------
 @router.get("/")
 def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr")):
@@ -91,12 +91,14 @@ def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr"))
     return organizations
 
 # ------------------------------
-# GET /organizations/{organization_id}?lang=fr
-# Récupère une organisation spécifique dans une langue
+# GET /organizations/{identifier}?lang=fr
+# Récupère une structure spécifique dans une langue selon son id OU son slug
 # ------------------------------
-@router.get("/{organization_id}")
-def get_organization(organization_id: str, lang: str = Query("fr")):
-    organization = db.organizations.find_one({"organization_id": organization_id, "lang": lang})
+@router.get("/{identifier}")
+def get_organization(identifier: str, lang: str = Query("fr")):
+    organization = db.organizations.find_one({"organization_id": identifier, "lang": lang})
+    if not organization:
+        organization = db.organizations.find_one({"slug": identifier, "lang": lang})
     if organization:
         organization["_id"] = str(organization["_id"])
         return organization
@@ -104,7 +106,7 @@ def get_organization(organization_id: str, lang: str = Query("fr")):
 
 # ------------------------------
 # UPDATE /organizations/{organization_id}?lang=fr
-# modifie une organisation spécifique dans une langue
+# modifie une structure spécifique dans une langue
 # ------------------------------
 @router.patch("/{organization_id}")
 def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict = Body(...)):
@@ -167,7 +169,7 @@ def delete_all_organizations():
 
 # ------------------------------
 # DELETE /organizations/{organization_id}?lang=fr
-# Supprime une organisation spécifique dans une langue
+# Supprime une structures spécifique dans une langue
 # ------------------------------
 @router.delete("/{organization_id}")
 def delete_organization(organization_id: str, lang: str = Query("fr")):

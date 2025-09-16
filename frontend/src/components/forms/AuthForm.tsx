@@ -52,10 +52,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
       if (mode === 'login') {
         // Stockage du token
         localStorage.setItem('token', result.token);
-        alert('Connexion réussie !');
-        router.push('/dashboard'); // redirection après login
+        //alert('Connexion réussie !');
+        router.push('/dashboard'); // redirection après login // flashmessage
       } else {
-        alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+        //alert('Inscription réussie ! Vous pouvez maintenant vous connecter.'); // flashmessage
         router.push(`/${locale}/login`);
       }
     } catch (err) {

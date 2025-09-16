@@ -8,6 +8,7 @@ interface Organization {
   name: string;
   is_visible: boolean;
   languages?: string[];
+  slug?: string;
 }
 
 const ActionButton = ({
@@ -54,11 +55,6 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
 
       {/* Actions principales */}
       <div className="flex flex-wrap gap-3 relative">
-        <ActionButton>{trans('edit')}</ActionButton>
-        <ActionButton>
-          {org.is_visible ? trans('hide') : trans('publish')}
-        </ActionButton>
-
         {/* Ajouter traduction */}
         {availableLanguages.length > 0 && (
           <Dropdown
@@ -70,7 +66,7 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
               {availableLanguages.map((lang) => (
                 <li key={lang}>
                   <Link
-                    href={`/${locale}/dashboard/organisations/new?orgId=${org.organization_id}&lang=${lang}`}
+                    href={`/${locale}/dashboard/organizations/new?orgId=${org.organization_id}&lang=${lang}`}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
                   >
                     {lang.toUpperCase()}
@@ -80,6 +76,13 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
             </ul>
           </Dropdown>
         )}
+
+        <Link
+          href={`/${locale}/dashboard/organizations/${org.slug}`}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          {trans('details_button')}
+        </Link>
 
         <ActionButton>📊 {trans('stats')}</ActionButton>
       </div>

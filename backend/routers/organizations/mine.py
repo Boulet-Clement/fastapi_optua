@@ -8,8 +8,8 @@ router = APIRouter()
 @router.get("/organizations/mine")
 def get_my_organizations(request: Request, lang: Optional[str] = Query(None, description="Filtrer par langue")):
     """
-    Récupère les organisations de l'utilisateur connecté.
-    Si `lang` est fourni, ne retourne que les organisations qui contiennent cette langue.
+    Récupère les structures de l'utilisateur connecté.
+    Si `lang` est fourni, ne retourne que les structures qui contiennent cette langue.
     """
     # Récupérer l'utilisateur connecté
     payload = get_current_user_from_cookie(request)

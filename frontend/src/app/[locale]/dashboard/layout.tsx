@@ -41,7 +41,7 @@ export default function DashboardLayout({
 
   const menuItems = [
     { name: trans('home'), href: ROUTES.dashboard(locale), icon: Home },
-    { name: trans('organizations'), href: ROUTES.dashboard_organisations(locale), icon: Building2 },
+    { name: trans('organizations'), href: ROUTES.dashboard_organizations(locale), icon: Building2 },
     { name: trans('billing'), href: ROUTES.dashboard_billing(locale), icon: CreditCard },
     { name: trans('settings'), href: ROUTES.dashboard_settings(locale), icon: Settings },
   ];

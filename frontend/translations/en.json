@@ -88,7 +88,7 @@
 		"intro": "Here you can manage your organizations, check your subscription and update your settings.",
 		"select_option": "Select an option from the menu on the left to get started."
 	},
-	"DashboardOrganisations": {
+	"DashboardOrganizations": {
 		"title": "My organizations",
 		"no_organizations": "You haven’t created any organizations yet.",
 		"add_organization": "Add organization",

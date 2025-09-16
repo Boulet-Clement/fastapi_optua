@@ -72,7 +72,7 @@
 	{
 		"my_space": "Mon espace",
 		"home": "Accueil",
-		"organizations": "Mes organisations",
+		"organizations": "Mes structures",
 		"billing": "Mon abonnement",
 		"settings": "Paramètres",
 		"dashboard": "Tableau de bord",
@@ -85,23 +85,24 @@
 	"DashboardHome": {
 		"welcome": "Bienvenue sur votre espace",
 		"connected_as": "Connecté en tant que",
-		"intro": "Ici vous pourrez gérer vos organisations, suivre votre abonnement et modifier vos paramètres.",
+		"intro": "Ici vous pourrez gérer vos structures, suivre votre abonnement et modifier vos paramètres.",
 		"select_option": "Sélectionnez une option dans le menu à gauche pour commencer."
 	},
-	"DashboardOrganisations": {
-		"title": "Mes organisations",
-		"no_organizations": "Vous n’avez pas encore créé d’organisation.",
+	"DashboardOrganizations": {
+		"title": "Mes structures",
+		"no_organizations": "Vous n’avez pas encore créé de structure.",
 		"add_organization": "Ajouter une structure",
 		"cancel": "Annuler",
-		"fetch_error": "Erreur lors de la récupération des organisations",
+		"fetch_error": "Erreur lors de la récupération des structures",
 		"edit": "Modifier",
 		"hide": "Masquer",
 		"publish": "Publier",
 		"add_translation": "Ajouter une traduction",
 		"stats": "Statistiques",
+		"details_button": "details",
 		"new": {
-			"title": "Créer une organisation",
-			"create_organization": "Créer une organisation",
+			"title": "Créer une structure",
+			"create_organization": "Créer une structure",
 			"name": "Nom",
 			"description": "Description",
 			"tags": "Tags (séparés par des virgules)",
@@ -110,7 +111,23 @@
 			"english": "English",
 			"create": "Créer",
 			"creating": "Création...",
-			"submit_error": "Erreur lors de la création de l’organisation"
+			"submit_error": "Erreur lors de la création de la structure"
+		},
+		"details": {
+			"back": "Retour",
+			"no_data": "No data",
+			"summary": {
+				"title": "Sommaire",
+				"name": "Titre",
+				"chapo": "Chapô",
+				"description": "Description",
+				"status": "Statut",
+				"visible": "Visible",
+				"hidden": "Cachée",
+				"edit": "Éditer",
+				"hide": "Cacher",
+				"publish": "Publier"
+			}
 		}
 	},
 	"DashboardBilling": {

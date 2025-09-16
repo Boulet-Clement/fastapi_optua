@@ -4,22 +4,23 @@ import { useEffect, useState } from 'react';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import OrganizationCard from '@/components/dashboard/OrganizationCard';
+import OrganizationCard from '@/components/dashboard/organizations/OrganizationCard';
 
 interface Organization {
   organization_id: string;
   name: string;
   is_visible: boolean;
   languages?: string[];
+  slug?: string;
 }
 
-export default function OrganisationsPage() {
+export default function OrganizationsPage() {
   const [orgs, setOrgs] = useState<Organization[]>([]);
   const [allLanguages, setAllLanguages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const trans = useTranslations('DashboardOrganisations');
+  const trans = useTranslations('DashboardOrganizations');
   const locale = useLocale();
 
   const fetchOrgs = async () => {
@@ -63,14 +64,14 @@ export default function OrganisationsPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{trans('title')}</h1>
         <Link
-          href={`/${locale}/dashboard/organisations/new`}
+          href={`/${locale}/dashboard/organizations/new`}
           className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           {trans('add_organization')}
         </Link>
       </div>
 
-      {/* Liste des organisations */}
+      {/* Liste des structures */}
       {orgs.length === 0 ? (
         <p className="text-gray-500 mt-4">{trans('no_organizations')}</p>
       ) : (
