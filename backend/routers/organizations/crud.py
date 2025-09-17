@@ -110,12 +110,15 @@ def get_organization(identifier: str, lang: str = Query("fr")):
         {"$match": {"organization_id": organization["organization_id"], "lang": lang}},
         {"$lookup": {
             "from": "keywords",
-            "localField": "keywords",
-            "foreignField": "code",
+            "let": {"codes": "$keywords"},
+            "pipeline": [
+                {"$match": {"$expr": {"$in": ["$code", "$$codes"]}}},
+                {"$project": {"_id": 0, "code": 1, "label": 1}}  # ici pas d'_id !
+            ],
             "as": "keywords_details"
         }},
         {"$project": {
-            "_id": 0,  # On masque l'_id Mongo
+            "_id": 0,
             "organization_id": 1,
             "name": 1,
             "description": 1,
@@ -125,6 +128,7 @@ def get_organization(identifier: str, lang: str = Query("fr")):
             "keywords_details": 1
         }}
     ]
+
 
     enriched = list(db.organizations.aggregate(pipeline))
     return enriched[0]  # retourne le document unique

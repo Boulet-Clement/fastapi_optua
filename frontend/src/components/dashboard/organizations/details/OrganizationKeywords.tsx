@@ -3,24 +3,20 @@
 import { useState } from "react";
 
 interface Props {
-  organizationId: string;
+  slug: string;
   lang: string;
   keywords: string[];
 }
 
-export default function OrganizationKeywords({ organizationId, lang, keywords: initialKeywords }: Props) {
+export default function OrganizationKeywords({ slug, lang, keywords: initialKeywords }: Props) {
   const [keywords, setKeywords] = useState<string[]>(initialKeywords);
 
   const handleRemove = async (kw: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/organization/keywords`, {
+      const res = await fetch(`http://localhost:8000/organization/${slug}/keywords`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          organization_id: organizationId,
-          keyword_code: kw,
-          lang: lang
-        })
+        body: JSON.stringify({ keyword_code: kw, lang })
       });
 
       if (!res.ok) throw new Error("Erreur lors de la suppression du mot-clé");

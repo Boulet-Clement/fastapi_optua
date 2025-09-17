@@ -74,7 +74,7 @@ export default function OrganizationDetailsPage() {
 
           <OrganizationKeywords
             keywords={org.keywords ?? []}
-            organizationId={org.organization_id}
+            slug={slug}
             lang={locale}
           />
         </div>
