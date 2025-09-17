@@ -41,7 +41,7 @@ def create_organization(
 
     # 4️⃣ Préparer le dict pour Mongo
     org_dict = organization.dict()
-    org_dict["tags"] = organization.tags
+    org_dict["keywords"] = organization.keywords
 
     # 5️⃣ Insérer dans MongoDB
     result = db.organizations.insert_one(org_dict)
@@ -76,14 +76,14 @@ def create_organization(
     }
 
 # ------------------------------
-# GET /organizations?tag=sport&lang=fr
-# Récupère toutes les structure d'une langue, éventuellement filtrées par tag
+# GET /organizations?keyword=sport&lang=fr
+# Récupère toutes les structure d'une langue, éventuellement filtrées par keyword
 # ------------------------------
 @router.get("/")
-def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr")):
+def get_organizations(keyword: Optional[str] = Query(None), lang: str = Query("fr")):
     query = {"lang": lang}
-    if tag:
-        query["tags"] = tag
+    if keyword:
+        query["keywords"] = keyword
     organizations = []
     for organization in db.organizations.find(query):
         organization["_id"] = str(organization["_id"])
@@ -96,13 +96,38 @@ def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr"))
 # ------------------------------
 @router.get("/{identifier}")
 def get_organization(identifier: str, lang: str = Query("fr")):
+    # Recherche par organization_id
     organization = db.organizations.find_one({"organization_id": identifier, "lang": lang})
+    # Si pas trouvé, recherche par slug
     if not organization:
         organization = db.organizations.find_one({"slug": identifier, "lang": lang})
-    if organization:
-        organization["_id"] = str(organization["_id"])
-        return organization
-    raise HTTPException(status_code=404, detail="Organization non trouvée")
+    
+    if not organization:
+        raise HTTPException(status_code=404, detail="Organization non trouvée")
+
+    # Enrichissement des keywords avec $lookup via aggregation
+    pipeline = [
+        {"$match": {"organization_id": organization["organization_id"], "lang": lang}},
+        {"$lookup": {
+            "from": "keywords",
+            "localField": "keywords",
+            "foreignField": "code",
+            "as": "keywords_details"
+        }},
+        {"$project": {
+            "_id": 0,  # On masque l'_id Mongo
+            "organization_id": 1,
+            "name": 1,
+            "description": 1,
+            "slug": 1,
+            "lang": 1,
+            "keywords": 1,
+            "keywords_details": 1
+        }}
+    ]
+
+    enriched = list(db.organizations.aggregate(pipeline))
+    return enriched[0]  # retourne le document unique
 
 # ------------------------------
 # UPDATE /organizations/{organization_id}?lang=fr

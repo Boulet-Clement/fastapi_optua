@@ -61,7 +61,7 @@
 		"passwordsDontMatch": "Les mots de passe ne correspondent pas"
   },
 	"Search": {
-		"toggleAllTagsRequired": "All tags required",
+		"toggleAllKeywordsRequired": "All keywords required",
 		"searchPlaceholder": "Search...",
 		"searchButton": "Search",
 		"clearAllFilters": "Clear all",

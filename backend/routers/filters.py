@@ -5,13 +5,13 @@ from typing import List, Dict, Any
 router = APIRouter()
 
 @router.get("/filters")
-def get_filters(lang: str = Query("fr", description="Langue des catégories et tags")) -> List[Dict[str, Any]]:
+def get_filters(lang: str = Query("fr", description="Langue des catégories et keywords")) -> List[Dict[str, Any]]:
     """
-    Récupère toutes les catégories et leurs tags pour la langue donnée.
+    Récupère toutes les catégories et leurs keywords pour la langue donnée.
     Résultat prêt pour affichage des filtres côté front.
     """
     pipeline = [
-        {"$match": {"lang": lang, "display_on_search_engine": True}},  # tags dans la langue demandée
+        {"$match": {"lang": lang, "display_on_search_engine": True}}, 
         {"$lookup": {
             "from": "categories",
             "let": {"category_code": "$category_code"},
@@ -24,18 +24,18 @@ def get_filters(lang: str = Query("fr", description="Langue des catégories et t
         {"$group": {
             "_id": "$category.code",
             "category_name": {"$first": "$category.name"},
-            "tags": {"$push": {"code": "$code", "name": "$name"}}
+            "keywords": {"$push": {"code": "$code", "name": "$name"}}
         }},
         {"$sort": {"category_name": 1}},
         # renommer _id en code
         {"$project": {
             "code": "$_id",
             "category_name": 1,
-            "tags": 1,
+            "keywords": 1,
             "_id": 0
         }},
     ]
 
 
-    filters = list(db.tags.aggregate(pipeline))
+    filters = list(db.keywords.aggregate(pipeline))
     return filters

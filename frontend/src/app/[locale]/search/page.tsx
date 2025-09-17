@@ -5,15 +5,15 @@ import axios, { AxiosResponse } from "axios";
 import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-interface Tag {
+interface Keyword {
   code: string;
   name: string;
 }
 
-interface CategoryTag {
+interface CategoryKeyword {
   code: string;
   category_name: string;
-  tags: Tag[];
+  keywords: Keyword[];
 }
 
 interface SearchResult {
@@ -21,38 +21,38 @@ interface SearchResult {
   name: string;
   chapo: string;
   url: string;
-  tags?: string[];
+  keywords?: string[];
 }
 
 const API_BASE = "http://localhost:8000";
 
 type SearchParams = {
   lang: string;
-  all_tags_required: boolean;
+  all_keywords_required: boolean;
   query?: string;
-  tags?: string[];
+  keywords?: string[];
 };
 
 export default function SearchEnginePage() {
   const locale = useLocale();
   const trans = useTranslations("Search");
 
-  const [categorizedTags, setCategorizedTags] = useState<CategoryTag[]>([]);
+  const [categorizedKeywords, setCategorizedKeywords] = useState<CategoryKeyword[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [search, setSearch] = useState<string>("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [allTagsRequired, setAllTagsRequired] = useState<boolean>(false);
+  const [allKeywordsRequired, setAllKeywordsRequired] = useState<boolean>(false);
 
-  const fetchCategorizedTags = useCallback(async () => {
+  const fetchCategorizedKeywords = useCallback(async () => {
     try {
-      const response: AxiosResponse<CategoryTag[]> = await axios.get(
+      const response: AxiosResponse<CategoryKeyword[]> = await axios.get(
         `${API_BASE}/filters`,
         { params: { lang: locale } }
       );
-      setCategorizedTags(response.data);
+      setCategorizedKeywords(response.data);
     } catch (error) {
       console.error("Erreur API:", error);
-      setCategorizedTags([]);
+      setCategorizedKeywords([]);
     }
   }, [locale]);
 
@@ -66,14 +66,14 @@ export default function SearchEnginePage() {
       try {
         const q = searchText ?? search;
         const f = filters ?? activeFilters;
-        const allRequiredValue = allRequired ?? allTagsRequired;
+        const allRequiredValue = allRequired ?? allKeywordsRequired;
 
         const params: SearchParams = {
           lang: locale,
-          all_tags_required: allRequiredValue,
+          all_keywords_required: allRequiredValue,
         };
         if (q) params.query = q;
-        if (f.length) params.tags = f;
+        if (f.length) params.keywords = f;
 
         if (updateURL) {
           const urlParams = new URLSearchParams();
@@ -105,20 +105,20 @@ export default function SearchEnginePage() {
         setResults([]);
       }
     },
-    [search, activeFilters, allTagsRequired, locale]
+    [search, activeFilters, allKeywordsRequired, locale]
   );
 
   useEffect(() => {
-    fetchCategorizedTags();
+    fetchCategorizedKeywords();
 
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("query") || "";
-    const tagsParam = params.getAll("tags");
-    const allRequiredParam = params.get("all_tags_required") === "true";
+    const keywordsParam = params.getAll("keywords");
+    const allRequiredParam = params.get("all_keywords_required") === "true";
 
     setSearch(queryParam);
-    setActiveFilters(tagsParam);
-    setAllTagsRequired(allRequiredParam);
+    setActiveFilters(keywordsParam);
+    setAllKeywordsRequired(allRequiredParam);
 
     const fetchInitialResults = async () => {
       try {
@@ -126,8 +126,8 @@ export default function SearchEnginePage() {
           params: {
             lang: locale,
             query: queryParam || undefined,
-            tags: tagsParam.length ? tagsParam : undefined,
-            all_tags_required: allRequiredParam,
+            keywords: keywordsParam.length ? keywordsParam : undefined,
+            all_keywords_required: allRequiredParam,
           },
           paramsSerializer: (params: Record<string, unknown>) => {
             const searchParams = new URLSearchParams();
@@ -146,12 +146,12 @@ export default function SearchEnginePage() {
     };
 
     fetchInitialResults();
-  }, [locale, fetchCategorizedTags]);
+  }, [locale, fetchCategorizedKeywords]);
 
-  const toggleFilter = (tagCode: string) => {
-    const newFilters = activeFilters.includes(tagCode)
-      ? activeFilters.filter(t => t !== tagCode)
-      : [...activeFilters, tagCode];
+  const toggleFilter = (keywordCode: string) => {
+    const newFilters = activeFilters.includes(keywordCode)
+      ? activeFilters.filter(t => t !== keywordCode)
+      : [...activeFilters, keywordCode];
     setActiveFilters(newFilters);
     submitSearch(undefined, newFilters);
   };
@@ -173,37 +173,37 @@ export default function SearchEnginePage() {
         <div className="sticky top-4 flex items-center space-x-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded shadow">
           <input
             type="checkbox"
-            id="all-tags-required"
-            checked={allTagsRequired}
+            id="all-keywords-required"
+            checked={allKeywordsRequired}
             onChange={e => {
-              setAllTagsRequired(e.target.checked);
+              setAllKeywordsRequired(e.target.checked);
               submitSearch(undefined, undefined, true, e.target.checked);
             }}
             className="w-4 h-4 text-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="all-tags-required" className="text-sm font-medium">
-            {trans("toggleAllTagsRequired")}
+          <label htmlFor="all-keywords-required" className="text-sm font-medium">
+            {trans("toggleAllKeywordsRequired")}
           </label>
         </div>
 
-        {categorizedTags.map(category => (
+        {categorizedKeywords.map(category => (
           <details key={category.code} className="bg-white rounded shadow" open>
             <summary className="cursor-pointer font-semibold px-4 py-2 border-b hover:bg-gray-50 transition">
               {category.category_name}
             </summary>
             <div className="p-4 space-y-2">
-              {category.tags.map(tag => (
+              {category.keywords.map(keyword => (
                 <label
-                  key={tag.code}
+                  key={keyword.code}
                   className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
                 >
                   <input
                     type="checkbox"
                     className="form-checkbox"
-                    checked={activeFilters.includes(tag.code)}
-                    onChange={() => toggleFilter(tag.code)}
+                    checked={activeFilters.includes(keyword.code)}
+                    onChange={() => toggleFilter(keyword.code)}
                   />
-                  <span>{tag.name}</span>
+                  <span>{keyword.name}</span>
                 </label>
               ))}
             </div>
@@ -250,10 +250,10 @@ export default function SearchEnginePage() {
           <div className="flex flex-wrap gap-2">
             {activeFilters.map(filterCode => {
               let label = "";
-              for (const category of categorizedTags) {
-                const tag = category.tags.find(t => t.code === filterCode);
-                if (tag) {
-                  label = tag.name;
+              for (const category of categorizedKeywords) {
+                const keyword = category.keywords.find(k => k.code === filterCode);
+                if (keyword) {
+                  label = keyword.name;
                   break;
                 }
               }
@@ -281,11 +281,11 @@ export default function SearchEnginePage() {
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{result.name}</h3>
                   <p className="text-gray-700 truncate">{result.chapo}</p>
-                  {result.tags && result.tags.length > 0 && (
+                  {result.keywords && result.keywords.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
-                      {result.tags.map(tag => (
-                        <span key={tag} className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                          {tag}
+                      {result.keywords.map(keyword => (
+                        <span key={keyword} className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                          {keyword}
                         </span>
                       ))}
                     </div>

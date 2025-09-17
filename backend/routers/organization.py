@@ -41,7 +41,7 @@ def create_organization(
 
     # 4️⃣ Préparer le dict pour Mongo
     org_dict = organization.dict()
-    org_dict["tags"] = organization.tags
+    org_dict["keywords"] = organization.keywords
 
     # 5️⃣ Insérer dans MongoDB
     result = db.organizations.insert_one(org_dict)
@@ -76,14 +76,14 @@ def create_organization(
     }
 
 # ------------------------------
-# GET /organizations?tag=sport&lang=fr
-# Récupère toutes les structure d'une langue, éventuellement filtrées par tag
+# GET /organizations?keywords=sport&lang=fr
+# Récupère toutes les structure d'une langue, éventuellement filtrées par keyword
 # ------------------------------
 @router.get("/organizations")
-def get_organizations(tag: Optional[str] = Query(None), lang: str = Query("fr")):
+def get_organizations(keyword: Optional[str] = Query(None), lang: str = Query("fr")):
     query = {"lang": lang}
-    if tag:
-        query["tags"] = tag
+    if keyword:
+        query["keywords"] = keyword
     organizations = []
     for organization in db.organizations.find(query):
         organization["_id"] = str(organization["_id"])

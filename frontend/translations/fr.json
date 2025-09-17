@@ -61,7 +61,7 @@
 		"passwordsDontMatch": "Les mots de passe ne correspondent pas"
   	},
   	"Search": {
-		"toggleAllTagsRequired": "Tous les tags requis",
+		"toggleAllKeywordsRequired": "Tous les keywords requis",
 		"searchPlaceholder": "Rechercher...",
 		"searchButton": "Rechercher",
 		"clearAllFilters": "Tout supprimer",
@@ -105,7 +105,7 @@
 			"create_organization": "Créer une structure",
 			"name": "Nom",
 			"description": "Description",
-			"tags": "Tags (séparés par des virgules)",
+			"keywords": "Keyword (séparés par des virgules)",
 			"language": "Langue",
 			"french": "Français",
 			"english": "English",

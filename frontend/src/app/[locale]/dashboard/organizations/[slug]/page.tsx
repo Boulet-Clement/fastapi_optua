@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations, useLocale } from 'next-intl';
 import OrganizationSummary from '@/components/dashboard/organizations/details/OrganizationSummary';
+import OrganizationKeywords from '@/components/dashboard/organizations/details/OrganizationKeywords';
 
 interface Organization {
   organization_id: string;
@@ -12,7 +13,7 @@ interface Organization {
   description?: string;
   is_visible: boolean;
   languages?: string[];
-  keywords?: string[];
+  keywords: string[];
   opening_hours?: { day: string; open: string; close: string }[];
 }
 
@@ -35,6 +36,7 @@ export default function OrganizationDetailsPage() {
         );
         if (!res.ok) throw new Error(trans('fetch_error'));
         const data = (await res.json()) as Organization;
+        console.log(data)
         setOrg(data);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : String(err));
@@ -61,7 +63,6 @@ export default function OrganizationDetailsPage() {
             </button>
           </div>
 
-          {/* Summary avec labels */}
           <OrganizationSummary
             name={org.name}
             description={org.description}
@@ -69,6 +70,12 @@ export default function OrganizationDetailsPage() {
             onEdit={() => console.log('Edit')}
             onToggleVisibility={() => console.log('Toggle visibility')}
             trans={trans}
+          />
+
+          <OrganizationKeywords
+            keywords={org.keywords ?? []}
+            organizationId={org.organization_id}
+            lang={locale}
           />
         </div>
       ) : (

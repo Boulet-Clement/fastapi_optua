@@ -1,19 +1,45 @@
 'use client';
 
+import { useState } from "react";
+
 interface Props {
+  organizationId: string;
+  lang: string;
   keywords: string[];
-  onAdd: () => void;
-  onRemove: (keyword: string) => void;
 }
 
-export default function OrganizationKeywords({ keywords, onAdd, onRemove }: Props) {
+export default function OrganizationKeywords({ organizationId, lang, keywords: initialKeywords }: Props) {
+  const [keywords, setKeywords] = useState<string[]>(initialKeywords);
+
+  const handleRemove = async (kw: string) => {
+    try {
+      const res = await fetch(`http://localhost:8000/organization/keywords`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          keyword_code: kw,
+          lang: lang
+        })
+      });
+
+      if (!res.ok) throw new Error("Erreur lors de la suppression du mot-clé");
+
+      // Mise à jour locale immédiate
+      setKeywords(prev => prev.filter(k => k !== kw));
+    } catch (err) {
+      console.error(err);
+      alert("Impossible de supprimer le mot-clé");
+    }
+  };
+
   return (
     <div className="p-6 border rounded-lg bg-white shadow-sm space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Mots clefs</h3>
         <button
-          onClick={onAdd}
+          // TODO: ajouter le bouton ➕ pour ajouter un mot-clé
           className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           ➕ Ajouter
@@ -32,7 +58,7 @@ export default function OrganizationKeywords({ keywords, onAdd, onRemove }: Prop
             >
               {kw}
               <button
-                onClick={() => onRemove(kw)}
+                onClick={() => handleRemove(kw)}
                 className="hover:text-red-600"
               >
                 ❌

@@ -17,9 +17,9 @@ es = Elasticsearch(ELASTIC_URL)
 @router.get("/search")
 def search(
     query: Optional[str] = Query(None, description="Texte à rechercher"),
-    tags: Optional[List[str]] = Query(None, description="Filtrer par tags"),
+    keywords: Optional[List[str]] = Query(None, description="Filtrer par keywords"),
     categories: Optional[List[str]] = Query(None, description="Filtrer par catégories"),
-    all_tags_required: bool = Query(False, description="Requiert tous les tags pour matcher"),
+    all_keywords_required: bool = Query(False, description="Requiert tous les keywords pour matcher"),
     lang: str = Query("fr", description="Langue des résultats"),
     limit: int = Query(50, description="Nombre maximal de résultats"),
 ) -> List[Dict[str, Any]]:
@@ -27,8 +27,8 @@ def search(
     # Clause de filtre commune (langue)
     filter_clauses = [{"term": {"lang": lang}}]
 
-    if all_tags_required:
-        # --- AND strict : tous les tags et le texte doivent matcher ---
+    if all_keywords_required:
+        # --- AND strict : tous les keywords et le texte doivent matcher ---
         must_clauses = []
 
         if query:
@@ -41,8 +41,8 @@ def search(
                 }
             })
 
-        if tags:
-            must_clauses.extend([{"term": {"tags.keyword": tag}} for tag in tags])
+        if keywords:
+            must_clauses.extend([{"term": {"keywords.keyword": keyword}} for keyword in keywords])
 
         # Construction finale
         query_body = {
@@ -53,7 +53,7 @@ def search(
         }
 
     else:
-        # --- OR : texte ou au moins un tag ---
+        # --- OR : texte ou au moins un keyword ---
         should_clauses = []
 
         if query:
@@ -66,10 +66,10 @@ def search(
                 }
             })
 
-        if tags:
+        if keywords:
             should_clauses.append({
                 "bool": {
-                    "should": [{"term": {"tags.keyword": tag}} for tag in tags],
+                    "should": [{"term": {"keywords.keyword": keyword}} for keyword in keywords],
                     "minimum_should_match": 1
                 }
             })
@@ -106,7 +106,7 @@ def search(
             "description": source.get("description", ""),
             "url": source.get("slug", ""),
             "image": source.get("image"),
-            "tags": source.get("tags", []),
+            "keywords": source.get("keywords", []),
             "lang": source.get("lang", lang),
             "score": h.get("_score")
         })

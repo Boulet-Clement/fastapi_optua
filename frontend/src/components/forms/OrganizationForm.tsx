@@ -12,7 +12,7 @@ interface Props {
 export default function OrganizationForm({ onSuccess, initialLang, organizationId }: Props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
+  const [keywords, setKeywords] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +35,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
         body: JSON.stringify({
           name,
           description,
-          tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
+          keywords: keywords.split(',').map((k) => k.trim()).filter(Boolean),
           lang,
           ...(organizationId ? { organization_id: organizationId } : {}),
         }),
@@ -51,7 +51,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
 
       setName('');
       setDescription('');
-      setTags('');
+      setKeywords('');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -87,11 +87,11 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">{trans('tags')}</label>
+          <label className="block text-sm font-medium mb-1">{trans('keywords')}</label>
           <input
             type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
+            value={keywords}
+            onChange={(e) => setKeywords(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
         </div>
