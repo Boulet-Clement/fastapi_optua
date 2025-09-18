@@ -5,6 +5,8 @@ import Input from '@/components/forms/inputs/Input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
+import { API_ROUTES } from "@/constants/api_routes";
+import { ROUTES } from "@/constants/routes";
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -31,14 +33,15 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
     try {
       const url =
         mode === 'login'
-          ? 'http://localhost:8000/auth/login'
-          : 'http://localhost:8000/auth/register';
+          ? API_ROUTES.auth.login
+          : API_ROUTES.auth.register;
+      console.log(url);
 
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
-        credentials: 'include', // très important
+        credentials: 'include',
       });
 
       const result = await response.json();
@@ -52,14 +55,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
       if (mode === 'login') {
         // Stockage du token
         localStorage.setItem('token', result.token);
-        //alert('Connexion réussie !');
-        router.push('/dashboard'); // redirection après login // flashmessage
+        // flashmessage
+        router.push(ROUTES.dashboard.index(locale));
       } else {
-        //alert('Inscription réussie ! Vous pouvez maintenant vous connecter.'); // flashmessage
-        router.push(`/${locale}/login`);
+        // flashmessage ?
+        router.push(ROUTES.auth.login(locale));
       }
     } catch (err) {
-      console.error('Erreur fetch :', err);
       alert('Erreur lors de la connexion au serveur');
     } finally {
       setLoading(false);
@@ -138,14 +140,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           {mode === 'login' ? (
             <>
               {trans('noAccount')+ ' '}
-              <Link href={`/${locale}/register`} className="text-blue-500 hover:underline">
+              <Link href={ROUTES.auth.register(locale)} className="text-blue-500 hover:underline">
                 {trans('registerHere')}
               </Link>
             </>
           ) : (
             <>
               {trans('alreadyHaveAccount')+ ' '}
-              <Link href={`/${locale}/login`} className="text-blue-500 hover:underline">
+              <Link href={ROUTES.auth.login(locale)} className="text-blue-500 hover:underline">
                 {trans('loginHere')}
               </Link>
             </>

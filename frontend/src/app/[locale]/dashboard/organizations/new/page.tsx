@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
+import { ROUTES } from '@/constants/routes';
 
 export default function NewOrganizationPage() {
   const trans = useTranslations('DashboardOrganizations');
@@ -43,8 +44,8 @@ export default function NewOrganizationPage() {
           initialLang={initialLang}
           organizationId={organizationId}
           onSuccess={(orgId: string) => {
-            setFlash(`Organization ${orgId} créée avec succès !`);
-            setTimeout(() => router.push(`/${locale}/dashboard/organizations`), 1500);
+            setFlash(`Structure créée avec succès !`);
+            setTimeout(() => router.push(ROUTES.dashboard.organizations.index(locale)), 1500);
           }}
         />
       </div>

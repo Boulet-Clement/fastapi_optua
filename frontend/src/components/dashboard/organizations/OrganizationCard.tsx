@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import Dropdown from '@/components/ui/Dropdown';
+import { ROUTES } from '@/constants/routes';
 
 interface Organization {
   organization_id: string;
   name: string;
   is_visible: boolean;
   languages?: string[];
-  slug?: string;
+  slug: string;
 }
 
 const ActionButton = ({
@@ -66,7 +67,7 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
               {availableLanguages.map((lang) => (
                 <li key={lang}>
                   <Link
-                    href={`/${locale}/dashboard/organizations/new?orgId=${org.organization_id}&lang=${lang}`}
+                    href={ROUTES.dashboard.organizations.new_translation(locale, org.organization_id)}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
                   >
                     {lang.toUpperCase()}
@@ -78,7 +79,7 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
         )}
 
         <Link
-          href={`/${locale}/dashboard/organizations/${org.slug}`}
+          href={ROUTES.dashboard.organizations.details(locale, org.slug)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           {trans('details_button')}

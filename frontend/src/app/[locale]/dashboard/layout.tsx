@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { ROUTES } from '@/constants/routes';
+import { API_ROUTES } from '@/constants/api_routes';
 import Link from 'next/link';
 import {
   Home,
@@ -40,16 +41,16 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   const menuItems = [
-    { name: trans('home'), href: ROUTES.dashboard(locale), icon: Home },
-    { name: trans('organizations'), href: ROUTES.dashboard_organizations(locale), icon: Building2 },
-    { name: trans('billing'), href: ROUTES.dashboard_billing(locale), icon: CreditCard },
-    { name: trans('settings'), href: ROUTES.dashboard_settings(locale), icon: Settings },
+    { name: trans('home'), href: ROUTES.dashboard.index(locale), icon: Home },
+    { name: trans('organizations'), href: ROUTES.dashboard.organizations.index(locale), icon: Building2 },
+    { name: trans('billing'), href: ROUTES.dashboard.billing(locale), icon: CreditCard },
+    { name: trans('settings'), href: ROUTES.dashboard.settings(locale), icon: Settings },
   ];
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch('http://localhost:8000/dashboard/', {
+        const res = await fetch(API_ROUTES.dashboard, {
           method: 'GET',
           credentials: 'include',
         });
@@ -60,7 +61,7 @@ export default function DashboardLayout({
         setData(json);
       } catch (err: any) {
         setError(err.message);
-        //router.push('/login'); // redirige si pas connecté
+        router.push(ROUTES.auth.login(locale)) // Redirige si erreur / pas connecté
       } finally {
         setLoading(false);
       }
@@ -117,11 +118,9 @@ export default function DashboardLayout({
           {menuItems.map((item) => {
             let isActive = false;
 
-            console.log(pathname)
-            console.log(item.href)
             // Exact match prioritaire
-            if (item.href === `/${locale}/dashboard`) {
-              isActive = pathname === `/${locale}/dashboard`;
+            if (item.href === ROUTES.dashboard.index(locale)) {
+              isActive = pathname === ROUTES.dashboard.index(locale);
             // Sinon on peut autoriser les sous-routes
             } else if (pathname.startsWith(item.href)) {
               isActive = true;

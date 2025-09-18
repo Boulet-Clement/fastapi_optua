@@ -17,10 +17,11 @@ export default function Header() {
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!searchText.trim()) return; // rien si champ vide
-
-    // Redirection vers le moteur de recherche avec query + lang
-    router.push(`/${locale}/search?query=${encodeURIComponent(searchText)}&lang=${locale}`);
+    if (!searchText.trim()) {
+      router.push(ROUTES.search(locale))
+    } else {
+      router.push(ROUTES.search_with_query(locale, encodeURIComponent(searchText)))
+    }    
   };
 
   const hideSearchBar = pathname.startsWith(`/${locale}/search`);
@@ -81,7 +82,7 @@ export default function Header() {
             <Link href={ROUTES.search(locale)} className="text-gray-600 hover:text-blue-600">
               {trans('menu.links.search')}
             </Link>
-            <Link href={ROUTES.login(locale)} className="text-gray-600 hover:text-blue-600">
+            <Link href={ROUTES.auth.login(locale)} className="text-gray-600 hover:text-blue-600">
               {trans('menu.links.account')}
             </Link>
           </nav>
@@ -119,7 +120,7 @@ export default function Header() {
           <Link href="/services" className="block text-gray-600 hover:text-blue-600" onClick={() => setMenuOpen(false)}>
             Services
           </Link>
-          <Link href={ROUTES.login(locale)} className="block text-gray-600 hover:text-blue-600" onClick={() => setMenuOpen(false)}>
+          <Link href={ROUTES.auth.login(locale)} className="block text-gray-600 hover:text-blue-600" onClick={() => setMenuOpen(false)}>
             {trans('menu.links.account')}
           </Link>
         </nav>

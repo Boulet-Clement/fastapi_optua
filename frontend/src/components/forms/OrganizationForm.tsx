@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { API_ROUTES } from '@/constants/api_routes';
 
 interface Props {
   onSuccess?: (orgId: string) => void;
@@ -28,7 +29,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:8000/organizations', {
+      const res = await fetch(API_ROUTES.organizations.index, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

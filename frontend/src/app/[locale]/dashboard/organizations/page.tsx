@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
+import { ROUTES } from '@/constants/routes';
+import { API_ROUTES } from '@/constants/api_routes';
 import OrganizationCard from '@/components/dashboard/organizations/OrganizationCard';
 
 interface Organization {
@@ -25,7 +27,7 @@ export default function OrganizationsPage() {
 
   const fetchOrgs = async () => {
     const res = await fetch(
-      `http://localhost:8000/organizations/mine?lang=${locale}`,
+      API_ROUTES.organizations.mine(locale),
       { credentials: 'include' }
     );
     if (!res.ok) throw new Error(trans('fetch_error'));
@@ -33,7 +35,7 @@ export default function OrganizationsPage() {
   };
 
   const fetchLanguages = async () => {
-    const res = await fetch(`http://localhost:8000/languages`, {
+    const res = await fetch(API_ROUTES.languages, {
       credentials: 'include',
     });
     if (!res.ok) throw new Error('Impossible de charger les langues');
@@ -64,7 +66,7 @@ export default function OrganizationsPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{trans('title')}</h1>
         <Link
-          href={`/${locale}/dashboard/organizations/new`}
+          href={ROUTES.dashboard.organizations.new(locale)}
           className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           {trans('add_organization')}
