@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { ROUTES } from '@/constants/routes';
+import Title1 from '@/components/ui/Titles/Title1';
 
 export default function NewOrganizationPage() {
   const trans = useTranslations('DashboardOrganizations');
@@ -23,7 +24,8 @@ export default function NewOrganizationPage() {
       <div className="p-8">
         {/* Titre + bouton Annuler */}
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">{trans('title')}</h1>
+          
+          <Title1>{trans('title')}</Title1>
           <button
             onClick={() => router.back()}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"

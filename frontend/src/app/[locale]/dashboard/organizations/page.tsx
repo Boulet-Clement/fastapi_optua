@@ -13,7 +13,7 @@ interface Organization {
   name: string;
   is_visible: boolean;
   languages?: string[];
-  slug?: string;
+  slug: string;
 }
 
 export default function OrganizationsPage() {

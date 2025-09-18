@@ -110,10 +110,24 @@ def get_organization(identifier: str, lang: str = Query("fr")):
         {"$match": {"organization_id": organization["organization_id"], "lang": lang}},
         {"$lookup": {
             "from": "keywords",
-            "let": {"codes": "$keywords"},
+            "let": {"codes": "$keywords", "lang": "$lang"},
             "pipeline": [
-                {"$match": {"$expr": {"$in": ["$code", "$$codes"]}}},
-                {"$project": {"_id": 0, "code": 1, "label": 1}}  # ici pas d'_id !
+                {"$match": {
+                    "$expr": {
+                        "$and": [
+                            {"$in": ["$code", "$$codes"]},
+                            {"$eq": ["$lang", "$$lang"]}
+                        ]
+                    }
+                }},
+                {"$project": {
+                    "_id": 0,
+                    "code": 1,
+                    "lang": 1,
+                    "name": 1,
+                    "category_code": 1,
+                    "display_on_search_engine": 1
+                }}
             ],
             "as": "keywords_details"
         }},

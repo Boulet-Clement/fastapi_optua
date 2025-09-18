@@ -10,7 +10,8 @@ export const ROUTES = {
       index: (locale: string) => `/${locale}/dashboard/organizations`,
       details: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}`,
       new: (locale: string) => `/${locale}/dashboard/organizations/new`,
-      new_translation: (locale: string, orgId: string) => `/${locale}/dashboard/organizations/new?orgId=${orgId}&lang=${locale}`
+      new_translation: (locale: string, orgId: string) => `/${locale}/dashboard/organizations/new?orgId=${orgId}&lang=${locale}`,
+      new_keyword: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}/keywords/add`
     },
     
     billing: (locale: string) => `/${locale}/dashboard/billing`,

@@ -6,16 +6,24 @@ import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations, useLocale } from 'next-intl';
 import OrganizationSummary from '@/components/dashboard/organizations/details/OrganizationSummary';
 import OrganizationKeywords from '@/components/dashboard/organizations/details/OrganizationKeywords';
+import Organization from '@/models/Organization';
+import Title1 from '@/components/ui/Titles/Title1';
 
-interface Organization {
+interface Keyword {
+  code: string,
+  lang: string
+}
+
+/*interface Organization {
   organization_id: string;
   name: string;
   description?: string;
   is_visible: boolean;
   languages?: string[];
   keywords: string[];
+  keywords_details: Keyword[]
   opening_hours?: { day: string; open: string; close: string }[];
-}
+}*/
 
 export default function OrganizationDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -54,7 +62,7 @@ export default function OrganizationDetailsPage() {
         <div className="space-y-6">
           {/* Titre + bouton retour */}
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold">{org.name}</h1>
+            <Title1>{org.name}</Title1>
             <button
               onClick={() => router.back()}
               className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
@@ -73,7 +81,7 @@ export default function OrganizationDetailsPage() {
           />
 
           <OrganizationKeywords
-            keywords={org.keywords ?? []}
+            keywords={org.keywords_details ?? []}
             slug={slug}
             lang={locale}
           />

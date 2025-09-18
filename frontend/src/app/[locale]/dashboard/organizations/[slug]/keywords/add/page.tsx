@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useTranslations, useLocale } from 'next-intl';
+import Title1 from '@/components/ui/Titles/Title1';
 
 interface Keyword {
   code: string;
@@ -14,25 +16,25 @@ export default function OrganizationKeywordsAddPage() {
   const [keywords, setKeywords] = useState<Keyword[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const locale = useLocale();
+  const trans = useTranslations('DashboardOrganizations.details.keywords.add');
 
-  const lang = "fr"; // ou via next-intl/useLocale
+  useEffect(() => {
+    const fetchData = async () => {
+      const [keywordsRes, orgRes] = await Promise.all([
+        fetch(`http://localhost:8000/keywords?lang=${locale}`),
+        fetch(`http://localhost:8000/organizations/${slug}?lang=${locale}`)
+      ]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-        const [keywordsRes, orgRes] = await Promise.all([
-            fetch(`http://localhost:8000/keywords?lang=${lang}`),
-            fetch(`http://localhost:8000/organizations/${slug}?lang=${lang}`)
-        ]);
+      const keywordsData = await keywordsRes.json();
+      const orgData = await orgRes.json();
 
-        const keywordsData = await keywordsRes.json();
-        const orgData = await orgRes.json();
-
-        setKeywords(keywordsData);
-        setSelected(orgData.keywords ?? []);
-        setLoading(false);
-        };
-        fetchData();
-    }, [slug, lang]);
+      setKeywords(keywordsData);
+      setSelected(orgData.keywords ?? []);
+      setLoading(false);
+    };
+      fetchData();
+    }, [slug, locale]);
 
     const handleAdd = async (kw: string) => {
         await fetch(`http://localhost:8000/organization/${slug}/keywords`, {
@@ -40,11 +42,13 @@ export default function OrganizationKeywordsAddPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
             keyword_code: kw,
-            lang: lang
+            lang: locale
             })
         });
         setSelected(prev => [...prev, kw]);
     };
+
+    const router = useRouter();
 
 
     if (loading) return <p>Chargement...</p>;
@@ -57,8 +61,17 @@ export default function OrganizationKeywordsAddPage() {
   }, {});
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-xl font-bold">Ajouter des mots-clés</h1>
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-4">
+        <Title1>{trans('add_keywords')}</Title1>
+        <button
+            onClick={() => router.back()}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+          >
+            {trans('back')}
+          </button>
+      </div>
+      
 
       {Object.entries(grouped).map(([cat, kws]) => (
         <div key={cat} className="border rounded p-4">

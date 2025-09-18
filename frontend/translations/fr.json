@@ -127,6 +127,15 @@
 				"edit": "Éditer",
 				"hide": "Cacher",
 				"publish": "Publier"
+			},
+			"keywords": {
+				"keywords": "Mots clés",
+				"no_keywords": "Aucun mot clé défini",
+				"button_add": "Ajouter",
+				"add": {
+					"add_keywords": "Ajouter des mots clés",
+					"back": "Retour"
+				}
 			}
 		}
 	},
