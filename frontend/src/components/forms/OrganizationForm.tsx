@@ -54,11 +54,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
       setDescription('');
       setKeywords('');
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(trans('submit_error')); // fallback for non-Error throwables
-      } 
+        setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }

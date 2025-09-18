@@ -59,8 +59,8 @@ export default function DashboardLayout({
 
         const json = await res.json();
         setData(json);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
         router.push(ROUTES.auth.login(locale)) // Redirige si erreur / pas connecté
       } finally {
         setLoading(false);
