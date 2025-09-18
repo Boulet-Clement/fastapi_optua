@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { API_ROUTES } from "@/constants/api_routes";
 import { ROUTES } from "@/constants/routes";
+import Title1 from '../ui/Titles/Title1';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -71,9 +72,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">
+        <Title1 className="mb-6 text-center">
           {mode === 'login' ? trans('login') : trans('register')}
-        </h1>
+        </Title1>
 
         <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           {mode === 'register' && (

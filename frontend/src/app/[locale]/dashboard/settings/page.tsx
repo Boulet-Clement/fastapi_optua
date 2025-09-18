@@ -2,13 +2,14 @@
 
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations } from 'next-intl';
+import Title1 from '@/components/ui/Titles/Title1';
 
 export default function SettingsPage() {
   const trans = useTranslations('DashboardSettings');
 
   return (
     <DashboardPageWrapper transKey="DashboardPageWrapper">
-      <h1 className="text-2xl font-bold mb-4">{trans('title')}</h1>
+      <Title1>{trans('title')}</Title1>
       <p className="text-gray-600">{trans('intro')}</p>
     </DashboardPageWrapper>
   );

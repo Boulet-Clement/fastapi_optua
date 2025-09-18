@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Dropdown from '@/components/ui/Dropdown';
 import { ROUTES } from '@/constants/routes';
+import Title2 from '@/components/ui/Titles/Title2';
 
 interface Organization {
   organization_id: string;
@@ -40,7 +41,7 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
   return (
     <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition bg-white">
       {/* Nom */}
-      <h2 className="text-xl font-semibold mb-2">{org.name}</h2>
+      <Title2>{org.name}</Title2>
 
       {/* Langues existantes */}
       <div className="flex flex-wrap gap-2 mb-4">

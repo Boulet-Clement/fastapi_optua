@@ -53,8 +53,12 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
       setName('');
       setDescription('');
       setKeywords('');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(trans('submit_error')); // fallback for non-Error throwables
+      } 
     } finally {
       setLoading(false);
     }

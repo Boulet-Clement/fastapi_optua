@@ -110,6 +110,7 @@
 			"french": "Français",
 			"english": "English",
 			"create": "Créer",
+			"cancel": "Annuler",
 			"creating": "Création...",
 			"submit_error": "Erreur lors de la création de la structure"
 		},
@@ -136,6 +137,10 @@
 					"add_keywords": "Ajouter des mots clés",
 					"back": "Retour"
 				}
+			},
+			"opening_hours": {
+				"title": "Horaires d'ouverture",
+				"modify": "Modifier"
 			}
 		}
 	},

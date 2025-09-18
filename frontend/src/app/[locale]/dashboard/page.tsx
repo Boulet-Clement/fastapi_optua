@@ -2,6 +2,7 @@
 
 import DashboardPageWrapper from '@/components/DashboardPageWrapper';
 import { useTranslations, useLocale } from 'next-intl';
+import Title1 from '@/components/ui/Titles/Title1';
 
 interface Props {
   userEmail?: string;
@@ -13,7 +14,7 @@ export default function DashboardHome({ userEmail }: Props) {
 
   return (
     <DashboardPageWrapper transKey="DashboardPageWrapper">
-      <h1 className="text-2xl font-bold mb-4">{trans('welcome')}</h1>
+      <Title1>{trans('welcome')}</Title1>
 
       {userEmail && (
         <p className="text-gray-700 mb-4">

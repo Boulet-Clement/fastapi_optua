@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations, useLocale } from 'next-intl';
 import Title1 from '@/components/ui/Titles/Title1';
+import Title2 from '@/components/ui/Titles/Title2';
 
 interface Keyword {
   code: string;
@@ -75,7 +76,7 @@ export default function OrganizationKeywordsAddPage() {
 
       {Object.entries(grouped).map(([cat, kws]) => (
         <div key={cat} className="border rounded p-4">
-          <h2 className="font-semibold mb-2">{cat}</h2>
+          <Title2 className="mb-2">{cat}</Title2>
           <div className="flex flex-wrap gap-2">
             {kws.map((kw) => {
               const isSelected = selected.includes(kw.code);

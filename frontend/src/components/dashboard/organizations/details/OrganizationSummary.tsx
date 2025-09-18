@@ -1,6 +1,7 @@
 'use client';
 
 import { Edit, Eye, EyeOff } from 'lucide-react';
+import Title2 from '@/components/ui/Titles/Title2';
 
 interface Props {
   name: string;
@@ -24,7 +25,7 @@ export default function OrganizationSummary({
       {/* Infos principales */}
       <div className="flex-1 space-y-4">
         {/* Titre de la section */}
-        <h2 className="text-lg font-bold">{trans('details.summary.title')}</h2>
+        <Title2>{trans('details.summary.title')}</Title2>
 
         {/* Champs */}
         <div>

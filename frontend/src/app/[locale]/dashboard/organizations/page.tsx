@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ROUTES } from '@/constants/routes';
 import { API_ROUTES } from '@/constants/api_routes';
 import OrganizationCard from '@/components/dashboard/organizations/OrganizationCard';
+import Title1 from '@/components/ui/Titles/Title1';
 
 interface Organization {
   organization_id: string;
@@ -64,7 +65,7 @@ export default function OrganizationsPage() {
     <DashboardPageWrapper loading={loading} error={error} transKey="DashboardPageWrapper">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">{trans('title')}</h1>
+        <Title1>{trans('title')}</Title1>
         <Link
           href={ROUTES.dashboard.organizations.new(locale)}
           className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"

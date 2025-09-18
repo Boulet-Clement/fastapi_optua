@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Props {
   hours: { day: string; open: string; close: string }[];
@@ -6,15 +7,18 @@ interface Props {
 }
 
 export default function OrganizationOpeningHours({ hours, onEdit }: Props) {
+  const trans = useTranslations('DashboardOrganizations.details.opening_hours');
+  const locale = useLocale();
+  
   return (
     <div className="p-6 border rounded-lg bg-white shadow-sm space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Horaires d'ouverture</h3>
+        <h3 className="text-lg font-semibold">{trans('title')}</h3>
         <button
           onClick={onEdit}
           className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          Modifier
+          {trans('modify')}
         </button>
       </div>
 

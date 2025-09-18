@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ROUTES } from '@/constants/routes';
 import { useTranslations, useLocale } from 'next-intl';
 import Keyword from "@/models/Keyword";
+import Title2 from "@/components/ui/Titles/Title2";
 
 interface Props {
   slug: string;
@@ -40,7 +41,7 @@ export default function OrganizationKeywords({ slug, lang, keywords: initialKeyw
     <div className="p-6 border rounded-lg bg-white shadow-sm space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-bold">{trans('keywords')}</h2>
+        <Title2>{trans('keywords')}</Title2>
         <Link href={ROUTES.dashboard.organizations.new_keyword(locale, slug)}
           className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
           ➕ {trans('button_add')}
