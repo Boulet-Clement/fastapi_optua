@@ -43,7 +43,7 @@ export default function OrganizationKeywords({ slug, lang, keywords: initialKeyw
       <div className="flex justify-between items-center">
         <Title2>{trans('keywords')}</Title2>
         <Link href={ROUTES.dashboard.organizations.new_keyword(locale, slug)}
-          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+          className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark">
           ➕ {trans('button_add')}
         </Link>
       </div>

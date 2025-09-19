@@ -179,7 +179,7 @@ export default function SearchEnginePage() {
               setAllKeywordsRequired(e.target.checked);
               submitSearch(undefined, undefined, true, e.target.checked);
             }}
-            className="w-4 h-4 text-blue-500 border-gray-300 rounded"
+            className="w-4 h-4 text-primary-light border-gray-300 rounded"
           />
           <label htmlFor="all-keywords-required" className="text-sm font-medium">
             {trans("toggleAllKeywordsRequired")}
@@ -226,7 +226,7 @@ export default function SearchEnginePage() {
               placeholder={trans("searchPlaceholder")}
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 placeholder-gray-400"
+              className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-light pr-10 placeholder-gray-400"
             />
             {search && (
               <button
@@ -240,7 +240,7 @@ export default function SearchEnginePage() {
           </div>
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark"
           >
             {trans("searchButton")}
           </button>
@@ -258,7 +258,7 @@ export default function SearchEnginePage() {
                 }
               }
               return (
-                <div key={filterCode} className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
+                <div key={filterCode} className="flex items-center bg-primary-light text-white px-3 py-1 rounded-full">
                   <span>{label}</span>
                   <button className="ml-2 font-bold" onClick={() => toggleFilter(filterCode)}>
                     &times;
@@ -284,7 +284,7 @@ export default function SearchEnginePage() {
                   {result.keywords && result.keywords.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {result.keywords.map(keyword => (
-                        <span key={keyword} className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                        <span key={keyword} className="text-xs bg-blue-100 text-primary-dark px-2 py-0.5 rounded-full">
                           {keyword}
                         </span>
                       ))}

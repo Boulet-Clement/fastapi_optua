@@ -129,7 +129,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           <button
             type="submit"
             className={`mt-4 text-white py-2 rounded-md transition ${
-              mode === 'login' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600'
+              mode === 'login' ? 'bg-primary hover:bg-primary-dark' : 'bg-green-500 hover:bg-green-600'
             }`}
             disabled={loading}
           >
@@ -141,14 +141,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           {mode === 'login' ? (
             <>
               {trans('noAccount')+ ' '}
-              <Link href={ROUTES.auth.register(locale)} className="text-blue-500 hover:underline">
+              <Link href={ROUTES.auth.register(locale)} className="text-primary hover:underline">
                 {trans('registerHere')}
               </Link>
             </>
           ) : (
             <>
               {trans('alreadyHaveAccount')+ ' '}
-              <Link href={ROUTES.auth.login(locale)} className="text-blue-500 hover:underline">
+              <Link href={ROUTES.auth.login(locale)} className="text-primary hover:underline">
                 {trans('loginHere')}
               </Link>
             </>

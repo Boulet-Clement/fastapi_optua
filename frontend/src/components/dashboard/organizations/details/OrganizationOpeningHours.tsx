@@ -16,7 +16,7 @@ export default function OrganizationOpeningHours({ hours, onEdit }: Props) {
         <h3 className="text-lg font-semibold">{trans('title')}</h3>
         <button
           onClick={onEdit}
-          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark"
         >
           {trans('modify')}
         </button>

@@ -6,6 +6,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { ROUTES } from '@/constants/routes';
 import { API_ROUTES } from '@/constants/api_routes';
 import Link from 'next/link';
+import Title2 from '@/components/ui/Titles/Title2';
+
 import {
   Home,
   Building2,
@@ -73,8 +75,8 @@ export default function DashboardLayout({
   if (loading)
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
-        <span className="ml-2 text-blue-600">{trans('loading')}</span>
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+        <span className="ml-2 text-primary">{trans('loading')}</span>
       </div>
     );
 
@@ -103,7 +105,7 @@ export default function DashboardLayout({
         }`}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">{trans('my_space')}</h2>
+          <Title2>{trans('my_space')}</Title2>
           <button
             className="lg:hidden"
             onClick={() => setSidebarOpen(false)}
@@ -132,7 +134,7 @@ export default function DashboardLayout({
                 href={item.href}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
                   isActive
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-primary text-white'
                     : 'text-gray-700 hover:bg-gray-200'
                 }`}
               >

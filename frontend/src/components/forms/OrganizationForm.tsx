@@ -112,7 +112,7 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-primary text-white py-2 rounded hover:bg-primary-dark"
         >
           {loading ? trans('creating') : trans('create')}
         </button>

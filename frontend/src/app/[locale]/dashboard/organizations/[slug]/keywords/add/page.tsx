@@ -87,7 +87,7 @@ export default function OrganizationKeywordsAddPage() {
                   className={`px-2 py-1 rounded text-sm ${
                     isSelected
                       ? "bg-green-200 text-green-800 cursor-not-allowed"
-                      : "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-primary text-white hover:bg-primary-dark"
                   }`}
                 >
                   {isSelected ? `✅ ${kw.name}` : `➕ ${kw.name}`}

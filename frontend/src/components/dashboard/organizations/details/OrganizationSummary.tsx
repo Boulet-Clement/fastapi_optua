@@ -57,7 +57,7 @@ export default function OrganizationSummary({
       <div className="flex flex-shrink-0 gap-2">
         <button
           onClick={onEdit}
-          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-1"
+          className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark flex items-center gap-1"
         >
           <Edit size={16} /> {trans('details.summary.edit')}
         </button>

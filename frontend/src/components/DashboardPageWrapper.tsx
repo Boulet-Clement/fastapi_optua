@@ -22,8 +22,8 @@ export default function DashboardPageWrapper({
   if (loading)
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
-        <span className="ml-2 text-blue-600">{trans('loading')}</span>
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+        <span className="ml-2 text-primary">{trans('loading')}</span>
       </div>
     );
 
