@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations, useLocale } from 'next-intl';
 import Title1 from '@/components/ui/Titles/Title1';
 import Title2 from '@/components/ui/Titles/Title2';
+import { Undo2 } from "lucide-react";
 
 interface Keyword {
   code: string;
@@ -67,12 +68,11 @@ export default function OrganizationKeywordsAddPage() {
         <Title1>{trans('add_keywords')}</Title1>
         <button
             onClick={() => router.back()}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+            className="flex items-center gap-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
           >
-            {trans('back')}
-          </button>
+          <Undo2 size={16} /> {trans('back')}
+        </button>
       </div>
-      
 
       {Object.entries(grouped).map(([cat, kws]) => (
         <div key={cat} className="border rounded p-4">

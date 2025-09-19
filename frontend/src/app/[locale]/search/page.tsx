@@ -167,10 +167,10 @@ export default function SearchEnginePage() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col md:flex-row gap-8">
+    <div className="w-full min-h-screen flex flex-col md:flex-row gap-8 py-8">
       {/* Sidebar */}
       <aside className="w-full md:w-1/4 space-y-6">
-        <div className="sticky top-4 flex items-center space-x-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded shadow">
+        <div className="top-4 flex items-center space-x-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded shadow">
           <input
             type="checkbox"
             id="all-keywords-required"

@@ -14,16 +14,22 @@ const config: Config = {
         xl: "1240px",
       },
       colors: {
-        primary: "var(--color-primary)",
+        "primary": "var(--color-primary)",
         "primary-light": "var(--color-primary-light)",
         "primary-dark": "var(--color-primary-dark)",
+        
+        /*"secondary": "var(--color-secondary)",
+        "secondary-light": "var(--color-secondary-light)",
+        "secondary-dark": "var(--color-secondary-dark)",*/
 
         "grey-light": "var(--color-grey-light)",
         "grey-dark": "var(--color-grey-dark)",
-        green: "var(--color-green)",
+
+        "green": "var(--color-green)",
         "green-light": "var(--color-green-light)",
         "green-dark": "var(--color-green-dark)",
-        red: "var(--color-red)",
+
+        "red": "var(--color-red)",
         "red-light": "var(--color-red-light)",
         "red-dark": "var(--color-red-dark)",
         

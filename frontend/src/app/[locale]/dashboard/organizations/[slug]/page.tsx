@@ -8,6 +8,7 @@ import OrganizationSummary from '@/components/dashboard/organizations/details/Or
 import OrganizationKeywords from '@/components/dashboard/organizations/details/OrganizationKeywords';
 import Organization from '@/models/Organization';
 import Title1 from '@/components/ui/Titles/Title1';
+import { Undo2 } from "lucide-react";
 
 interface Keyword {
   code: string,
@@ -65,25 +66,18 @@ export default function OrganizationDetailsPage() {
             <Title1>{org.name}</Title1>
             <button
               onClick={() => router.back()}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              className="flex items-center gap-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
             >
-              ← Retour
+              <Undo2 size={16} /> Retour
             </button>
           </div>
 
           <OrganizationSummary
-            name={org.name}
-            description={org.description}
-            isVisible={org.is_visible}
-            onEdit={() => console.log('Edit')}
-            onToggleVisibility={() => console.log('Toggle visibility')}
-            trans={trans}
+            organization={org}
           />
 
           <OrganizationKeywords
-            keywords={org.keywords_details ?? []}
-            slug={slug}
-            lang={locale}
+            organization={org}
           />
         </div>
       ) : (

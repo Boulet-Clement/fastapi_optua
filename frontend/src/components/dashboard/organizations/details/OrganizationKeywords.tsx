@@ -6,24 +6,23 @@ import { ROUTES } from '@/constants/routes';
 import { useTranslations, useLocale } from 'next-intl';
 import Keyword from "@/models/Keyword";
 import Title2 from "@/components/ui/Titles/Title2";
+import Organization from "@/models/Organization";
 
 interface Props {
-  slug: string;
-  lang: string;
-  keywords: Keyword[];
+  organization: Organization
 }
 
-export default function OrganizationKeywords({ slug, lang, keywords: initialKeywords }: Props) {
+export default function OrganizationKeywords({ organization }: Props) {
   const trans = useTranslations('DashboardOrganizations.details.keywords');
   const locale = useLocale();
-  const [keywords, setKeywords] = useState<Keyword[]>(initialKeywords);
+  const [keywords, setKeywords] = useState<Keyword[]>(organization.keywords_details);
 
   const handleRemove = async (kw: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/organization/${slug}/keywords`, {
+      const res = await fetch(`http://localhost:8000/organization/${organization.slug}/keywords`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword_code: kw, lang })
+        body: JSON.stringify({ keyword_code: kw, locale })
       });
 
       if (!res.ok) throw new Error("Erreur lors de la suppression du mot-clé");
@@ -42,7 +41,7 @@ export default function OrganizationKeywords({ slug, lang, keywords: initialKeyw
       {/* Header */}
       <div className="flex justify-between items-center">
         <Title2>{trans('keywords')}</Title2>
-        <Link href={ROUTES.dashboard.organizations.new_keyword(locale, slug)}
+        <Link href={ROUTES.dashboard.organizations.new_keyword(locale, organization.slug)}
           className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark">
           ➕ {trans('button_add')}
         </Link>
