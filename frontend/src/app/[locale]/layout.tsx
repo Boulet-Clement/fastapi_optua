@@ -44,7 +44,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider>
           <Header />
-          <main className="flex-1 w-full px-4 md:px-6 py-6">
+          <main className="w-[92%] max-w-[1500px] mx-auto py-4">
             {children}
           </main>
           <Footer />
