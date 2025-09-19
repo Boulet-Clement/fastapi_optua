@@ -62,7 +62,7 @@ export default function OrganizationKeywordsAddPage() {
   }, {});
 
   return (
-    <div className="p-8">
+    <div className="pl-8 pt-8">
       <div className="flex items-center justify-between mb-4">
         <Title1>{trans('add_keywords')}</Title1>
         <button

@@ -82,7 +82,7 @@ export default function Header() {
             <Link href={ROUTES.search(locale)} className="text-gray-600 hover:text-primary">
               {trans('menu.links.search')}
             </Link>
-            <Link href={ROUTES.auth.login(locale)} className="text-gray-600 hover:text-primary">
+            <Link href={ROUTES.dashboard.index(locale)} className="text-gray-600 hover:text-primary">
               {trans('menu.links.account')}
             </Link>
           </nav>

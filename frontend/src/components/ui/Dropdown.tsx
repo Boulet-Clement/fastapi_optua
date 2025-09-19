@@ -12,7 +12,6 @@ export default function Dropdown({ trigger, children, align = 'left' }: Dropdown
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fermer au clic externe
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -39,13 +38,13 @@ export default function Dropdown({ trigger, children, align = 'left' }: Dropdown
 
       <div
         className={`
-          absolute mt-2 min-w-[10rem] rounded-2xl border bg-white shadow-lg ring-1 ring-black/5 z-20 
-          transform transition-all duration-200 origin-top
+          absolute min-w-[12rem] rounded-lg border border-grey-light bg-white shadow-md z-20
+          transform transition-transform duration-150 ease-out origin-top
           ${align === 'right' ? 'right-0' : 'left-0'}
           ${open ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-1 pointer-events-none'}
         `}
       >
-        <div className="py-2">{children}</div>
+        <div className="py-1">{children}</div>
       </div>
     </div>
   );

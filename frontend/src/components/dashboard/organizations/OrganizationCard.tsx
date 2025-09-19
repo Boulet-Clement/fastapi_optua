@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Dropdown from '@/components/ui/Dropdown';
 import { ROUTES } from '@/constants/routes';
 import Title2 from '@/components/ui/Titles/Title2';
+import { Plus, Languages, BookText, BarChart3 } from 'lucide-react';
 
 interface Organization {
   organization_id: string;
@@ -19,7 +20,7 @@ const ActionButton = ({
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
     {...props}
-    className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+    className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
   >
     {children}
   </button>
@@ -57,20 +58,38 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
 
       {/* Actions principales */}
       <div className="flex flex-wrap gap-3 relative">
+
+        <Link
+          href={ROUTES.dashboard.organizations.details(locale, org.slug)}
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
+        >
+          <BookText size={16} />{trans('details_button')}
+        </Link>
+
         {/* Ajouter traduction */}
         {availableLanguages.length > 0 && (
           <Dropdown
             trigger={
-              <ActionButton>➕ {trans('add_translation')}</ActionButton>
+              <ActionButton>
+                <Languages size={16} /> {trans('add_translation')}
+              </ActionButton>
             }
+            align='right'
           >
-            <ul className="flex flex-col">
-              {availableLanguages.map((lang) => (
+            <ul className="py-1">
+              {availableLanguages.map(lang => (
                 <li key={lang}>
                   <Link
-                    href={ROUTES.dashboard.organizations.new_translation(locale, org.organization_id)}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
+                    href={ROUTES.dashboard.organizations.new_translation(
+                      locale,
+                      org.organization_id
+                    )}
+                    className="
+                      flex items-center gap-2 px-4 py-2 text-sm text-gray-700 
+                      hover:bg-gray-100 rounded transition-colors
+                    "
                   >
+                    {/* Ici tu peux ajouter une icône à gauche si besoin */}
                     {lang.toUpperCase()}
                   </Link>
                 </li>
@@ -81,12 +100,10 @@ export default function OrganizationCard({ org, trans, locale, allLanguages }: P
 
         <Link
           href={ROUTES.dashboard.organizations.details(locale, org.slug)}
-          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm font-medium"
         >
-          {trans('details_button')}
+          <BarChart3 size={16} /> {trans('stats')}
         </Link>
-
-        <ActionButton>📊 {trans('stats')}</ActionButton>
       </div>
     </div>
   );

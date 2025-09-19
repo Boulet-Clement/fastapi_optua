@@ -93,14 +93,14 @@ export default function DashboardLayout({
       {/* Sidebar mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-20 bg-gray-400 bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static z-50 inset-y-0 left-0 w-64 bg-gray-100 border-r p-6 transform transition-transform ${
+        className={`fixed lg:static z-30 lg:z-0 inset-y-0 left-0 w-72 bg-gray-100 p-6 transform transition-transform ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -157,7 +157,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-6">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );
