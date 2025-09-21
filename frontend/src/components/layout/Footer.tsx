@@ -21,7 +21,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/recherche" className="hover:underline">
+              <Link href={ROUTES.search(locale)} className="hover:underline">
                 {trans('menu.links.search')}
               </Link>
             </li>
@@ -40,12 +40,17 @@ export default function Footer() {
           </h6>
           <ul className="space-y-2">
             <li>
-              <Link href="/login" className="hover:underline">
+              <Link href={ROUTES.dashboard.index(locale)} className="hover:underline">
+                {trans('menu.links.account')}
+              </Link>
+            </li>
+            <li>
+              <Link href={ROUTES.auth.login(locale)} className="hover:underline">
                 {trans('menu.links.login')}
               </Link>
             </li>
             <li>
-              <Link href="/register" className="hover:underline">
+              <Link href={ROUTES.auth.register(locale)} className="hover:underline">
                 {trans('menu.links.register')}
               </Link>
             </li>
