@@ -7,3 +7,4 @@ class User(BaseModel):
     name: str
     email: EmailStr
     organizations: List[OrganizationSummary] = []  # liste des organization_id que l'utilisateur possède
+    is_subscription_paid: bool = True
