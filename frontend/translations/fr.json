@@ -76,6 +76,7 @@
 		"organizations": "Mes structures",
 		"billing": "Mon abonnement",
 		"settings": "Paramètres",
+		"logout": "Se déconnecter",
 		"dashboard": "Tableau de bord",
 		"loading": "Chargement...",
 		"must_login": "Vous devez être connecté"
@@ -152,5 +153,268 @@
 	"DashboardSettings": {
 		"title": "Paramètres",
 		"intro": "Ici vous pourrez modifier vos informations de compte et préférences."
-	}
+	},
+	"Roadmap": {
+		"title": "Fonctionnalités à venir",
+		"sections": [
+			{
+				"title": "Moteur de recherche avancé",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Il sera bientôt possible de faire des recherches par localisation."
+					}
+				]
+			},
+			{
+				"title": "Explorer autour de moi",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Explorez autour de vous avec une carte interactive reprenant les structures autour de voir."
+					}
+				]
+			}
+		]
+	},
+	"TermsOfUse": {
+		"title": "Conditions Générales d’Utilisation",
+		"sections": [
+			{
+				"title": "Préambule",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Les présentes Conditions Générales d’Utilisation (CGU) régissent l’accès et l’utilisation du site OPTUA, plateforme de recherche et de mise en relation entre entreprises, associations, clubs de sport et utilisateurs."
+					},
+					{
+						"type": "paragraph",
+						"text": "En accédant au site, tout utilisateur accepte sans réserve les présentes CGU."
+					}
+				]
+			},
+			{
+				"title": "1. Définitions",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "<strong>OPTUA</strong> : désigne la plateforme web permettant la recherche et la mise en relation entre structures (entreprises, associations, clubs de sport) et utilisateurs."
+					},
+					{
+						"type": "paragraph",
+						"text": "<strong>Gérant</strong> : toute personne physique ou morale représentant une entreprise, association ou club de sport, disposant d’un compte pour publier, modifier ou gérer des informations sur sa structure."
+					},
+					{
+						"type": "paragraph",
+						"text": "<strong>Utilisateur</strong> : toute personne physique consultant le site pour rechercher un service, une structure ou un événement."
+					}
+				]
+			},
+			{
+				"title": "2. Objet du service",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "OPTUA offre :"
+					},
+					{
+						"type": "list",
+						"items": [
+						"Un moteur de recherche permettant de trouver des entreprises, associations et clubs de sport selon différents critères (localisation, activité, événements, etc.).",
+						"Un espace permettant aux gérants de référencer et mettre à jour les informations relatives à leur structure.",
+						"Un accès libre à la consultation des informations pour les utilisateurs lambda."
+						]
+					}
+				]
+			}
+		]
+	},
+	"PrivacyPolicy": {
+		"title": "Politique de confidentialité",
+		"sections": [
+			{
+				"title": "Préambule",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "La présente Politique de confidentialité décrit la manière dont OPTUA collecte, utilise et protège les données personnelles des utilisateurs."
+					},
+					{
+						"type": "paragraph",
+						"text": "En utilisant notre site, vous acceptez les pratiques décrites ci-dessous."
+					}
+				]
+			},
+			{
+				"title": "1. Données collectées",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Nous collectons différentes catégories de données personnelles selon l’utilisation du service :"
+					},
+					{
+						"type": "list",
+						"items": [
+						"Données d’identification : nom, prénom, adresse e-mail.",
+						"Données de connexion : adresse IP, logs, navigateur.",
+						"Données liées à l’utilisation du service : recherches effectuées, interactions avec les organisations."
+						]
+					}
+				]
+			},
+			{
+				"title": "2. Finalité du traitement",
+				"blocks": [
+					{
+						"type": "list",
+						"items": [
+							"Assurer le bon fonctionnement du site et de ses services.",
+							"Permettre la création et la gestion des comptes utilisateurs.",
+							"Améliorer l’expérience utilisateur et les fonctionnalités proposées.",
+							"Respecter nos obligations légales et réglementaires."
+						]
+					}
+				]
+			},
+			{
+				"title": "3. Partage des données",
+				"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Vos données personnelles ne sont jamais vendues."
+				},
+				{
+					"type": "paragraph",
+					"text": "Elles peuvent toutefois être partagées avec :"
+				},
+				{
+					"type": "list",
+					"items": [
+						"Nos prestataires techniques (hébergement, maintenance, analytics).",
+						"Les autorités administratives ou judiciaires, lorsque la loi l’exige."
+					]
+				}
+				]
+			},
+			{
+				"title": "4. Durée de conservation",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Les données sont conservées aussi longtemps que nécessaire pour atteindre les finalités décrites ci-dessus, et conformément aux délais légaux applicables."
+					}
+				]
+			},
+			{
+				"title": "5. Droits des utilisateurs",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Conformément au RGPD, vous disposez des droits suivants :"
+					},
+					{
+						"type": "list",
+						"items": [
+						"Droit d’accès à vos données personnelles.",
+						"Droit de rectification en cas d’erreur.",
+						"Droit à l’effacement (« droit à l’oubli »).",
+						"Droit d’opposition et de limitation du traitement.",
+						"Droit à la portabilité de vos données."
+						]
+					}
+				]
+			},
+			{
+				"title": "6. Sécurité",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Nous mettons en place des mesures techniques et organisationnelles appropriées afin de protéger vos données contre tout accès non autorisé, perte ou divulgation."
+					}
+				]
+			},
+			{
+				"title": "7. Contact",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Pour toute question relative à cette Politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter via le formulaire de contact disponible sur le site."
+					}
+				]
+			}
+		]
+	},
+  	"MandatoryInformations": {
+    	"title": "Mentions légales",
+    	"sections": [
+			{
+				"title": "1. Éditeur du site",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Le site <strong>OPTUA</strong> est édité par :"
+					},
+					{
+						"type": "list",
+						"items": [
+						"Dénomination sociale : OPTUA",
+						"Forme juridique : Société par actions simplifiée (SAS)",
+						"Siège social : 123 rue Exemple, 75000 Paris, France",
+						"Capital social : 10 000 €",
+						"Numéro RCS : 123 456 789 RCS Paris",
+						"Numéro TVA intracommunautaire : FR12 123456789"
+						]
+					}
+				]
+			},
+			{
+				"title": "2. Directeur de la publication",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Le directeur de la publication du site est <strong>Jean Dupont</strong>, en qualité de Président de la société OPTUA."
+					}
+				]
+			},
+			{
+				"title": "3. Hébergement",
+				"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Le site est hébergé par :"
+				},
+				{
+					"type": "list",
+					"items": [
+					"OVH SAS",
+					"2 rue Kellermann – 59100 Roubaix – France",
+					"Téléphone : 1007"
+					]
+				}
+				]
+			},
+			{
+				"title": "4. Propriété intellectuelle",
+				"blocks": [
+				{
+					"type": "paragraph",
+					"text": "L’ensemble du contenu du site (textes, images, graphismes, logo, vidéos, icônes, etc.) est protégé par le droit de la propriété intellectuelle."
+				},
+				{
+					"type": "paragraph",
+					"text": "Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site est interdite, sauf autorisation écrite préalable."
+				}
+				]
+			},
+			{
+				"title": "5. Contact",
+				"blocks": [
+					{
+						"type": "paragraph",
+						"text": "Pour toute question ou réclamation, vous pouvez nous contacter à l’adresse suivante : <a href='mailto:contact@optua.fr'>contact@optua.fr</a>"
+					}
+				]
+			}
+    	]
+  	}
 }

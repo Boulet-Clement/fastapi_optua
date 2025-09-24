@@ -7,7 +7,7 @@ from models.user.user_login import UserLogin
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
-@router.get("/")
+@router.post("/")
 def dashboard(current_user=Depends(get_current_user_from_cookie)):
     print(current_user)
     return {

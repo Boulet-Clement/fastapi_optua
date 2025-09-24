@@ -17,6 +17,7 @@ import {
   X,
   Loader2,
   AlertCircle,
+  LogOut
 } from 'lucide-react';
 
 interface UserData {
@@ -49,11 +50,21 @@ export default function DashboardLayout({
     { name: trans('settings'), href: ROUTES.dashboard.settings(locale), icon: Settings },
   ];
 
+  const onClickLogoutUser = async () => {
+    console.log('ahah')
+    const res = await fetch(API_ROUTES.auth.logout, {
+      method: 'POST',
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error('Problème lors de la deconnexion');
+    router.push(ROUTES.home(locale))
+  }
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await fetch(API_ROUTES.dashboard, {
-          method: 'GET',
+          method: 'POST',
           credentials: 'include',
         });
 
@@ -63,6 +74,7 @@ export default function DashboardLayout({
         setData(json);
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : String(err));
+        //console.log(err)
         router.push(ROUTES.auth.login(locale)) // Redirige si erreur / pas connecté
       } finally {
         setLoading(false);
@@ -144,6 +156,18 @@ export default function DashboardLayout({
             );
           })}
         </nav>
+
+        <hr className="my-4 border-1 border-grey-light"/>
+
+        <button onClick={onClickLogoutUser} 
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-200 w-full text-left"
+        >
+          <LogOut className="w-5 h-5" />
+          {trans('logout')}
+        </button>
+        <Link href="#" className={`flex items-center gap-2 px-3 py-2 rounded-lg`}>
+           
+        </Link>
       </aside>
 
       {/* Main content */}

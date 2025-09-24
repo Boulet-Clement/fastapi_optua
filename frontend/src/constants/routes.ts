@@ -29,4 +29,9 @@ export const ROUTES = {
   dashboard_organizations: (locale: string) => `/${locale}/dashboard/organizations`,
   dashboard_billing: (locale: string) => `/${locale}/dashboard/billing`,
   dashboard_settings: (locale: string) => `/${locale}/dashboard/settings`,
+
+  roadmap: (locale: string) => `/${locale}/roadmap`,
+  terms_of_use: (locale: string) => `/${locale}/terms-of-use`,
+  privacy_policy: (locale: string) => `/${locale}/privacy-policy`,
+  mandatory_informations: (locale: string) => `/${locale}/mandatory-informations`
 };

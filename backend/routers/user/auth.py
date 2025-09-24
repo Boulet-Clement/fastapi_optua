@@ -55,3 +55,19 @@ def login(user: UserLogin):
         max_age=3600       # durée de validité
     )
     return response
+
+@router.post("/logout")
+def logout():
+    """
+    Déconnexion utilisateur : suppression du cookie JWT
+    """
+    response = JSONResponse({"message": "Déconnexion réussie"})
+    response.set_cookie(
+        key="token",
+        value="",
+        httponly=True,
+        secure=False,       # True en prod avec HTTPS
+        samesite="lax",
+        max_age=0,          # expire immédiatement
+    )
+    return response

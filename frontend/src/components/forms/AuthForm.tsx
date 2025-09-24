@@ -55,7 +55,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
 
       if (mode === 'login') {
         // Stockage du token
-        localStorage.setItem('token', result.token);
+        //localStorage.setItem('token', result.token);
         // flashmessage
         router.push(ROUTES.dashboard.index(locale));
       } else {
@@ -70,8 +70,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <Title1 className="mb-6 text-center">
           {mode === 'login' ? trans('login') : trans('register')}
         </Title1>
@@ -129,7 +129,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
           <button
             type="submit"
             className={`mt-4 text-white py-2 rounded-md transition ${
-              mode === 'login' ? 'bg-primary hover:bg-primary-dark' : 'bg-green-500 hover:bg-green-600'
+              mode === 'login' ? 'bg-primary hover:bg-primary-dark' : 'bg-primary-light hover:bg-primary'
             }`}
             disabled={loading}
           >

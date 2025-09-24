@@ -26,7 +26,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/a-propos" className="hover:underline">
+              <Link href={ROUTES.roadmap(locale)} className="hover:underline">
                 {trans('menu.links.roadmap')}
               </Link>
             </li>
@@ -64,17 +64,17 @@ export default function Footer() {
           </h6>
           <ul className="space-y-2">
             <li>
-              <Link href="/cgu" className="hover:underline">
+              <Link href={ROUTES.terms_of_use(locale)} className="hover:underline">
                 {trans('menu.links.cgu')}
               </Link>
             </li>
             <li>
-              <Link href="/confidentialite" className="hover:underline">
+              <Link href={ROUTES.privacy_policy(locale)} className="hover:underline">
                 {trans('menu.links.policies')}
               </Link>
             </li>
             <li>
-              <Link href="/mentions-legales" className="hover:underline">
+              <Link href={ROUTES.mandatory_informations(locale)} className="hover:underline">
                 {trans('menu.links.mandatoryInformations')}
               </Link>
             </li>
