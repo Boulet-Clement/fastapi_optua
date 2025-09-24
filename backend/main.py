@@ -6,7 +6,7 @@ import redis.asyncio as redis
 from routers import filters, search, languages
 from routers.user import auth, profil
 from routers.dashboard import dashboard_home
-from routers.organizations import crud, mine, organization_keywords
+from routers.organizations import crud, mine, organization_keywords, organization_summary
 from routers.keywords import crud_keywords
 from routers.categories import crud_categories
 from core.elasticsearch import elasticsearch, INDEX_NAME
@@ -27,6 +27,7 @@ app.add_middleware(
 app.include_router(mine.router)
 app.include_router(crud.router)
 app.include_router(organization_keywords.router)
+app.include_router(organization_summary.router)
 app.include_router(profil.router)
 app.include_router(crud_keywords.router)
 app.include_router(crud_categories.router)
