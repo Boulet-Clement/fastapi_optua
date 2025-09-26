@@ -39,6 +39,7 @@ def create_organization(
     # 3️⃣ Générer un slug unique
     organization.slug = generate_unique_slug(organization.name, organization.lang)
 
+    
     # 4️⃣ Préparer le dict pour Mongo
     org_dict = organization.dict()
     org_dict["keywords"] = organization.keywords

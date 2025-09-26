@@ -64,7 +64,7 @@ export default function OrganizationSummaryEditPage() {
 
   const handleToggle = (checked: boolean) => {
     if (!form) return;
-    setForm({ ...form, is_hidden: checked });
+    setForm({ ...form, is_hidden: !form.is_hidden });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -107,7 +107,7 @@ export default function OrganizationSummaryEditPage() {
   if (loading || !form) return <p>Chargement...</p>;
 
   return (
-    <div className="pl-8 pt-8">
+    <div className="lg:pl-8 pt-8">
       <div className="flex items-center justify-between mb-6">
         <Title1>{trans('edit_summary')}</Title1>
         <button
@@ -159,7 +159,7 @@ export default function OrganizationSummaryEditPage() {
             <div>
               <p className="text-sm text-gray-500">{trans('is_hidden_description')}</p>
             </div>
-            <Switch checked={form.is_hidden} onCheckedChange={handleToggle} />
+            <Switch checked={!form.is_hidden} onCheckedChange={handleToggle} />
           </div>
         </div>
 

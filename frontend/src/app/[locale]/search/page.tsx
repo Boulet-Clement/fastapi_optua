@@ -188,14 +188,14 @@ export default function SearchEnginePage() {
 
         {categorizedKeywords.map(category => (
           <details key={category.code} className="bg-white rounded shadow" open>
-            <summary className="cursor-pointer font-semibold px-4 py-2 border-b hover:bg-gray-50 transition">
+            <summary className="hover:cursor-pointer font-semibold px-4 py-2 border-b hover:bg-gray-50 transition">
               {category.category_name}
             </summary>
             <div className="p-4 space-y-2">
               {category.keywords.map(keyword => (
                 <label
                   key={keyword.code}
-                  className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-100 hover:cursor-pointer"
                 >
                   <input
                     type="checkbox"

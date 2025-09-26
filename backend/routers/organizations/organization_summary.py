@@ -12,7 +12,6 @@ def update_summary_by_slug(
 ):
     # Vérifier que l'organisation existe
     org = db.organizations.find_one({"slug": slug, "lang": payload.lang})
-    print(org)
     if not org:
         raise HTTPException(404, detail="Organization non trouvée")
 
@@ -22,7 +21,6 @@ def update_summary_by_slug(
         for field, value in payload.dict(exclude={"lang"}).items()
         if value is not None
     }
-    print(update_fields)
 
     # Si le nom est modifié -> régénérer un slug unique
     if "name" in update_fields:
@@ -32,6 +30,7 @@ def update_summary_by_slug(
     if not update_fields:
         raise HTTPException(400, detail="Aucun champ à mettre à jour")
 
+    # Mise à jour
     result = db.organizations.update_one(
         {"slug": slug, "lang": payload.lang},
         {"$set": update_fields}
@@ -40,6 +39,7 @@ def update_summary_by_slug(
     if result.matched_count == 0:
         raise HTTPException(404, detail="Organization non trouvée")
     
+    # Mise à jour dans les utilisateurs si nécessaire
     db.users.update_many(
         {"organizations.organization_id": org["organization_id"], "organizations.lang": payload.lang},
         {"$set": {
@@ -48,8 +48,21 @@ def update_summary_by_slug(
         }}
     )
 
+    # Recharger l'organisation mise à jour pour la renvoyer
+    updated_slug = update_fields.get("slug", slug)
+    updated_org = db.organizations.find_one(
+        {"slug": updated_slug, "lang": payload.lang},
+        {
+            "_id": 0
+        }
+    )
+
+    if not updated_org:
+        raise HTTPException(500, detail="Erreur lors du rechargement de l'organisation mise à jour")
+
     return {
         "message": f"Organisation '{slug}' mise à jour",
         "updated_fields": list(update_fields.keys()),
-        "new_slug": update_fields.get("slug", slug)  # retourner le nouveau slug si changé
+        "new_slug": update_fields.get("slug", slug),  # retourner le nouveau slug si changé
+        "organization": updated_org  # ✅ on renvoie l’objet complet mis à jour
     }

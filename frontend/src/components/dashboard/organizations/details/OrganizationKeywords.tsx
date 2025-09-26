@@ -7,6 +7,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import Keyword from "@/models/Keyword";
 import Title2 from "@/components/ui/Titles/Title2";
 import Organization from "@/models/Organization";
+import { Plus, X } from 'lucide-react';
 
 interface Props {
   organization: Organization
@@ -22,7 +23,7 @@ export default function OrganizationKeywords({ organization }: Props) {
       const res = await fetch(`http://localhost:8000/organization/${organization.slug}/keywords`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword_code: kw, locale })
+        body: JSON.stringify({ keyword_code: kw, lang: locale })
       });
 
       if (!res.ok) throw new Error("Erreur lors de la suppression du mot-clé");
@@ -41,9 +42,11 @@ export default function OrganizationKeywords({ organization }: Props) {
       {/* Header */}
       <div className="flex justify-between items-center">
         <Title2>{trans('keywords')}</Title2>
-        <Link href={ROUTES.dashboard.organizations.new_keyword(locale, organization.slug)}
-          className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark">
-          ➕ {trans('button_add')}
+        <Link
+          href={ROUTES.dashboard.organizations.new_keyword(locale, organization.slug)}
+          className="px-3 py-1 bg-primary text-white rounded hover:bg-primary-dark flex items-center gap-1"
+        >
+          <Plus size={16} /> {trans('button_add')}
         </Link>
       </div>
 
@@ -62,7 +65,7 @@ export default function OrganizationKeywords({ organization }: Props) {
                 onClick={() => handleRemove(keyword.code)}
                 className="hover:text-red-600"
               >
-                ❌
+                <X size={16} className="hover:cursor-pointer" />
               </button>
             </span>
           ))}

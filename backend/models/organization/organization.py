@@ -7,7 +7,7 @@ class Organization(BaseModel):
     lang: LangEnum
     # summary
     name: str
-    chapo: str
+    chapo: Optional[str] = None
     description: Optional[str] = None
     is_hidden: bool = True #User can hide
     # keywords

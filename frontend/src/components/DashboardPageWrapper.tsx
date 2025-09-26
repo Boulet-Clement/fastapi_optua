@@ -35,5 +35,5 @@ export default function DashboardPageWrapper({
       </div>
     );
 
-  return <div className="pl-8 pt-8">{children}</div>;
+    return <div className="lg:pl-8 pt-8">{children}</div>;
 }
