@@ -11,7 +11,8 @@ export const ROUTES = {
       details: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}`,
       new: (locale: string) => `/${locale}/dashboard/organizations/new`,
       new_translation: (locale: string, orgId: string) => `/${locale}/dashboard/organizations/new?orgId=${orgId}&lang=${locale}`,
-      new_keyword: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}/keywords/add`
+      new_keyword: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}/keywords/add`,
+      edit_summary: (locale: string, slug: string) => `/${locale}/dashboard/organizations/${slug}/summary/edit`
     },
     
     billing: (locale: string) => `/${locale}/dashboard/billing`,

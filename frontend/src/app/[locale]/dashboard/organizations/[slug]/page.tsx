@@ -9,6 +9,8 @@ import OrganizationKeywords from '@/components/dashboard/organizations/details/O
 import Organization from '@/models/Organization';
 import Title1 from '@/components/ui/Titles/Title1';
 import { Undo2 } from "lucide-react";
+import Link from 'next/link';
+import { ROUTES } from '@/constants/routes';
 
 interface Keyword {
   code: string,
@@ -64,12 +66,12 @@ export default function OrganizationDetailsPage() {
           {/* Titre + bouton retour */}
           <div className="flex items-center justify-between mb-4">
             <Title1>{org.name}</Title1>
-            <button
-              onClick={() => router.back()}
-              className="flex items-center gap-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            <Link
+              href={ROUTES.dashboard.organizations.index(locale)}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
             >
-              <Undo2 size={16} /> Retour
-            </button>
+              <Undo2 size={16} /> {trans('back')}
+            </Link>
           </div>
 
           <OrganizationSummary

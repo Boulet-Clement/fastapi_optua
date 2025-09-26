@@ -102,6 +102,7 @@
 		"add_translation": "Ajouter une traduction",
 		"stats": "Statistiques",
 		"details_button": "details",
+		"back": "Retour",
 		"new": {
 			"title": "Créer une structure",
 			"create_organization": "Créer une structure",
@@ -120,19 +121,31 @@
 			"back": "Retour",
 			"no_data": "No data",
 			"summary": {
-				"title": "Sommaire",
-				"name": "Titre",
-				"chapo": "Chapô",
-				"description": "Description",
-				"status": "Statut",
+				"title": "Informations générales de la structure",
+				"name": "Nom",
+				"chapo": "Phrase d'accroche / courte description",
+				"description": "Description complète",
+				"status": "Visibilité",
 				"visible": "Visible",
 				"hidden": "Cachée",
-				"edit": "Éditer",
+				"button_edit": "Éditer",
 				"hide": "Cacher",
-				"publish": "Publier"
+				"publish": "Publier",
+				"edit": {
+					"edit_summary": "Modifier les informations générales",
+					"name": "Nom de la structure",
+					"chapo": "Phrase d'accroche ou courte présentation",
+					"description": "Description de la structure",
+					"is_hidden": "Cachée",
+					"is_hidden_label": "Visibilité de la structure",
+					"is_hidden_description": "Si activé, la structure sera visible publiquement.",
+					"save": "Sauvegarder",
+					"saving": "Sauvegarde en cours",
+					"back": "Retour"
+				}
 			},
 			"keywords": {
-				"keywords": "Mots clés",
+				"keywords": "Mots clés associés",
 				"no_keywords": "Aucun mot clé défini",
 				"button_add": "Ajouter",
 				"add": {

@@ -135,8 +135,10 @@ def get_organization(identifier: str, lang: str = Query("fr")):
             "_id": 0,
             "organization_id": 1,
             "name": 1,
+            "chapo": 1,
             "description": 1,
             "slug": 1,
+            "is_hidden": 1,
             "lang": 1,
             "keywords": 1,
             "keywords_details": 1

@@ -39,7 +39,7 @@ export default function OrganizationKeywordsAddPage() {
     }, [slug, locale]);
 
     const handleAdd = async (kw: string) => {
-        await fetch(`http://localhost:8000/organization/${slug}/keywords`, {
+        await fetch(`http://localhost:8000/organization/${slug}/keywords`, { // passer par id plutot que slug pour unifier?
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -68,7 +68,7 @@ export default function OrganizationKeywordsAddPage() {
         <Title1>{trans('add_keywords')}</Title1>
         <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
           >
           <Undo2 size={16} /> {trans('back')}
         </button>
