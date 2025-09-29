@@ -55,7 +55,7 @@ def create_organization(
     es_doc.pop("_id", None)
     elasticsearch.index(
         index=index_name,
-        id=organization.organization_id,
+        id=organization.slug,
         document=es_doc
     )
 
@@ -87,7 +87,7 @@ def get_organizations(keyword: Optional[str] = Query(None), lang: str = Query("f
         query["keywords"] = keyword
     organizations = []
     for organization in db.organizations.find(query):
-        organization["_id"] = str(organization["_id"])
+        organization["_id"] = str(organization["_id"]) # pop plutot ?
         organizations.append(organization)
     return organizations
 
@@ -151,48 +151,6 @@ def get_organization(identifier: str, lang: str = Query("fr")):
     return enriched[0]  # retourne le document unique
 
 # ------------------------------
-# UPDATE /organizations/{organization_id}?lang=fr
-# modifie une structure spécifique dans une langue
-# ------------------------------
-@router.patch("/{organization_id}")
-def patch_organization(organization_id: str, lang: str = Query("fr"), data: dict = Body(...)):
-    if "_id" in data:
-        data.pop("_id")
-
-    # 1️⃣ Mise à jour dans MongoDB
-    result = db.organizations.update_one(
-        {"organization_id": organization_id, "lang": lang},
-        {"$set": data}
-    )
-
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Organization non trouvée")
-
-    # 2️⃣ Sync avec ElasticSearch
-    index_name = f"{INDEX_PREFIX}{lang}"
-    elasticsearch.update(
-        index=index_name,
-        id=organization_id,
-        doc={"doc": data},  # 🔑 update partiel
-    )
-
-    # 3️⃣ Mise à jour du résumé (OrganizationSummary) dans les Users
-    fields_to_update = {}
-    allowed_fields = ["name", "slug"]  # ceux qui existent dans OrganizationSummary
-    for key in allowed_fields:
-        if key in data:
-            fields_to_update[f"organizations.$[elem].{key}"] = data[key]
-
-    if fields_to_update:
-        db.users.update_many(
-            {"organizations.organization_id": organization_id},
-            {"$set": fields_to_update},
-            array_filters=[{"elem.organization_id": organization_id, "elem.lang": lang}]
-        )
-
-    return {"message": "Organization et résumés mis à jour"}
-
-# ------------------------------
 # DELETE /organizations/all
 # ⚠️ Supprime toutes les organizations dans MongoDB + tous les index Elastic
 # ------------------------------
@@ -214,27 +172,27 @@ def delete_all_organizations():
     return {"message": "Toutes les organizations et index Elastic ont été supprimés"}
 
 # ------------------------------
-# DELETE /organizations/{organization_id}?lang=fr
+# DELETE /organizations/{slug}?lang=fr
 # Supprime une structures spécifique dans une langue
 # ------------------------------
-@router.delete("/{organization_id}")
-def delete_organization(organization_id: str, lang: str = Query("fr")):
+@router.delete("/{slug}")
+def delete_organization(slug: str, lang: str = Query("fr")):
     # 1️⃣ Supprimer dans MongoDB (organizations)
-    result = db.organizations.delete_one({"organization_id": organization_id, "lang": lang})
+    result = db.organizations.delete_one({"slug": slug, "lang": lang})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Organization non trouvée")
 
     # 2️⃣ Supprimer dans ElasticSearch
     index_name = f"{INDEX_PREFIX}{lang}"
     try:
-        elasticsearch.delete(index=index_name, id=organization_id)
+        elasticsearch.delete(index=index_name, id=slug)
     except NotFoundError:
         pass  # si le doc n'existe pas dans Elastic, on ignore
 
     # 3️⃣ Supprimer uniquement le summary correspondant à la langue
     db.users.update_many(
         {},  # tous les users
-        {"$pull": {"organizations": {"organization_id": organization_id, "lang": lang}}}
+        {"$pull": {"organizations": {"slug": slug, "lang": lang}}}
     )
 
     return {"message": f"Organization ({lang}) et résumé supprimés"}

@@ -12,8 +12,8 @@ export function Switch({ checked, onCheckedChange }: SwitchProps) {
       role="switch"
       aria-checked={checked}
       onClick={() => onCheckedChange(!checked)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
-        hover:cursor-pointer
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors 
+        duration-200 cursor-pointer
          ${checked ? "bg-primary" : "bg-gray-300"}`
         }
     >

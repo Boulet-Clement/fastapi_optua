@@ -97,7 +97,7 @@ interface Props {
               onClick={onToggleVisibility}
               disabled={loading}
               className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 flex items-center gap-1 text-sm 
-              disabled:opacity-50 hover:cursor-pointer"
+              disabled:opacity-50 cursor-pointer"
             >
               {org.is_hidden ? <Eye size={16} /> : <EyeOff size={16} />}
               {loading

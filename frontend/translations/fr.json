@@ -120,6 +120,8 @@
 		"details": {
 			"back": "Retour",
 			"no_data": "No data",
+			"delete": "Supprimer",
+			"deleting": "Suppression...",
 			"summary": {
 				"title": "Informations générales de la structure",
 				"name": "Nom",

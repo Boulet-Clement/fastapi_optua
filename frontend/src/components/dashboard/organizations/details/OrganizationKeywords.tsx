@@ -65,7 +65,7 @@ export default function OrganizationKeywords({ organization }: Props) {
                 onClick={() => handleRemove(keyword.code)}
                 className="hover:text-red-600"
               >
-                <X size={16} className="hover:cursor-pointer" />
+                <X size={16} className="cursor-pointer" />
               </button>
             </span>
           ))}

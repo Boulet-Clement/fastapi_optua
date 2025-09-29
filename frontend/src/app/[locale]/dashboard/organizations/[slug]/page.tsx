@@ -8,7 +8,7 @@ import OrganizationSummary from '@/components/dashboard/organizations/details/Or
 import OrganizationKeywords from '@/components/dashboard/organizations/details/OrganizationKeywords';
 import Organization from '@/models/Organization';
 import Title1 from '@/components/ui/Titles/Title1';
-import { Undo2 } from "lucide-react";
+import { Undo2, Trash2 } from "lucide-react";
 import Link from 'next/link';
 import { ROUTES } from '@/constants/routes';
 
@@ -32,11 +32,12 @@ export default function OrganizationDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const locale = useLocale();
-  const trans = useTranslations('DashboardOrganizations');
+  const trans = useTranslations('DashboardOrganizations.details');
 
   const [org, setOrg] = useState<Organization | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchOrg = async () => {
@@ -58,6 +59,28 @@ export default function OrganizationDetailsPage() {
 
     if (slug) fetchOrg();
   }, [slug, locale, trans]);
+
+  const handleDelete = async () => {
+    if (!slug) return;
+    const confirmDelete = window.confirm(trans('delete.confirm_message') || 'Supprimer cette organisation ?');
+    if (!confirmDelete) return;
+
+    setDeleting(true);
+    try {
+      const res = await fetch(`http://localhost:8000/organizations/${slug}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error(trans('delete.error_message') || 'Erreur lors de la suppression');
+      
+      alert(trans('delete.success_message') || 'Organisation supprimée avec succès');
+      router.push(ROUTES.dashboard.organizations.index(locale));
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : String(err));
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <DashboardPageWrapper loading={loading} error={error} transKey="DashboardPageWrapper">
@@ -81,9 +104,22 @@ export default function OrganizationDetailsPage() {
           <OrganizationKeywords
             organization={org}
           />
+
+          {/* Bouton de suppression */}
+          <div className="my-8 flex w-full justify-center md:justify-end">
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white 
+              font-semibold rounded hover:bg-red-700 transition disabled:opacity-50 cursor-pointer"
+            >
+              <Trash2 size={16} />
+              {deleting ? trans('deleting') : trans('delete')}
+            </button>
+          </div>
         </div>
       ) : (
-        <p>{trans('details.no_data')}</p>
+        <p>{trans('no_data')}</p>
       )}
     </DashboardPageWrapper>
   );

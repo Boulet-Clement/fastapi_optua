@@ -20,7 +20,7 @@ def reindex_organizations():
         # Réindexer toutes les orgs de cette langue
         organizations = db.organizations.find({"lang": lang})
         for org in organizations:
-            doc_id = org["organization_id"]
+            doc_id = org["slug"]
             org_doc = org.copy()
             org_doc.pop("_id", None)
             elasticsearch.index(index=index_name, id=doc_id, document=org_doc)

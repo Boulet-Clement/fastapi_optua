@@ -32,7 +32,7 @@ export default function Dropdown({ trigger, children, align = 'left' }: Dropdown
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      <div onClick={() => setOpen((prev) => !prev)} className="hover:cursor-pointer">
+      <div onClick={() => setOpen((prev) => !prev)} className="cursor-pointer">
         {trigger}
       </div>
 
