@@ -22,7 +22,12 @@ def import_categories(csv_path: str):
             # upsert : insert si n'existe pas, update si existe
             result = collection.update_one(
                 {"code": cat.code, "lang": cat.lang},
-                {"$set": {"name": cat.name}},
+                {
+                    "$set": {
+                        "name": cat.name,
+                        "priority": cat.priority
+                    }
+                },
                 upsert=True
             )
             action = "Updated" if result.matched_count else "Inserted"

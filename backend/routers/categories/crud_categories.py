@@ -19,3 +19,10 @@ def get_categories(
         raise HTTPException(status_code=404, detail=f"Aucune categorie trouvée pour la langue '{lang}'")
 
     return categories
+
+@router.delete("/all")
+def delete_all_categories():
+    # 1. Supprimer toutes les organizations dans MongoDB
+    db.categories.delete_many({})
+
+    return {"message": "Toutes les catégories ont été supprimés"}

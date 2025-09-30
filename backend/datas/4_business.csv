@@ -1,0 +1,51 @@
+code;lang;name;category_code;display_on_search_engine
+sewing_professional;en;Sewing professional;business;false
+sewing_professional;fr;Artisan(e) couturier(e);business;false
+babysitter;en;Babysitter;business;false
+babysitter;fr;Babysitter;business;false
+barber;en;Barber;business;false
+barber;fr;Barbier;business;false
+butcher;en;Butcher;business;false
+butcher;fr;Boucher;business;false
+baker;en;Baker;business;false
+baker;fr;Boulanger;business;false
+auto_body_repairer;en;Auto body repairer;business;false
+auto_body_repairer;fr;Carrossier;business;false
+hairdresser;en;Hairdresser;business;true
+hairdresser;fr;Coiffeur;business;true
+dog_trainer;en;Dog trainer;business;false
+dog_trainer;fr;Éducateur canin;business;false
+electrician;en;Electrician;business;true
+electrician;fr;Électricien;business;true
+florist;en;Florist;business;false
+florist;fr;Fleuriste;business;false
+tourist_guide;en;Tourist guide;business;false
+tourist_guide;fr;Guide touristique;business;false
+mason;en;Mason;business;false
+mason;fr;Maçon;business;false
+mechanic;en;Mechanic;business;true
+mechanic;fr;Mécanicien;business;true
+carpenter;en;Carpenter;business;false
+carpenter;fr;Menuisier;business;false
+landscaper;en;Landscaper;business;true
+landscaper;fr;Paysagiste;business;true
+painter;en;Painter;business;false
+painter;fr;Peintre;business;false
+photographer;en;Photographer;business;false
+photographer;fr;Photographe;business;false
+event_photographer;en;Event photographer;business;false
+event_photographer;fr;Photographe événementiel;business;false
+plumber;en;Plumber;business;true
+plumber;fr;Plombier;business;true
+teacher;en;Teacher;business;false
+teacher;fr;Professeur;business;false
+sommelier;en;Sommelier;business;false
+sommelier;fr;Sommelier;business;false
+caterer;en;Caterer;business;false
+caterer;fr;Traiteur;business;false
+veterinarian;en;Veterinarian;business;false
+veterinarian;fr;Vétérinaire;business;false
+videographer;en;Videographer;business;false
+videographer;fr;Vidéaste;business;false
+winemaker;en;Winemaker;business;false
+winemaker;fr;Vigneron;business;false

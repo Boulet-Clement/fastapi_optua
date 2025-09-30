@@ -1,0 +1,9 @@
+code;lang;name;category_code;display_on_search_engine
+women-keyword;en;Women;genders;false
+women-keyword;fr;Femmes;genders;false
+girls-keyword;en;Girls;genders;false
+girls-keyword;fr;Filles;genders;false
+boys-keyword;en;Boys;genders;false
+boys-keyword;fr;Garçons;genders;false
+men-keyword;en;Men;genders;false
+men-keyword;fr;Hommes;genders;false

@@ -1,0 +1,27 @@
+code;lang;name;category_code;display_on_search_engine
+manual_activities;en;Manual activities;activities;false
+manual_activities;fr;Activités manuelles;activities;false
+singing;en;Singing;activities;false
+singing;fr;Chant;activities;false
+sewing;en;Sewing;activities;false
+sewing;fr;Couture;activities;false
+escape_game;en;Escape game;activities;false
+escape_game;fr;Escape game;activities;false
+gardening;en;Gardening;activities;false
+gardening;fr;Jardinage;activities;false
+reading;en;Reading;activities;false
+reading;fr;Lecture;activities;false
+modelling;en;Modelling;activities;false
+modelling;fr;Modélisme;activities;false
+paintball;en;Paintball;activities;false
+paintball;fr;Paintball;activities;false
+painting;en;Painting;activities;false
+painting;fr;Peinture;activities;false
+photography;en;Photography;activities;false
+photography;fr;Photographie;activities;false
+pottery;en;Pottery;activities;false
+pottery;fr;Poterie;activities;false
+sculpture;en;Sculpture;activities;false
+sculpture;fr;Sculpture;activities;false
+theatre;en;Theatre;activities;false
+theatre;fr;Théâtre;activities;false

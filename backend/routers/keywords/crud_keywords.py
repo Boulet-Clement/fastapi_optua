@@ -19,3 +19,10 @@ def get_keywords(
         raise HTTPException(status_code=404, detail=f"Aucun keyword trouvée pour la langue '{lang}'")
 
     return keywords
+
+@router.delete("/all")
+def delete_all_keywords():
+    # 1. Supprimer toutes les organizations dans MongoDB
+    db.keywords.delete_many({})
+
+    return {"message": "Tous les mots clés ont été supprimés"}

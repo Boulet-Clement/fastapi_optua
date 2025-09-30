@@ -1,0 +1,35 @@
+code;lang;name;category_code;display_on_search_engine
+basket_ball;en;Basket-ball;sports;false
+basket_ball;fr;Basketball;sports;false
+boxing;en;Boxing;sports;false
+boxing;fr;Boxe;sports;false
+cycling;en;Cycling;sports;false
+cycling;fr;Cyclisme;sports;false
+dancing;en;Dancing;sports;true
+dancing;fr;Danse;sports;true
+climbing;en;Climbing;sports;false
+climbing;fr;Escalade;sports;false
+football;en;Football;sports;true
+football;fr;Football;sports;true
+handball;en;Handball;sports;false
+handball;fr;Handball;sports;false
+judo;en;Judo;sports;false
+judo;fr;Judo;sports;false
+karate;en;Karate;sports;false
+karate;fr;Karaté;sports;false
+Swimming;en;Swimming;sports;false
+Swimming;fr;Natation;sports;false
+hiking;en;Hiking;sports;false
+hiking;fr;Randonnée;sports;false
+rugby;en;Rugby;sports;false
+rugby;fr;Rugby;sports;false
+squash_sport;en;Squash sport;sports;false
+squash_sport;fr;Squash;sports;false
+tennis;en;Tennis;sports;true
+tennis;fr;Tennis;sports;true
+shooting_sport;en;Shooting sport;sports;false
+shooting_sport;fr;Tir sportif;sports;false
+bicycle;en;Bicycle;sports;false
+bicycle;fr;Vélo;sports;false
+yoga;en;Yoga;sports;false
+yoga;fr;Yoga;sports;false

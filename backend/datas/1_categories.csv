@@ -1,23 +1,23 @@
-code;lang;name
-food_and_drinks;fr;Nourriture et boissons
-food_and_drinks;en;Food and drinks
-sizes;fr;Tailles
-sizes;en;Sizes
-activities;fr;Activités
-activities;en;Activities
-events;fr;Evènements
-events;en;Events
-sports;fr;Sports
-sports;en;Sports
-types;fr;Types
-types;en;Types
-services;fr;Prestations
-services;en;Services
-business;fr;Métiers
-business;en;Business
-others;fr;Autres
-others;en;Others
-genders;fr;Genres
-genders;en;Genders
-years_old;fr;Age
-years_old;en;Age
+code;lang;name;priority
+food_and_drinks;fr;Nourriture et boissons;50
+food_and_drinks;en;Food and drinks;50
+sizes;fr;Tailles;4
+sizes;en;Sizes;4
+activities;fr;Activités;35
+activities;en;Activities;35
+events;fr;Evènements;25
+events;en;Events;25
+sports;fr;Sports;40
+sports;en;Sports;40
+types;fr;Types;10
+types;en;Types;10
+services;fr;Services;45
+services;en;Services;45
+business;fr;Métiers;15
+business;en;Business;15
+others;fr;Autres;1
+others;en;Others;1
+genders;fr;Genres;2
+genders;en;Genders;2
+years_old;fr;Age;3
+years_old;en;Age;3

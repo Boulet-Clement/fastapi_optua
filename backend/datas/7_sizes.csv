@@ -1,0 +1,21 @@
+code;lang;name;category_code;display_on_search_engine
+family_business;en;Family business;sizes;true
+family_business;fr;Entreprise familiale;sizes;true
+sole_proprietorship;en;Sole proprietorship;sizes;false
+sole_proprietorship;fr;Entreprise individuelle;sizes;false
+international_company;en;International company;sizes;false
+international_company;fr;Entreprise internationale;sizes;false
+local_business;en;Local business;sizes;true
+local_business;fr;Entreprise locale;sizes;true
+national_company;en;National company;sizes;false
+national_company;fr;Entreprise nationale;sizes;false
+regional_business;en;Regional business;sizes;false
+regional_business;fr;Entreprise régionale;sizes;false
+large_company;en;Large company;sizes;false
+large_company;fr;Grande entreprise;sizes;false
+micro_company;en;Micro company;sizes;false
+micro_company;fr;Micro entreprise;sizes;false
+medium_company;en;Medium-sized company;sizes;false
+medium_company;fr;Moyenne entreprise;sizes;false
+small_company;en;Small company;sizes;false
+small_company;fr;Petite entreprise;sizes;false

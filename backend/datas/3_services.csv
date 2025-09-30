@@ -1,0 +1,91 @@
+code;lang;name;category_code;display_on_search_engine
+driving_school;en;Driving school;services;false
+driving_school;fr;Auto-école;services;false
+bar;en;Bar;services;false
+bar;fr;Bar;services;false
+dance_bar;en;Dance bar;services;false
+dance_bar;fr;Bar dansant;services;false
+butcher_shop;en;Butcher's shop;services;false
+butcher_shop;fr;Boucherie;services;false
+bakery;en;Bakery;services;false
+bakery;fr;Boulangerie;services;false
+brewery;en;Brewery restaurant;services;false
+brewery;fr;Brasserie;services;false
+coffee_shop;en;Coffee shop;services;false
+coffee_shop;fr;Café;services;false
+camping;en;Camping;services;false
+camping;fr;Camping;services;false
+wine_shop;en;Wine shop;services;false
+wine_shop;fr;Cave à vin;services;false
+deli_counter;en;Deli counter;services;false
+deli_counter;fr;Charcuterie;services;false
+cinema;en;Cinema;services;false
+cinema;fr;Cinéma;services;false
+private_club;en;Private club;services;false
+private_club;fr;Club privé;services;false
+hairdressing;en;Hairdressing;services;false
+hairdressing;fr;Coiffure;services;false
+music_lessons;en;Music lessons;services;false
+music_lessons;fr;Cours de musique;services;false
+moving_service;en;Moving service;services;false
+moving_service;fr;Déménagement;services;false
+computer_troubleshooting;en;Computer repair;services;false
+computer_troubleshooting;fr;Dépannage informatique;services;false
+dogsitter;en;Dogsitter;services;false
+dogsitter;fr;Dogsitter;services;false
+pruning;en;Pruning;services;false
+pruning;fr;Élagage;services;false
+riprap;en;Riprap;services;false
+riprap;fr;Enrochement;services;false
+fast_food;en;Fast food;services;false
+fast_food;fr;Fast-food;services;false
+garage;en;Garage;services;false
+garage;fr;Garage;services;false
+childcare;en;Childcare;services;false
+childcare;fr;Garde d’enfants;services;false
+lodge;en;Lodge;services;false
+lodge;fr;Gîte (montagne);services;false
+cottage;en;Cottage;services;false
+cottage;fr;Gîte (rural);services;false
+ice_cream_shop;en;Ice cream shop;services;false
+ice_cream_shop;fr;Glacier;services;false
+hammam;en;Hammam;services;false
+hammam;fr;Hammam;services;false
+delivery;en;Delivery;services;false
+delivery;fr;Livraison;services;false
+cleaning;en;Cleaning;services;false
+cleaning;fr;Ménage;services;false
+haberdashery;en;Haberdashery;services;false
+haberdashery;fr;Mercerie;services;false
+museum;en;Museum;services;false
+museum;fr;Musée;services;false
+pastry_shop;en;Pastry shop;services;false
+pastry_shop;fr;Patisserie;services;false
+swimming_pool;en;Swimming pool;services;false
+swimming_pool;fr;Piscine;services;false
+funeral_services;en;Funeral services;services;false
+funeral_services;fr;Pompes funèbres;services;false
+dry_cleaner;en;Dry cleaner;services;false
+dry_cleaner;fr;Pressing;services;false
+refuge;en;Refuge;services;false
+refuge;fr;Refuge;services;false
+bicycle_repair;en;Bicycle repair;services;false
+bicycle_repair;fr;Réparation vélo;services;false
+restaurant;en;Restaurant;services;false
+restaurant;fr;Restaurant;services;false
+fitness_center;en;Fitness center;services;false
+fitness_center;fr;Salle de musculation;services;false
+tea_shop;en;Tea shop;services;false
+tea_shop;fr;Salon de thé;services;false
+sauna;en;Sauna;services;false
+sauna;fr;Sauna;services;false
+locksmith_services;en;Locksmith services;services;false
+locksmith_services;fr;Sérrurie;services;false
+spa;en;Spa;services;false
+spa;fr;Spa;services;false
+tattoo_shop;en;Tattoo shop;services;false
+tattoo_shop;fr;Tattoo shop;services;false
+dog_grooming;en;Dog grooming;services;false
+dog_grooming;fr;Toilettage canin;services;false
+pub;en;Pub;services;false
+pub;fr;Pub;services;false

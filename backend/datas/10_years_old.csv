@@ -1,0 +1,15 @@
+code;lang;name;category_code;display_on_search_engine
+teenagers-keyword;en;Teenagers;years_old;false
+teenagers-keyword;fr;Ados;years_old;false
+adults-keyword;en;Adults;years_old;false
+adults-keyword;fr;Adultes;years_old;false
+babies-keyword;en;Babies;years_old;false
+babies-keyword;fr;Bébés;years_old;false
+children-keyword;en;Children;years_old;false
+children-keyword;fr;Enfants;years_old;false
+young_adults-keyword;en;Young adults;years_old;false
+young_adults-keyword;fr;Jeunes adultes;years_old;false
+seniors-keyword;en;Seniors;years_old;false
+seniors-keyword;fr;Seniors;years_old;false
+veterans-keyword;en;Veterans;years_old;false
+veterans-keyword;fr;Vétérans;years_old;false

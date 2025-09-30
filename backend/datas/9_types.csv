@@ -1,0 +1,21 @@
+code;lang;name;category_code;display_on_search_engine
+association-keyword;en;Association;types;true
+association-keyword;fr;Association;types;true
+self_employed_business-keyword;en;Self-employed business;types;false
+self_employed_business-keyword;fr;Auto-entreprise;types;false
+club-keyword;en;Club;types;true
+club-keyword;fr;Club;types;true
+collective-keyword;en;Collective;types;false
+collective-keyword;fr;Collectif;types;false
+cooperative-keyword;en;Cooperative;types;true
+cooperative-keyword;fr;Coopérative;types;true
+business-keyword;en;Business;types;false
+business-keyword;fr;Entreprise;types;false
+institution-keyword;en;Institution;types;false
+institution-keyword;fr;Institution;types;false
+town_hall-keyword;en;Town Hall;types;false
+town_hall-keyword;fr;Mairie;types;false
+company-keyword;en;Company;types;false
+company-keyword;fr;Société;types;false
+start_up-keyword;en;Start-up;types;false
+start_up-keyword;fr;Start-up;types;false

@@ -1,0 +1,25 @@
+code;lang;name;category_code;display_on_search_engine
+flea_market;en;Flea market;events;false
+flea_market;fr;Brocante;events;false
+competition;en;Competition;events;false
+competition;fr;Compétition;events;false
+concert;en;Concert;events;false
+concert;fr;Concert;events;false
+conference;en;Conference;events;false
+conference;fr;Conférence;events;false
+exhibition;en;Exhibition;events;false
+exhibition;fr;Exposition;events;false
+festival;en;Festival;events;false
+festival;fr;Festival;events;false
+fair;en;Fair;events;false
+fair;fr;Foire;events;false
+market;en;Market;events;false
+market;fr;Marché;events;false
+car_meet;en;Cat meet;events;false
+car_meet;fr;Rassemblement auto;events;false
+meeting;en;Meeting;events;false
+meeting;fr;Rencontre;events;false
+show;en;Show;events;false
+show;fr;Spectacle;events;false
+tournament;en;Tournament;events;false
+tournament;fr;Tournoi;events;false

@@ -1,7 +1,7 @@
 import csv
 import sys
 from core.db import db
-from models.keyword import Keyword
+from models.keyword.keyword import Keyword
 
 COLLECTION_NAME = "keywords"
 

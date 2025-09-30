@@ -42,7 +42,6 @@ def create_organization(
     
     # 4️⃣ Préparer le dict pour Mongo
     org_dict = organization.dict()
-    org_dict["keywords"] = organization.keywords
 
     # 5️⃣ Insérer dans MongoDB
     result = db.organizations.insert_one(org_dict)

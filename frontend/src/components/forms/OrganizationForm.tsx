@@ -13,7 +13,6 @@ interface Props {
 export default function OrganizationForm({ onSuccess, initialLang, organizationId }: Props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [keywords, setKeywords] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +35,6 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
         body: JSON.stringify({
           name,
           description,
-          keywords: keywords.split(',').map((k) => k.trim()).filter(Boolean),
           lang,
           ...(organizationId ? { organization_id: organizationId } : {}),
         }),
@@ -52,7 +50,6 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
 
       setName('');
       setDescription('');
-      setKeywords('');
     } catch (err: unknown) {
         setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -83,16 +80,6 @@ export default function OrganizationForm({ onSuccess, initialLang, organizationI
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">{trans('keywords')}</label>
-          <input
-            type="text"
-            value={keywords}
-            onChange={(e) => setKeywords(e.target.value)}
             className="w-full border px-3 py-2 rounded"
           />
         </div>

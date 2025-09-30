@@ -4,3 +4,4 @@ class Category(BaseModel):
     code: str
     lang: str
     name: str
+    priority: int
