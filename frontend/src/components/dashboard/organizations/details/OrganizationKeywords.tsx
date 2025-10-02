@@ -58,14 +58,15 @@ export default function OrganizationKeywords({ organization }: Props) {
           {keywords.map((keyword) => (
             <span
               key={keyword.code}
-              className="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm"
+              className="flex items-center gap-2 px-3 py-1 rounded-full border text-md transition bg-gray-100 border-gray-300 text-gray-800 select-none"
             >
-              {keyword.name}
+              <span>{keyword.name}</span>
               <button
                 onClick={() => handleRemove(keyword.code)}
-                className="hover:text-red-600"
+                aria-label={`Supprimer ${keyword.name}`}
+                className="flex items-center justify-center p-1 rounded hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-200 cursor-pointer"
               >
-                <X size={16} className="cursor-pointer" />
+                <X size={16} />
               </button>
             </span>
           ))}

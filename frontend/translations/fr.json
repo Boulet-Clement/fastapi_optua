@@ -120,8 +120,8 @@
 		"details": {
 			"back": "Retour",
 			"no_data": "No data",
-			"delete": "Supprimer",
-			"deleting": "Suppression...",
+			"delete": "Supprimer la structure",
+			"deleting": "Suppression en cours...",
 			"summary": {
 				"title": "Informations générales de la structure",
 				"name": "Nom",
@@ -152,7 +152,19 @@
 				"button_add": "Ajouter",
 				"add": {
 					"add_keywords": "Ajouter des mots clés",
-					"back": "Retour"
+					"back": "Retour",
+					"categories": {
+						"food_and_drinks": "Nourriture & boissons",
+						"services": "Services",
+						"business": "Business",
+						"activities": "Activités",
+						"sports": "Sport",
+						"sizes": "Tailles",
+						"events": "Evenements",
+						"types": "Types",
+						"years_old": "Ages",
+						"genders": "Genres"
+					}
 				}
 			},
 			"opening_hours": {
