@@ -104,7 +104,7 @@ def search(
             "name": source.get("name"),
             "chapo": source.get("chapo", ""),
             "description": source.get("description", ""),
-            "url": source.get("slug", ""),
+            "slug": source.get("slug", ""),
             "image": source.get("image"),
             "keywords": source.get("keywords", []),
             "lang": source.get("lang", lang),

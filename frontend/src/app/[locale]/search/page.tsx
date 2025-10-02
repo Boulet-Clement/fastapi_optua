@@ -4,6 +4,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios, { AxiosResponse } from "axios";
 import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import OrganizationCard from "@/components/search/OrganizationCard";
+import Organization from "@/models/Organization";
 
 interface Keyword {
   code: string;
@@ -40,7 +42,7 @@ export default function SearchEnginePage() {
   const [categorizedKeywords, setCategorizedKeywords] = useState<CategoryKeyword[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [search, setSearch] = useState<string>("");
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<Organization[]>([]);
   const [allKeywordsRequired, setAllKeywordsRequired] = useState<boolean>(false);
 
   const fetchCategorizedKeywords = useCallback(async () => {
@@ -84,7 +86,7 @@ export default function SearchEnginePage() {
           window.history.replaceState({}, "", `?${urlParams.toString()}`);
         }
 
-        const response: AxiosResponse<SearchResult[]> = await axios.get(
+        const response: AxiosResponse<Organization[]> = await axios.get(
           `${API_BASE}/search`,
           {
             params,
@@ -122,7 +124,7 @@ export default function SearchEnginePage() {
 
     const fetchInitialResults = async () => {
       try {
-        const response = await axios.get<SearchResult[]>(`${API_BASE}/search`, {
+        const response = await axios.get<Organization[]>(`${API_BASE}/search`, {
           params: {
             lang: locale,
             query: queryParam || undefined,
@@ -139,6 +141,7 @@ export default function SearchEnginePage() {
           },
         });
         setResults(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Erreur recherche initiale:", error);
         setResults([]);
@@ -274,26 +277,10 @@ export default function SearchEnginePage() {
 
         <div className="space-y-4">
           {results.length === 0 && <p>{trans("noResults")}</p>}
-          {results.map(result => (
-            <a key={result._id} href={result.url} target="_blank" className="block">
-              <div className="flex flex-col sm:flex-row items-start bg-white p-4 rounded shadow gap-4 hover:shadow-lg transition">
-                {/* Bloc texte simplifié, plus d'image */}
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{result.name}</h3>
-                  <p className="text-gray-700 truncate">{result.chapo}</p>
-                  {result.keywords && result.keywords.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {result.keywords.map(keyword => (
-                        <span key={keyword} className="text-xs bg-blue-100 text-primary-dark px-2 py-0.5 rounded-full">
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </a>
+          {results.map((org) => (
+            <OrganizationCard key={org.slug} organization={org} />
           ))}
+
         </div>
       </main>
     </div>
