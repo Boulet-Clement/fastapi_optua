@@ -19,6 +19,10 @@ export const ROUTES = {
     settings: (locale: string) => `/${locale}/dashboard/settings`
   },
 
+  organizations: {
+    index: (locale: string, slug: string) => `/${locale}/organizations/${slug}`
+  },
+
   login: (locale: string) => `/${locale}/login`,
   register: (locale: string) => `/${locale}/register`,
 

@@ -107,6 +107,7 @@ def search(
             "slug": source.get("slug", ""),
             "image": source.get("image"),
             "keywords": source.get("keywords", []),
+            "keywords_details": source.get("keywords_details", []),
             "lang": source.get("lang", lang),
             "score": h.get("_score")
         })

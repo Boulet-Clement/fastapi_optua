@@ -1,5 +1,6 @@
 from core.db import db
 from core.elasticsearch import elasticsearch, INDEX_NAME
+from services.elasticsearch.organization_reindexer import reindex_organization  # ✅ on importe le service
 
 def reindex_organizations():
     # Lister les langues présentes
@@ -8,22 +9,19 @@ def reindex_organizations():
     for lang in langs:
         index_name = f"{INDEX_NAME}_{lang}"
 
-        # ⚠️ Supprime complètement l’index pour repartir propre
+        # ⚠️ Supprimer l’index existant pour repartir propre
         if elasticsearch.indices.exists(index=index_name):
             elasticsearch.indices.delete(index=index_name)
 
-        # Recréer l’index (optionnel : tu peux y mettre un mapping)
-        #elasticsearch.indices.create(index=index_name, ignore=400)
-        elasticsearch.options(ignore_status=[400]).indices.create(index=index_name)
+        # Recréer l’index (avec mapping ou non)
+        #elasticsearch.options(ignore_status=[400]).indices.create(index=index_name)
 
-
-        # Réindexer toutes les orgs de cette langue
+        # Récupérer toutes les organisations de cette langue
         organizations = db.organizations.find({"lang": lang})
+
         for org in organizations:
-            doc_id = org["slug"]
-            org_doc = org.copy()
-            org_doc.pop("_id", None)
-            elasticsearch.index(index=index_name, id=doc_id, document=org_doc)
+            # ✅ Utilisation du service centralisé
+            reindex_organization(org)
 
     print("Réindexation terminée 🚀")
 

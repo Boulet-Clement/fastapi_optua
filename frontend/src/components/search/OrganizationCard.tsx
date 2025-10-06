@@ -1,13 +1,16 @@
 import React from "react";
 import Organization from "@/models/Organization";
+import { ROUTES } from '@/constants/routes';
+import { useLocale } from 'next-intl';
 
 interface OrganizationCardProps {
   organization: Organization;
 }
 
-export default function OrganizationCard({ organization }: OrganizationCardProps){
+export default function OrganizationCard({ organization }: OrganizationCardProps) {
+  const locale = useLocale();
   return (
-    <a href={organization.slug} target="_blank" className="block">
+    <a href={ROUTES.organizations.index(locale, organization.slug)} target="_blank" className="block">
       <div className="flex flex-col sm:flex-row items-start bg-white p-4 rounded shadow gap-4 hover:shadow-lg transition">
         <div className="flex-1">
           <h3 className="font-semibold text-lg">{organization.name}</h3>

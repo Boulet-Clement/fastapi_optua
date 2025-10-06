@@ -2,6 +2,8 @@
 
 ## Reindex elasticsearch
 ```bash
+curl -X DELETE "http://localhost:9200/organizations_fr"
+
 docker exec -it fastapi python -m commands.reindex_elasticsearch
 ```
 
