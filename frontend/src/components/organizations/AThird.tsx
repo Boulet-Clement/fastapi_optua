@@ -1,12 +1,17 @@
-//import { Organization } from '@/models/Organization';
+"use client";
+import Organization from "@/models/Organization";
+import Title1 from "../ui/Titles/Title1";
 
-export default function AThird({}) {
+interface Props {
+  organization: Organization
+}
+
+export default function AThird({organization}: Props) {
   return (
     <div className="w-full lg:w-1/3">
-        <div className="lg:min-h-screen h-full bg-light-gray flex flex-col items-center py-10 px-4">
-            <h1 className="text-xl font-semibold text-gray-700 py-5">
-                a third
-            </h1>
+        <div className="lg:min-h-screen h-full bg-grey-light flex flex-col items-center p-4">
+            <Title1>{organization.name}</Title1>
+            {/* Opening hours */}
         </div>
     </div>
   );

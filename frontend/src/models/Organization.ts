@@ -1,4 +1,5 @@
 import Keyword from "./Keyword";
+import Menu from "./Menu";
 
 export default interface Organization {
   organization_id: string
@@ -15,4 +16,7 @@ export default interface Organization {
   is_visible: boolean
   languages?: string[]
   opening_hours?: { day: string; open: string; close: string }[]
+
+  menu: Menu
+  location: string
 }

@@ -39,7 +39,6 @@ export default function OrganizationDetailsPage() {
   const [org, setOrg] = useState<Organization | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchOrg = async () => {
@@ -62,48 +61,22 @@ export default function OrganizationDetailsPage() {
     if (slug) fetchOrg();
   }, [slug, locale, trans]);
 
-  const handleDelete = async () => {
-    if (!slug) return;
-    const confirmDelete = window.confirm(trans('delete.confirm_message') || 'Supprimer cette organisation ?');
-    if (!confirmDelete) return;
+  if (loading) {
+    return <div className="p-6 text-center">Chargement...</div>;
+  }
 
-    setDeleting(true);
-    try {
-      const res = await fetch(`http://localhost:8000/organizations/${slug}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      if (!res.ok) throw new Error(trans('delete.error_message') || 'Erreur lors de la suppression');
-      
-      alert(trans('delete.success_message') || 'Organisation supprimée avec succès');
-      router.push(ROUTES.dashboard.organizations.index(locale));
-    } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : String(err));
-    } finally {
-      setDeleting(false);
-    }
-  };
+  if (error) {
+    return <div className="p-6 text-center text-red-600">{error}</div>;
+  }
+
+  if (!org) {
+    return <div className="p-6 text-center">Organisation introuvable</div>;
+  }
 
   return (
-    <div className="space-y-6">
-          {/* Titre + bouton retour */}
-          <div className="flex items-center justify-between mb-4">
-            <Title1>aaze</Title1>
-            <Link
-              href={ROUTES.dashboard.organizations.index(locale)}
-              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition"
-            >
-              <Undo2 size={16} /> {trans('back')}
-            </Link>
-          </div>
-
-
-            <div className="mx-auto min-h-[75vh] flex flex-col lg:flex-row">
-              <AThird/>
-              <TwoThirds/>
-            </div>
-      
-        </div>
-    
+    <div className="mx-auto min-h-[75vh] flex flex-col lg:flex-row">
+      <AThird organization={org} />
+      <TwoThirds organization={org} />
+    </div>
   );
 }

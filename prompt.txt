@@ -3,12 +3,11 @@ Je developpe un projet avec comme back end:
     kibana
     elasticsearch
     mongodb
-Et en front j'utilise react
+Et en front j'utilise next avec react
 Le tout est dans un dockercompose commun mais j'ai un Dockerfile back pour python et un front pour react
 
 
 Mon projet:
 C'est un annuaire de présentation d'entreprise, clubs, associations, ... avec un moteur de recherche et une interface d'administration pour que les gérant d'entreprise puissent modifier leur page.
 
-J'aimerai que les utilisateurs puissent masquer / demasquer leur structure si ils le souhaitent mais j'aimerai aussi masquer la structure de ceux qui ne paient pas, est-ce que je fais 2 boolean différents ? comment est-ce que je gère ?
-En gros j'indexe dans elasticsearch si les deux boolean sont à true ? 
+J'ai déjà pas mal de chose mais maintenant j'aimerai implémenter un text rich pour la description de la structure, comment est-ce que ça se gère en react fastapi et tailwind ? 
