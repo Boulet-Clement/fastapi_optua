@@ -1,9 +1,11 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/styles/tiptap.scss"
   ],
   theme: {
     extend: {
@@ -44,7 +46,7 @@ const config: Config = {
     },
   },
   darkMode: "class", // permet le dark mode via <html class="dark">
-  plugins: [],
+  plugins: [typography],
 };
 
 export default config;

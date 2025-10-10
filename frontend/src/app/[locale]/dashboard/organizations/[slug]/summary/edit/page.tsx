@@ -8,6 +8,7 @@ import Title2 from '@/components/ui/Titles/Title2';
 import { Undo2 } from "lucide-react";
 import Organization from "@/models/Organization";
 import { Switch } from "@/components/ui/Switch";
+import Tiptap from '@/components/ui/Tiptap';
 
 
 interface Summary {
@@ -144,6 +145,7 @@ export default function OrganizationSummaryEditPage() {
 
         <div>
           <Title2>{trans('description')}</Title2>
+          <Tiptap></Tiptap>
           <textarea
             name="description"
             value={form.description}

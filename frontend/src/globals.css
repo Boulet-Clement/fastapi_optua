@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@import './layers/theme.css';
+@import './layers/base.css';
+@import './styles/tiptap.css';

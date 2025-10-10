@@ -1,0 +1,11 @@
+.tiptap {
+  @apply bg-gray-100 text-white;
+
+  h1 {
+    @apply text-xl
+  }
+  
+  h2 {
+    @apply text-2xl
+  }
+}
