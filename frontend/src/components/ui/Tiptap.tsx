@@ -102,6 +102,7 @@ export default function Tiptap({ content = "<p></p>", onChange }: TiptapProps) {
             <div
                 className="tiptap prose prose-sm max-w-none"
                 dangerouslySetInnerHTML={{ __html: editor.getHTML() }}
+                /* à retirer ! dangereux */
             />
         </div>
       {/* Rendu */}

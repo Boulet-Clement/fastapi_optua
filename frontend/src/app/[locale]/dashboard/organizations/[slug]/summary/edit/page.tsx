@@ -9,7 +9,7 @@ import { Undo2 } from "lucide-react";
 import Organization from "@/models/Organization";
 import { Switch } from "@/components/ui/Switch";
 import Tiptap from '@/components/ui/Tiptap';
-
+import sanitizeHtml from "sanitize-html";
 
 interface Summary {
   name: string;
@@ -59,8 +59,9 @@ export default function OrganizationSummaryEditPage() {
   ) => {
     if (!form) return;
     const { name } = e.target;
-
+    console.log(form)
     setForm({ ...form, [name]: e.target.value });
+    console.log(form)
   };
 
   const handleToggle = (checked: boolean) => {
@@ -145,13 +146,19 @@ export default function OrganizationSummaryEditPage() {
 
         <div>
           <Title2>{trans('description')}</Title2>
-          <Tiptap></Tiptap>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-            rows={4}
+          <Tiptap
+            content={form.description}
+            onChange={(html) => {
+              const clean = sanitizeHtml(html, {
+                allowedTags: [
+                  "p", "b", "i", "em", "strong", "u", "ul", "ol", "li",
+                  "h1", "h2", "h3", "blockquote", "br", "span"
+                ],
+                allowedSchemes: ["http", "https", "mailto"],
+              });
+
+              setForm({ ...form, description: clean });
+            }}
           />
         </div>
 

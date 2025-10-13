@@ -1,9 +1,21 @@
+import bleach
 from fastapi import APIRouter, HTTPException, Body
 from core.db import db
 from models.organization.organization_edit_summary import OrganizationEditSummary
 from services.slug_service import generate_unique_slug
+from services.elasticsearch.organization_reindexer import reindex_organization
+from services.elasticsearch.organization_deleter import delete_organization
+
 
 router = APIRouter(prefix="/organization", tags=["organization_summary"])
+
+ALLOWED_TAGS = [
+    "p", "b", "i", "em", "strong", "u",
+    "ul", "ol", "li", "h1", "h2", "h3",
+    "blockquote", "br", "span"
+]
+
+ALLOWED_PROTOCOLS = ["http", "https", "mailto"]
 
 @router.patch("/{slug}/summary")
 def update_summary_by_slug(
@@ -14,6 +26,15 @@ def update_summary_by_slug(
     org = db.organizations.find_one({"slug": slug, "lang": payload.lang})
     if not org:
         raise HTTPException(404, detail="Organization non trouvée")
+
+    # 🔒 Sanitize description
+    if payload.description:
+        payload.description = bleach.clean(
+            payload.description,
+            tags=ALLOWED_TAGS,
+            protocols=ALLOWED_PROTOCOLS,
+            strip=True
+        )
 
     # Construire les champs à mettre à jour
     update_fields = {
@@ -56,6 +77,9 @@ def update_summary_by_slug(
             "_id": 0
         }
     )
+
+    delete_organization(payload.lang, slug)
+    reindex_organization(updated_org)
 
     if not updated_org:
         raise HTTPException(500, detail="Erreur lors du rechargement de l'organisation mise à jour")
